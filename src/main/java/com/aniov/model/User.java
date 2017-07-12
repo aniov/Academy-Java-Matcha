@@ -20,6 +20,7 @@ public class User {
 
     @NotBlank
     @Size(min = 5, max = 30)
+    @Column(unique = true)
     private String username;
 
     @NotBlank
@@ -29,6 +30,7 @@ public class User {
     @Email
     @NotBlank
     @Size(min = 3, max = 50)
+    @Column(unique = true)
     private String email;
 
     @OneToOne(mappedBy = "user", cascade = CascadeType.ALL)

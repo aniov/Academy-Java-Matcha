@@ -2,6 +2,7 @@ package com.aniov.model;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import lombok.Data;
+import org.springframework.security.core.GrantedAuthority;
 
 import javax.persistence.*;
 import java.util.Set;
@@ -11,7 +12,7 @@ import java.util.Set;
  */
 @Entity
 @Data
-public class Authority {
+public class Authority implements GrantedAuthority{
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -23,4 +24,9 @@ public class Authority {
     @ManyToMany(mappedBy = "authorities", fetch = FetchType.LAZY)
     @JsonBackReference
     private Set<Account> accounts;
+
+    @Override
+    public String getAuthority() {
+        return authorityType.name();
+    }
 }
