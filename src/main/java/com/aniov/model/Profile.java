@@ -27,6 +27,12 @@ public class Profile {
 
     private String lastName;
 
+    @Enumerated(EnumType.STRING)
+    private Gender gender;
+
+    @Enumerated(EnumType.STRING)
+    private SexType sexType;
+
     @OneToMany(mappedBy = "profile", cascade = CascadeType.ALL)
     private List<Picture> pictures;
 
@@ -41,4 +47,12 @@ public class Profile {
     @OneToOne(cascade = CascadeType.ALL)
     @PrimaryKeyJoinColumn
     private User user;
+
+    private enum SexType {
+        HETEROSEXUAL, BI_SEXUAL, GAY
+    }
+
+    private enum Gender {
+        MALE, FEMALE
+    }
 }

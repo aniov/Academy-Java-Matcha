@@ -24,7 +24,6 @@ public class User {
     private String username;
 
     @NotBlank
-    @Size(min = 6, max = 50)
     private String hashedPassword;
 
     @Email
