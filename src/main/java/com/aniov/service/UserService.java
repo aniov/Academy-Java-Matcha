@@ -24,4 +24,12 @@ public class UserService implements UserDetailsService {
         User user = userRepository.findByUsername(userName);
         return new SiteUserDetails(user);
     }
+
+    public User findAccountByEmail(String email) {
+        return userRepository.findByEmail(email);
+    }
+
+    public User findAccountByUserName(String userName) {
+        return userRepository.findByUsername(userName);
+    }
 }

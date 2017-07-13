@@ -31,7 +31,7 @@ public class Account {
     private Set<Authority> authorities;
 
     @NotBlank
-    private boolean enabled;
+    private boolean enabled = false;
 
     @NotBlank
     private boolean accountNonExpired = true;
