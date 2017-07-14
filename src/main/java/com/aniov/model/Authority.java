@@ -29,4 +29,22 @@ public class Authority implements GrantedAuthority {
     public String getAuthority() {
         return authorityType.name();
     }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        if (!super.equals(o)) return false;
+
+        Authority authority = (Authority) o;
+
+        return authorityType == authority.authorityType;
+    }
+
+    @Override
+    public int hashCode() {
+        int result = super.hashCode();
+        result = 31 * result + (authorityType != null ? authorityType.hashCode() : 0);
+        return result;
+    }
 }
