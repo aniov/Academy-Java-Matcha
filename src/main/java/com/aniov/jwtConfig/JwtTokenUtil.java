@@ -24,7 +24,7 @@ public class JwtTokenUtil {
     private static final String CLAIM_KEY_AUDIENCE = "audience";
     private static final String CLAIM_ROLE = "role";
 
-    private Integer expirationInMinutes = 60 * 24 * 365;
+    private Integer expirationInMinutes = 60 * 24;
     private transient Key secretKey = MacProvider.generateKey(); //creates a 512-bit secure-random key (the default):
 
     @Value("${config.security.issuer}")

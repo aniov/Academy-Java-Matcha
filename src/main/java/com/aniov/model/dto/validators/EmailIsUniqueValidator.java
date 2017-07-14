@@ -24,6 +24,6 @@ public class EmailIsUniqueValidator implements ConstraintValidator<EmailIsUnique
 
     @Override
     public boolean isValid(String email, ConstraintValidatorContext context) {
-        return userService.findAccountByEmail(email) == null;
+        return (userService.findAccountByEmail(email) == null);
     }
 }

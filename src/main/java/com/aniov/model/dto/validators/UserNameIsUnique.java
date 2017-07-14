@@ -1,6 +1,7 @@
 package com.aniov.model.dto.validators;
 
 import javax.validation.Constraint;
+import javax.validation.Payload;
 import java.lang.annotation.Documented;
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
@@ -17,4 +18,10 @@ import static java.lang.annotation.RetentionPolicy.RUNTIME;
 @Constraint(validatedBy = UserNameIsUniqueValidator.class)
 @Documented
 public @interface UserNameIsUnique {
+
+    String message() default "This username already exists";
+
+    Class<?>[] groups() default {};
+
+    Class<? extends Payload>[] payload() default {};
 }

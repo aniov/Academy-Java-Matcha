@@ -6,13 +6,14 @@ import org.hibernate.validator.constraints.NotBlank;
 
 import javax.persistence.Column;
 import javax.validation.constraints.Size;
+import java.io.Serializable;
 
 /**
  * DTO Login class
  */
 
 @Data
-public class JwtLoginDTO {
+public class JwtLoginDTO{
 
     @NotBlank
     @Size(min = 5, max = 30)

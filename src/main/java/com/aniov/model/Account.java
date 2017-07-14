@@ -1,20 +1,25 @@
 package com.aniov.model;
 
 import com.fasterxml.jackson.annotation.JsonManagedReference;
-import lombok.Data;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.annotations.Parameter;
-import org.hibernate.validator.constraints.NotBlank;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
 import java.util.Date;
+import java.util.HashSet;
 import java.util.Set;
 
 /**
  * Account entity class
  */
-@Data
+@Getter
+@Setter
+@NoArgsConstructor
 @Entity
 public class Account {
 
@@ -30,25 +35,25 @@ public class Account {
     @JsonManagedReference
     private Set<Authority> authorities;
 
-    @NotBlank
+    @NotNull
     private boolean enabled = false;
 
-    @NotBlank
+    @NotNull
     private boolean accountNonExpired = true;
 
-    @NotBlank
+    @NotNull
     private boolean credentialsNonExpired = true;
 
-    @NotBlank
+    @NotNull
     private boolean accountNonLocked = true;
 
-    @NotBlank
+    @NotNull
     @Temporal(TemporalType.TIMESTAMP)
-    @DateTimeFormat(pattern="yyyy/MM/dd hh:mm:ss")
+    @DateTimeFormat(pattern = "yyyy/MM/dd hh:mm:ss")
     private Date created;
 
-    @NotBlank
-    @OneToOne(cascade = CascadeType.ALL)
+    @NotNull
+    @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     @PrimaryKeyJoinColumn
     private User user;
 
@@ -56,6 +61,21 @@ public class Account {
     protected void onCreate() {
         if (created == null)
             created = new Date();
+        //initially we set ROLE_USER to every new Account
+        if (authorities == null) {
+            authorities = new HashSet<>();
+            Authority authority = new Authority();
+            authority.setAuthorityType(AuthorityType.ROLE_USER);
+            authorities.add(authority);
+        }
+    }
+
+    public void addAuthority(Authority authority) {
+        authorities.add(authority);
+    }
+
+    public void removeAuthority(Authority authority) {
+        authorities.remove(authority);
     }
 
 

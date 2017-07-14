@@ -1,24 +1,29 @@
 package com.aniov.model;
 
-import lombok.Data;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 import org.hibernate.validator.constraints.Email;
 import org.hibernate.validator.constraints.NotBlank;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
 /**
  * User entity class
  */
 @Entity
-@Data
+@Setter
+@Getter
+@NoArgsConstructor
 public class User {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @NotBlank
+    @NotNull
     @Size(min = 5, max = 30)
     @Column(unique = true)
     private String username;
@@ -27,7 +32,7 @@ public class User {
     private String hashedPassword;
 
     @Email
-    @NotBlank
+    @NotNull
     @Size(min = 3, max = 50)
     @Column(unique = true)
     private String email;

@@ -8,13 +8,14 @@ import lombok.Data;
 import org.hibernate.validator.constraints.NotBlank;
 
 import javax.validation.constraints.Size;
+import java.io.Serializable;
 
 /**
  * User Registration form dto
  */
 @Data
 @MatchFields(first = "plainPassword", second = "repeatPlainPassword", message = "passwords don't match")
-public class UserRegisterDTO {
+public class UserRegisterDTO implements Serializable{
 
     @NotBlank
     @Size(min = 5, max = 30)

@@ -2,9 +2,10 @@ package com.aniov.model;
 
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.Data;
-import org.hibernate.validator.constraints.NotBlank;
+import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import java.util.List;
 import java.util.Set;
@@ -17,21 +18,24 @@ import java.util.Set;
 public class Profile {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(generator = "myGenerator")
+    @GenericGenerator(name = "myGenerator", strategy = "foreign", parameters = @org.hibernate.annotations.Parameter(name = "property", value = "user"))
     private Long id;
 
     @Size()
     private String aboutMe;
 
+    @Size(min = 3, max = 50)
     private String firstName;
 
+    @Size(min = 3, max = 50)
     private String lastName;
 
     @Enumerated(EnumType.STRING)
     private Gender gender;
 
     @Enumerated(EnumType.STRING)
-    private SexType sexType;
+    private SexualOrientation sexualOrientation;
 
     @OneToMany(mappedBy = "profile", cascade = CascadeType.ALL)
     private List<Picture> pictures;
@@ -43,12 +47,12 @@ public class Profile {
     @JsonManagedReference
     private Set<Interest> interests;
 
-    @NotBlank
-    @OneToOne(cascade = CascadeType.ALL)
+    @NotNull
+    @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     @PrimaryKeyJoinColumn
     private User user;
 
-    private enum SexType {
+    private enum SexualOrientation {
         HETEROSEXUAL, BI_SEXUAL, GAY
     }
 

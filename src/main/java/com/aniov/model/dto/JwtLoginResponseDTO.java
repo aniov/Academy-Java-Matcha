@@ -1,15 +1,17 @@
 package com.aniov.model.dto;
 
 import lombok.AllArgsConstructor;
-import lombok.Data;
+import lombok.Getter;
+
+import java.io.Serializable;
 
 /**
  * A class who contains a token to be sent to front end
  */
 
-@Data
+@Getter
 @AllArgsConstructor
-public class JwtLoginResponseDTO {
+public class JwtLoginResponseDTO implements Serializable {
 
     private String token;
 }

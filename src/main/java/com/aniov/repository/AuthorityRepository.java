@@ -4,7 +4,7 @@ import com.aniov.model.Authority;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 /**
- * Created by Marius on 7/12/2017.
+ * Authority Repository
  */
 public interface AuthorityRepository extends JpaRepository<Authority, Long> {
 }

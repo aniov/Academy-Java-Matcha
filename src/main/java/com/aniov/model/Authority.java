@@ -12,7 +12,7 @@ import java.util.Set;
  */
 @Entity
 @Data
-public class Authority implements GrantedAuthority{
+public class Authority implements GrantedAuthority {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -21,7 +21,7 @@ public class Authority implements GrantedAuthority{
     @Enumerated(EnumType.STRING)
     private AuthorityType authorityType;
 
-    @ManyToMany(mappedBy = "authorities", fetch = FetchType.LAZY)
+    @ManyToMany(mappedBy = "authorities", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     @JsonBackReference
     private Set<Account> accounts;
 

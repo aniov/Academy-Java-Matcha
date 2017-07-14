@@ -33,7 +33,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter{
     @Autowired
     private UserDetailsService userDetailsService;
 
-    //* We encode input password from Login page with BCrypt and then compare it with the one in DB*/
+    // We encode input password from Login page with BCrypt and then compare it with the one in DB
     @Autowired
     public void encryptPassword(AuthenticationManagerBuilder authenticationManagerBuilder) throws Exception {
         authenticationManagerBuilder
@@ -51,7 +51,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter{
                     .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS) //No need for Session
                 .and()
                     .authorizeRequests()
-                    .antMatchers("/", "/login")
+                    .antMatchers("/", "/login", "/register")
                     .permitAll()
                     .anyRequest().authenticated()
                 .and()/**We use our custom filter to check the token first */
