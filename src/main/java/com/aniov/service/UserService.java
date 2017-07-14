@@ -13,6 +13,8 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import javax.mail.MessagingException;
+
 /**
  * User service
  */
@@ -21,6 +23,9 @@ public class UserService implements UserDetailsService {
 
     @Autowired
     private UserRepository userRepository;
+
+    @Autowired
+    private EmailService emailService;
 
     @Override
     public UserDetails loadUserByUsername(String userName) throws UsernameNotFoundException {
@@ -43,7 +48,7 @@ public class UserService implements UserDetailsService {
      * @param userRegisterDTO user data
      * @return saved user
      */
-    public User registerNewUser(UserRegisterDTO userRegisterDTO) {
+    public boolean registerNewUser(UserRegisterDTO userRegisterDTO) {
 
         //User
         User newUser = new User();
@@ -66,6 +71,20 @@ public class UserService implements UserDetailsService {
         newUser.setAccount(newAccount);
         newUser.setProfile(newProfile);
 
-        return userRepository.save(newUser);
+        User savedUser = userRepository.save(newUser);
+
+        if (savedUser != null) {
+            try {
+                emailService.sendRegistrationToken(savedUser.getEmail(), );
+            } catch (MessagingException e) {
+                e.printStackTrace();
+            }
+            return true;
+        }
+        return false;
+    }
+
+    private void createEmailVerificationToken() {
+
     }
 }
