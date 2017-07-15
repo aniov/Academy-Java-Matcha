@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonBackReference;
 import lombok.Data;
 
 import javax.persistence.*;
+import java.io.Serializable;
 import java.util.Set;
 
 /**
@@ -11,7 +12,7 @@ import java.util.Set;
  */
 @Entity
 @Data
-public class Interest {
+public class Interest implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

@@ -5,19 +5,19 @@
 var TOKEN_KEY = "jwtToken";
 
 //On window load we check if we have a token, and assume that is valid so we are logged
-document.addEventListener('DOMContentLoaded', function () {
+/*document.addEventListener('DOMContentLoaded', function () {
   //  if (localStorage.getItem(TOKEN_KEY) == null) {
         $("#register").hide();
         $("#login").show();
  //   }
-}, false);
+}, false);*/
 
 function login() {
 
     event.preventDefault();
     var loginData = {
         username: document.getElementById("username").value,
-        plainPassword: document.getElementById("password").value
+        plainPassword: document.getElementById("password").value,
     };
     clearLoginForm();
 
@@ -30,8 +30,7 @@ function login() {
         success: function (data, textStatus, jqXHR) {
             localStorage.setItem(TOKEN_KEY, data.token);
 
-            console.log("SUCCESS " + TOKEN_KEY);
-
+            console.log("LOGIN SUCCESS");
         },
         error: function (jqXHR, textStatus, errorThrown) {
             if (jqXHR.status === 401 || jqXHR.status === 400) {
@@ -49,7 +48,7 @@ function login() {
 function register() {
 
     event.preventDefault();
-    var loginData = {
+    var registerData = {
         username: document.getElementById("registerUsername").value,
         email: document.getElementById("registerEmail").value,
         plainPassword: document.getElementById("registerPassword").value,
@@ -60,7 +59,7 @@ function register() {
     $.ajax({
         url: "/register",
         type: "POST",
-        data: JSON.stringify(loginData),
+        data: JSON.stringify(registerData),
         contentType: "application/json; charset=utf-8",
         dataType: "json",
         success: function (data, textStatus, jqXHR) {
@@ -76,7 +75,7 @@ function register() {
     });
 }
 
-function goToRegister() {
+/*function goToRegister() {
     $("#login").hide();
     $("#register").show();
 }
@@ -84,7 +83,12 @@ function goToRegister() {
 function goToLogin() {
     $("#register").hide();
     $("#login").show();
+}*/
+
+function clearResetPasswordForm() {
+    document.getElementById("email").value = '';
 }
+
 
 function clearLoginForm() {
     document.getElementById("username").value = '';
@@ -100,4 +104,37 @@ function clearRegisterForm() {
 
 function resetPassword() {
 
+    event.preventDefault();
+    var emailData = {
+        email: document.getElementById("email").value,
+    };
+    clearResetPasswordForm();
+
+    $.ajax({
+        url: "/resetpassword",
+        type: "POST",
+        data: JSON.stringify(emailData),
+        contentType: "application/json; charset=utf-8",
+        dataType: "json",
+        success: function (data, textStatus, jqXHR) {
+
+            console.log("OK " + data);
+            window.location.replace("/");
+        },
+        error: function (jqXHR, textStatus, errorThrown) {
+
+            console.log("ERROR");
+        }
+    });
 }
+
+function getAuthTokenFromLocalStorage() {
+    var token = localStorage.getItem(TOKEN_KEY);
+    if (token) {
+        return {"Authorization": token}; //this is the name after we will be looking for token in the back-end
+    } else {
+        return {};
+    }
+}
+
+/*headers: getAuthTokenFromLocalStorage(),*/

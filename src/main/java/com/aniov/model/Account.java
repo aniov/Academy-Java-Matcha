@@ -1,5 +1,6 @@
 package com.aniov.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -10,6 +11,7 @@ import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
+import java.io.Serializable;
 import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
@@ -21,7 +23,7 @@ import java.util.Set;
 @Setter
 @NoArgsConstructor
 @Entity
-public class Account {
+public class Account implements Serializable {
 
     @Id
     @GeneratedValue(generator = "myGenerator")
@@ -55,6 +57,7 @@ public class Account {
     @NotNull
     @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     @PrimaryKeyJoinColumn
+    @JsonIgnore
     private User user;
 
     @PrePersist

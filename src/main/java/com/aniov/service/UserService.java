@@ -37,11 +37,11 @@ public class UserService implements UserDetailsService {
         return new SiteUserDetails(user);
     }
 
-    public User findAccountByEmail(String email) {
+    public User findUserByEmail(String email) {
         return userRepository.findByEmail(email);
     }
 
-    public User findAccountByUserName(String userName) {
+    public User findUserByUserName(String userName) {
         return userRepository.findByUsername(userName);
     }
 

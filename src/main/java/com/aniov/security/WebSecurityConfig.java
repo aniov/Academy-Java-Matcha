@@ -48,10 +48,13 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter{
                 .csrf().disable() //No need for CSRF
                     .exceptionHandling().authenticationEntryPoint(jwtAuthenticationEntryPoint)//We handle possible errors thrown by DB query
                 .and()
+               /* .formLogin()
+                .loginPage("/")
+                .and()*/
                     .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS) //No need for Session
                 .and()
                     .authorizeRequests()
-                    .antMatchers("/", "/login", "/register", "/activate", "/resetpassword", "/resetpass**")
+                    .antMatchers("/", "/login", "/register", "/activate", "/resetpassword")
                     .permitAll()
                     .anyRequest().authenticated()
                 .and()/**We use our custom filter to check the token first */

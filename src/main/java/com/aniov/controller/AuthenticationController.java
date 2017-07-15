@@ -46,14 +46,13 @@ public class AuthenticationController {
      * @param result      possible errors in jwtLoginDTO
      * @return a valid JWT if the JwtLoginDTO is valid and found in DB
      */
-    @PostMapping(value = "/login", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+    @PostMapping(path = "/login", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<?> loginAndCreateToken(@RequestBody @Valid JwtLoginDTO jwtLoginDTO,
                                                  Device device, BindingResult result) {
 
         if (result.hasErrors()) {
             return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
         }
-
         Authentication authentication = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(
                 jwtLoginDTO.getUsername(), jwtLoginDTO.getPlainPassword()));
 
