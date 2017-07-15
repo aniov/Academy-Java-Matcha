@@ -86,10 +86,6 @@ function goToLogin() {
     $("#login").show();
 }
 
-function forgotPassword() {
-
-}
-
 function clearLoginForm() {
     document.getElementById("username").value = '';
     document.getElementById("password").value = '';
@@ -100,4 +96,8 @@ function clearRegisterForm() {
     document.getElementById("registerEmail").value = '';
     document.getElementById("registerPassword").value = '';
     document.getElementById("registerRepeatPassword").value = '';
+}
+
+function resetPassword() {
+
 }

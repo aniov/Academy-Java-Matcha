@@ -25,6 +25,9 @@ public class UserService implements UserDetailsService {
     private UserRepository userRepository;
 
     @Autowired
+    private VerificationTokenService verificationTokenService;
+
+    @Autowired
     private EmailService emailService;
 
     @Override
@@ -40,6 +43,10 @@ public class UserService implements UserDetailsService {
 
     public User findAccountByUserName(String userName) {
         return userRepository.findByUsername(userName);
+    }
+
+    public User saveUser(User user) {
+        return userRepository.save(user);
     }
 
     /**
@@ -75,7 +82,7 @@ public class UserService implements UserDetailsService {
 
         if (savedUser != null) {
             try {
-                emailService.sendRegistrationToken(savedUser.getEmail(), );
+                emailService.sendRegistrationToken(savedUser.getEmail(), verificationTokenService.createNewUserVerificationToken(savedUser));
             } catch (MessagingException e) {
                 e.printStackTrace();
             }
@@ -84,7 +91,21 @@ public class UserService implements UserDetailsService {
         return false;
     }
 
-    private void createEmailVerificationToken() {
+    /**
+     * Change user password
+     *
+     * @param user          User
+     * @param plainPassword new password
+     */
+    public void changeUserPassword(User user, String plainPassword) {
 
+        User retrievedUser = userRepository.findByEmail(user.getEmail());
+        if (retrievedUser == null) {
+            return;
+        }
+        retrievedUser.setHashedPassword(new BCryptPasswordEncoder().encode(plainPassword));
+        userRepository.save(retrievedUser);
     }
+
+
 }
