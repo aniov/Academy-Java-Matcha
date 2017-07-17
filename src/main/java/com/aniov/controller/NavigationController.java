@@ -24,4 +24,9 @@ public class NavigationController {
     public String resetPassword() {
         return "resetpasswordpage.html";
     }
+
+    @GetMapping(path = "/changepassword")
+    public String changePassword() {
+        return "changepasswordpage.html";
+    }
 }

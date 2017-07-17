@@ -21,7 +21,7 @@ import java.util.Date;
 public class VerificationToken {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
     @NonNull
@@ -36,7 +36,7 @@ public class VerificationToken {
     private TokenType tokenType;
 
     @NonNull
-    @OneToOne
+    @ManyToOne
     @PrimaryKeyJoinColumn
     private User user;
 

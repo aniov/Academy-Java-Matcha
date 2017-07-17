@@ -54,7 +54,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter{
                     .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS) //No need for Session
                 .and()
                     .authorizeRequests()
-                    .antMatchers("/", "/login", "/register", "/activate", "/resetpassword")
+                    .antMatchers("/", "/login", "/register", "/activate", "/resetpassword", "/changepassword")
                     .permitAll()
                     .anyRequest().authenticated()
                 .and()/**We use our custom filter to check the token first */

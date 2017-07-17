@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.Data;
 import org.hibernate.annotations.GenericGenerator;
+import org.hibernate.annotations.Parameter;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
@@ -21,7 +22,7 @@ public class Profile implements Serializable{
 
     @Id
     @GeneratedValue(generator = "myGenerator")
-    @GenericGenerator(name = "myGenerator", strategy = "foreign", parameters = @org.hibernate.annotations.Parameter(name = "property", value = "user"))
+    @GenericGenerator(name = "myGenerator", strategy = "foreign", parameters = @Parameter(name = "property", value = "user"))
     private Long id;
 
     @Size()

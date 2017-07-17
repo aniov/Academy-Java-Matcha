@@ -21,7 +21,7 @@ import java.io.Serializable;
 public class User implements Serializable{
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
     @NotNull
@@ -38,9 +38,11 @@ public class User implements Serializable{
     @Column(unique = true)
     private String email;
 
+    @NotNull
     @OneToOne(mappedBy = "user", cascade = CascadeType.ALL)
     private Profile profile;
 
+    @NotNull
     @OneToOne(mappedBy = "user", cascade = CascadeType.ALL)
     private Account account;
 }

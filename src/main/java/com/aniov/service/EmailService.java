@@ -1,5 +1,6 @@
 package com.aniov.service;
 
+import com.aniov.model.User;
 import lombok.Setter;
 import org.apache.velocity.Template;
 import org.apache.velocity.VelocityContext;
@@ -28,6 +29,9 @@ public class EmailService {
     @Autowired
     private JavaMailSender mailSender;
 
+    @Autowired
+    private VerificationTokenService verificationTokenService;
+
     @Value("${site.url}")
     private String url;
 
@@ -47,43 +51,44 @@ public class EmailService {
         mailSender.send(message);
     }
 
-    public void sendRegistrationToken(String to, String token) throws MessagingException {
+    public void sendRegistrationToken(User user) throws MessagingException {
         String subject = "Activate your account";
+        String token = verificationTokenService.createNewUserVerificationToken(user);
 
-        Properties properties = new Properties();
-        properties.setProperty("resource.loader", "class");
-        properties.setProperty("class.resource.loader.class", "org.apache.velocity.runtime.resource.loader.ClasspathResourceLoader");
-        Velocity.init(properties);
+        setProperties();
 
         VelocityContext context = new VelocityContext();
         context.put("token", token);
         context.put("url", url);
 
         Template template = Velocity.getTemplate("templates/activateaccountemail.vm");
-
         StringWriter sw = new StringWriter();
         template.merge(context, sw);//We merge the context(body of our message) to a StringWriter - sw
 
-        sendEmail(to, subject, sw.toString());
+        sendEmail(user.getEmail(), subject, sw.toString());
     }
 
-    public void resetPasswordToken(String to, String token) throws MessagingException {
+    public void resetPasswordToken(User user) throws MessagingException {
         String subject = "Reset your password";
+        String token = verificationTokenService.createResetPasswordVerificationToken(user);
 
-        Properties properties = new Properties();
-        properties.setProperty("resource.loader", "class");
-        properties.setProperty("class.resource.loader.class", "org.apache.velocity.runtime.resource.loader.ClasspathResourceLoader");
-        Velocity.init(properties);
+        setProperties();
 
         VelocityContext context = new VelocityContext();
         context.put("token", token);
         context.put("url", url);
 
         Template template = Velocity.getTemplate("templates/resetpasswordemail.vm");
-
         StringWriter sw = new StringWriter();
         template.merge(context, sw);//We merge the context(body of our message) to a StringWriter - sw
 
-        sendEmail(to, subject, token);
+        sendEmail(user.getEmail(), subject, sw.toString());
+    }
+
+    private void setProperties() {
+        Properties properties = new Properties();
+        properties.setProperty("resource.loader", "class");
+        properties.setProperty("class.resource.loader.class", "org.apache.velocity.runtime.resource.loader.ClasspathResourceLoader");
+        Velocity.init(properties);
     }
 }

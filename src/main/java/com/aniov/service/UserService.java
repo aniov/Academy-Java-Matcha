@@ -55,7 +55,7 @@ public class UserService implements UserDetailsService {
      * @param userRegisterDTO user data
      * @return saved user
      */
-    public boolean registerNewUser(UserRegisterDTO userRegisterDTO) {
+    public User registerNewUser(UserRegisterDTO userRegisterDTO) {
 
         //User
         User newUser = new User();
@@ -80,15 +80,7 @@ public class UserService implements UserDetailsService {
 
         User savedUser = userRepository.save(newUser);
 
-        if (savedUser != null) {
-            try {
-                emailService.sendRegistrationToken(savedUser.getEmail(), verificationTokenService.createNewUserVerificationToken(savedUser));
-            } catch (MessagingException e) {
-                e.printStackTrace();
-            }
-            return true;
-        }
-        return false;
+        return savedUser;
     }
 
     /**

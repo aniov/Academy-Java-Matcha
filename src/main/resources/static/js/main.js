@@ -64,6 +64,8 @@ function register() {
         dataType: "json",
         success: function (data, textStatus, jqXHR) {
             console.log("SUCCESS " );
+
+            $('#message').html(data.message + " " + data.error);
         },
         error: function (jqXHR, textStatus, errorThrown) {
             if (jqXHR.status === 401 || jqXHR.status === 400) {
@@ -108,12 +110,42 @@ function resetPassword() {
     var emailData = {
         email: document.getElementById("email").value,
     };
-    clearResetPasswordForm();
+   // clearResetPasswordForm();
 
     $.ajax({
         url: "/resetpassword",
         type: "POST",
         data: JSON.stringify(emailData),
+        contentType: "application/json; charset=utf-8",
+        dataType: "json",
+        success: function (data, textStatus, jqXHR) {
+
+            console.log("OK " + data);
+            window.location.replace("/");
+        },
+        error: function (jqXHR, textStatus, errorThrown) {
+
+            console.log("ERROR");
+        }
+    });
+}
+
+function changePassword() {
+
+    event.preventDefault();
+    var passwordData = {
+        plainPassword: document.getElementById("plainPassword").value,
+        repeatPlainPassword: document.getElementById("repeatPlainPassword").value,
+    };
+
+    var token = getURLParameter('token');
+
+    console.log("OK " + token);
+
+    $.ajax({
+        url: "/changepassword?token=" + token,
+        type: "POST",
+        data: JSON.stringify(passwordData),
         contentType: "application/json; charset=utf-8",
         dataType: "json",
         success: function (data, textStatus, jqXHR) {
@@ -135,6 +167,10 @@ function getAuthTokenFromLocalStorage() {
     } else {
         return {};
     }
+}
+
+function getURLParameter(name) {
+    return decodeURIComponent((new RegExp('[?|&]' + name + '=' + '([^&;]+?)(&|#|;|$)').exec(location.search) || [null, ''])[1].replace(/\+/g, '%20')) || null;
 }
 
 /*headers: getAuthTokenFromLocalStorage(),*/
