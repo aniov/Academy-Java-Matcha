@@ -7,7 +7,8 @@ var TOKEN_KEY = "jwtToken";
 //On window load we check if we have a token, and assume that is valid so we are logged
 document.addEventListener('DOMContentLoaded', function () {
     if (localStorage.getItem(TOKEN_KEY) == null) {
-        window.location.replace("/");
+       // window.location.replace("/");
+        console.log("No Token " + TOKEN_KEY);
     }
 }, false);
 
@@ -99,6 +100,11 @@ function goToLogin() {
     $("#login").show();
 }*/
 
+function clearChangePasswordForm() {
+    document.getElementById("plainPassword").value = '';
+    document.getElementById("repeatPlainPassword").value = '';
+}
+
 function clearResetPasswordForm() {
     document.getElementById("email").value = '';
 }
@@ -122,7 +128,7 @@ function resetPassword() {
     var emailData = {
         email: document.getElementById("email").value,
     };
-   // clearResetPasswordForm();
+    clearResetPasswordForm();
 
     $.ajax({
         url: "/resetpassword",
@@ -132,12 +138,17 @@ function resetPassword() {
         dataType: "json",
         success: function (data, textStatus, jqXHR) {
 
-            console.log("OK " + data);
-            window.location.replace("/");
+            $("#success-message").html(data.message)
+                .show().fadeTo(5000, 500).slideUp(500, function () {
+                $("#success-message").slideUp(500);
+            });
         },
-        error: function (jqXHR, textStatus, errorThrown) {
+        error: function (data, textStatus, jqXHR) {
 
-            console.log("ERROR");
+            $("#reset-message").html(data.responseJSON.message)
+                .show().fadeTo(3000, 500).slideUp(500, function () {
+                $("#reset-message").slideUp(500);
+            });
         }
     });
 }
@@ -149,10 +160,9 @@ function changePassword() {
         plainPassword: document.getElementById("plainPassword").value,
         repeatPlainPassword: document.getElementById("repeatPlainPassword").value,
     };
+    clearChangePasswordForm();
 
     var token = getURLParameter('token');
-
-    console.log("OK " + token);
 
     $.ajax({
         url: "/changepassword?token=" + token,
@@ -162,12 +172,17 @@ function changePassword() {
         dataType: "json",
         success: function (data, textStatus, jqXHR) {
 
-            console.log("OK " + data);
-            window.location.replace("/");
+            $("#success-message").html(data.message)
+                .show().fadeTo(5000, 500).slideUp(500, function () {
+                $("#success-message").slideUp(500);
+            });
         },
-        error: function (jqXHR, textStatus, errorThrown) {
+        error: function (data, textStatus, jqXHR) {
 
-            console.log("ERROR");
+            $("#change-message").html(data.responseJSON.message)
+                .show().fadeTo(3000, 500).slideUp(500, function () {
+                $("#change-message").slideUp(500);
+            });
         }
     });
 }

@@ -7,6 +7,7 @@ import com.aniov.repository.VerificationTokenRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.UUID;
 
 /**
@@ -27,7 +28,15 @@ public class VerificationTokenService {
 
     public String createResetPasswordVerificationToken(User user) {
 
+        List<VerificationToken> tokens = verificationTokenRepository.findAllByUser(user);
+        //We delete all possible old PASSWORD_RESET tokens for this user
+        for (VerificationToken verificationToken : tokens) {
+            if (verificationToken.getTokenType().equals(TokenType.PASSWORD_RESET)) {
+                verificationTokenRepository.delete(verificationToken);
+            }
+        }
         VerificationToken token = new VerificationToken(UUID.randomUUID().toString(), TokenType.PASSWORD_RESET, user);
+
         return verificationTokenRepository.save(token).getToken();
     }
 

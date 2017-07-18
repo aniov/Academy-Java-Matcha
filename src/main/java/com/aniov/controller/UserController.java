@@ -17,11 +17,12 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
 
 import javax.mail.MessagingException;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
 import java.io.IOException;
 import java.util.Date;
@@ -65,67 +66,61 @@ public class UserController {
         return new ResponseEntity<>(new GenericResponseDTO("This the message", "this is the error"), HttpStatus.INTERNAL_SERVER_ERROR);
     }
 
-    @PostMapping(path = "/resetpassword", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
-    public String resetPassword(@RequestBody @Valid ResetPasswordDTO resetPasswordDTO, BindingResult result) throws IOException {
+    @PostMapping(path = "/resetpassword", consumes = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<?> resetPassword(@RequestBody @Valid ResetPasswordDTO resetPasswordDTO, BindingResult result) throws IOException {
 
         if (result.hasErrors()) {
-            return "Not ok";
+            return new ResponseEntity<>(new GenericResponseDTO("Enter a valid email", "Email field error"), HttpStatus.FORBIDDEN);
         }
         String email = resetPasswordDTO.getEmail();
         User user = userService.findUserByEmail(email);
         if (user == null) {
-            return "email doesn't exists";
+            return new ResponseEntity<>(new GenericResponseDTO("Check your email again", "Email not found"), HttpStatus.FORBIDDEN);
         }
 
-        if (! user.getAccount().isEnabled()) {
-            return "Activate your account first";
+        if (!user.getAccount().isEnabled()) {
+            return new ResponseEntity<>(new GenericResponseDTO("Activate your account first", "Account is not activated"), HttpStatus.FORBIDDEN);
         }
 
         try {
             emailService.resetPasswordToken(user);
         } catch (MessagingException e) {
-            System.out.println("ERROR: " + e);
-            e.printStackTrace();
+            return new ResponseEntity<>(new GenericResponseDTO("Please try again later", "Server error"), HttpStatus.INTERNAL_SERVER_ERROR);
         }
-        return "OK";
+        return new ResponseEntity<>(new GenericResponseDTO("An email has been sent", "password changed"), HttpStatus.ACCEPTED);
     }
 
-    @PostMapping(path = "/changepassword", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+    @PostMapping(path = "/changepassword", consumes = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<?> changePassword(@RequestParam(name = "token") String tokenString,
                                             @RequestBody @Valid ChangePasswordDTO changePasswordDTO, BindingResult result) {
 
-        System.out.println("ENTER");
-
         VerificationToken token = verificationTokenService.getVerificationToken(tokenString);
 
-        System.out.println("TOKEN: " + token.getToken());
-
         if (token == null) {
-            return new ResponseEntity<>("Token Not found", HttpStatus.BAD_REQUEST);
+            return new ResponseEntity<>(new GenericResponseDTO("Token not found", "error: token not in db"), HttpStatus.FORBIDDEN);
         }
 
         Date expiryDate = token.getExpiryDate();
         if (expiryDate.before(new Date()) || !token.getTokenType().equals(TokenType.PASSWORD_RESET)) {
             verificationTokenService.deleteToken(token);
-            return new ResponseEntity<>("Token expired", HttpStatus.BAD_REQUEST);
+            return new ResponseEntity<>(new GenericResponseDTO("Token expired", "error: token is expired"), HttpStatus.FORBIDDEN);
         }
 
         User user = token.getUser();
         if (user == null) {
             verificationTokenService.deleteToken(token);
-            return new ResponseEntity<>("User not found", HttpStatus.BAD_REQUEST);
+            return new ResponseEntity<>(new GenericResponseDTO("User not found", "error: user not found"), HttpStatus.FORBIDDEN);
         }
 
-        if (result.hasErrors()){
-            System.out.println("ERROR");
-            return new ResponseEntity<>("password not ok", HttpStatus.BAD_REQUEST);
+        if (result.hasErrors()) {
+            return new ResponseEntity<>(new GenericResponseDTO("Enter a valid password", "error: invalid input"), HttpStatus.FORBIDDEN);
         }
 
         userService.changeUserPassword(user, changePasswordDTO.getPlainPassword());
 
         verificationTokenService.deleteToken(token);
 
-        return new ResponseEntity<>("Password changed", HttpStatus.OK);
+        return new ResponseEntity<>(new GenericResponseDTO("Password changed", "password has been changed"), HttpStatus.OK);
     }
 
 
