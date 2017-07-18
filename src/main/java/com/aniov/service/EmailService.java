@@ -52,7 +52,7 @@ public class EmailService {
     }
 
     public void sendRegistrationToken(User user) throws MessagingException {
-        String subject = "Activate your account";
+        String subject = "Activate your Matcha account";
         String token = verificationTokenService.createNewUserVerificationToken(user);
 
         setProperties();
@@ -69,7 +69,7 @@ public class EmailService {
     }
 
     public void resetPasswordToken(User user) throws MessagingException {
-        String subject = "Reset your password";
+        String subject = "Reset your Matcha password";
         String token = verificationTokenService.createResetPasswordVerificationToken(user);
 
         setProperties();

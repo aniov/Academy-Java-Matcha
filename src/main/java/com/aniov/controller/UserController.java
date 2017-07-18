@@ -49,48 +49,20 @@ public class UserController {
     private JwtTokenUtil jwtTokenUtil;
 
     @PostMapping(path = "/register", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
-    public GenericResponseDTO registerNewUser(@RequestBody @Valid UserRegisterDTO userRegisterDTO, BindingResult result) throws MessagingException {
+    public ResponseEntity<?> registerNewUser(@RequestBody @Valid UserRegisterDTO userRegisterDTO, BindingResult result) throws MessagingException {
 
         if (result.hasErrors()) {
-            //return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+            return new ResponseEntity<>(new GenericResponseDTO("ERRR", "ERRR"), HttpStatus.INTERNAL_SERVER_ERROR);
         }
 
         User savedUser = userService.registerNewUser(userRegisterDTO);
 
         if (savedUser != null) {
             emailService.sendRegistrationToken(savedUser);
-           // return new ResponseEntity(HttpStatus.CREATED);
+            return new ResponseEntity<>(new GenericResponseDTO("This the message", "this is the error"), HttpStatus.CREATED);
         }
 
-       // return new ResponseEntity(HttpStatus.INTERNAL_SERVER_ERROR);
-        return new GenericResponseDTO("This the message", "this is the error");
-    }
-
-    @GetMapping(path = "/activate")
-    public ResponseEntity<?> activateAccount(@RequestParam(name = "token") String tokenString) {
-
-        VerificationToken token = verificationTokenService.getVerificationToken(tokenString);
-
-        if (token == null) {
-            return new ResponseEntity<>("NULL TOKEN", HttpStatus.NOT_FOUND);
-        }
-        Date expiryDate = token.getExpiryDate();
-
-        if (expiryDate.before(new Date()) || !token.getTokenType().equals(TokenType.ACTIVATION)) {
-            verificationTokenService.deleteToken(token);
-            return new ResponseEntity<>("EXPIRED", HttpStatus.NOT_ACCEPTABLE);
-        }
-
-        User user = token.getUser();
-        if (user == null) {
-            verificationTokenService.deleteToken(token);
-            return new ResponseEntity<>("NO SUCH USER", HttpStatus.NOT_ACCEPTABLE);
-        }
-
-        user.getAccount().setEnabled(true);
-        userService.saveUser(user);
-        verificationTokenService.deleteToken(token);
-        return new ResponseEntity<>("ALL OK-ACTIVATED", HttpStatus.OK);
+        return new ResponseEntity<>(new GenericResponseDTO("This the message", "this is the error"), HttpStatus.INTERNAL_SERVER_ERROR);
     }
 
     @PostMapping(path = "/resetpassword", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)

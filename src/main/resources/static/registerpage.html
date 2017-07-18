@@ -19,64 +19,93 @@
 <body>
 
 <!-- Start your project here-->
-<div class="container login-form-vertical">
-    <div class="row"></div>
-    <!--Main column-->
-    <div class="col-md-6 col-md-offset-3">
 
-        <!--Register Form with header-->
-        <div class="card" id="register">
-            <div class="card-block">
+<!--Register Form with header-->
+<div id="register-form" style="margin-top: 150px">
+    <div class="row login-form-vertical">
+        <div class="mx-auto">
+            <div class="col-xs-4 col-xs-offset-4">
 
-                <!--Header-->
-                <div class="form-header blue-gradient">
-                    <h3><i class="fa fa-user"></i> Register:</h3>
-                </div>
+                <div class="card" id="register">
+                    <div class="card-block">
 
-                <!--Body-->
-                <div class="md-form">
-                    <i class="fa fa-user prefix"></i>
-                    <input type="text" id="registerUsername" class="form-control">
-                    <label for="registerUsername">username</label>
-                </div>
-                <div class="md-form">
-                    <i class="fa fa-envelope prefix"></i>
-                    <input type="text" id="registerEmail" class="form-control">
-                    <label for="registerEmail">email</label>
-                </div>
+                        <!--Header-->
+                        <div class="form-header primary-color">
+                            <h3><i class="fa fa-user"></i> Register: </h3>
+                        </div>
 
-                <div class="md-form">
-                    <i class="fa fa-lock prefix"></i>
-                    <input type="password" id="registerPassword" class="form-control">
-                    <label for="registerPassword">password</label>
-                </div>
+                        <!--Body-->
+                        <div class="md-form">
+                            <i class="fa fa-user prefix"></i>
+                            <input type="text" id="registerUsername" class="form-control">
+                            <label for="registerUsername">username</label>
+                        </div>
+                        <div class="md-form">
+                            <i class="fa fa-envelope prefix"></i>
+                            <input type="text" id="registerEmail" class="form-control">
+                            <label for="registerEmail">email</label>
+                        </div>
 
-                <div class="md-form">
-                    <i class="fa prefix"></i>
-                    <input type="password" id="registerRepeatPassword" class="form-control">
-                    <label for="registerRepeatPassword">repeat password</label>
-                </div>
+                        <div class="md-form">
+                            <i class="fa fa-lock prefix"></i>
+                            <input type="password" id="registerPassword" class="form-control">
+                            <label for="registerPassword">password</label>
+                        </div>
 
-                <div class="text-center">
-                    <button onclick="register()" class="btn btn-indigo">Sign up</button>
-                </div>
-                <div id="message"></div>
-                <!--Footer-->
-                <div class="modal-footer">
-                    <div class="options">
-                        <p>You are a member? <a href="/">Login</a></p>
-                        <p>Forgot <a href="/resetpassword">Password?</a></p>
+                        <div class="md-form">
+                            <i class="fa prefix"></i>
+                            <input type="password" id="registerRepeatPassword" class="form-control">
+                            <label for="registerRepeatPassword">repeat password</label>
+                        </div>
+
+                        <div class="text-center">
+                            <button onclick="register()" class="btn primary-color">Create my Matcha account</button>
+                        </div>
+                        <div id="message"></div>
+                        <!--Footer-->
+                        <div class="modal-footer">
+                            <div class="options">
+                                <p>You are a member ? <a href="/">Login</a></p>
+                                <p>Forgot <a href="/resetpassword">Password ?</a></p>
+                            </div>
+                        </div>
+
                     </div>
                 </div>
 
             </div>
         </div>
-        <!--/Register Form with header-->
-
     </div>
 </div>
+<!--/Register Form with header-->
 
-
+<!--Panel-->
+<div id="created-message" style="margin-top: 150px; display: none;">
+    <div class="row">
+        <div class="mx-auto">
+            <div class="col-xs-4 col-xs-offset-4">
+                <!--Panel-->
+                <div class="card text-center">
+                    <div class="card-header primary-color">
+                        Account created
+                    </div>
+                    <div class="card-block">
+                        <h4 class="card-title white-text">Your account has been created</h4>
+                        <p class="card-text">We have sent you a link for activation to this email address:<a
+                                id="email"></a></p>
+                        <p>Please check your email account (also the spam folder) for the email with the subject
+                            "Activate your Matcha account"</p>
+                        <a href="/" class="btn primary-color">Login Page</a>
+                    </div>
+                    <div class="card-footer text-muted secondary-color-dark white-text">
+                        <p>Activate your account and then Login</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!--/.Panel-->
 <!-- /Start your project here-->
 
 <!-- SCRIPTS -->

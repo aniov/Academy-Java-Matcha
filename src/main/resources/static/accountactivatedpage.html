@@ -15,52 +15,32 @@
     <!-- Your custom styles (optional) -->
     <link href="css/style.css" rel="stylesheet">
 </head>
-
 <body>
 
-<!-- Start your project here-->
-<div class="row" id="login-page" style="margin-top: 150px">
-    <div class="mx-auto">
-        <div class="col-xs-4 col-xs-offset-4">
-
-        <!--Reset Password Form with header-->
-        <div class="card">
-            <div class="card-block">
-
-                <!--Header-->
-                <div class="form-header default-color">
-                    <h3><i class="fa fa-unlock"></i> Reset password</h3>
-                </div>
-
-                <!--Body-->
-                <div class="md-form">
-                    <i class="fa fa-envelope prefix"></i>
-                    <input type="text" id="email" class="form-control">
-                    <label for="email">Your email</label>
-                </div>
-
-                <div class="text-center">
-                    <button onclick="resetPassword()" class="btn default-color">Send email</button>
+<!--Panel-->
+<div id="activated-message">
+    <div class="row">
+        <div class="mx-auto">
+            <div class="col-xs-4 col-xs-offset-4">
+                <!--Panel-->
+                <div class="card text-center">
+                    <div class="card-header primary-color">
+                        Account activated
+                    </div>
+                    <div class="card-block">
+                        <h4 class="card-title">Your account has been activated</h4>
+                        <p>Go and login</p>
+                        <a href="/" class="btn primary-color">Login</a>
+                    </div>
+                    <div class="card-footer text-muted secondary-color-dark white-text">
+                        <p>Welcome to Matcha dating site</p>
+                    </div>
                 </div>
             </div>
-
-            <!--Footer-->
-            <div class="modal-footer">
-                <div class="options">
-                    <p>You are a member? <a href="/">Login</a></p>
-                </div>
-            </div>
-
         </div>
-        <!--/Reset Password Form with header-->
-
-
     </div>
 </div>
-
-
-<!-- /Start your project here-->
-
+<!--/.Panel-->
 <!-- SCRIPTS -->
 <!-- JQuery -->
 <script type="text/javascript" src="js/jquery-3.1.1.min.js"></script>

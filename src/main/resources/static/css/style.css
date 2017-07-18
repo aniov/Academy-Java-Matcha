@@ -1,5 +1,18 @@
 /* YOUR CUSTOM STYLES */
 
-.login-form-vertical {
-    margin-top: 50px;
+#register-form {
+    margin-top: 150px;
+}
+
+#created-message {
+    margin-top: 150px;
+    display: none;
+}
+
+.login-page {
+    margin-top: 150px; !important;
+}
+
+#activated-message {
+    margin-top: 150px;
 }

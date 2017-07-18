@@ -5,12 +5,11 @@
 var TOKEN_KEY = "jwtToken";
 
 //On window load we check if we have a token, and assume that is valid so we are logged
-/*document.addEventListener('DOMContentLoaded', function () {
-  //  if (localStorage.getItem(TOKEN_KEY) == null) {
-        $("#register").hide();
-        $("#login").show();
- //   }
-}, false);*/
+document.addEventListener('DOMContentLoaded', function () {
+    if (localStorage.getItem(TOKEN_KEY) == null) {
+        window.location.replace("/");
+    }
+}, false);
 
 function login() {
 
@@ -29,8 +28,23 @@ function login() {
         dataType: "json",
         success: function (data, textStatus, jqXHR) {
             localStorage.setItem(TOKEN_KEY, data.token);
-
             console.log("LOGIN SUCCESS");
+
+            $.ajax({
+                url: "/main",
+                type: "GET",
+                contentType: "application/json; charset=utf-8",
+                dataType: "json",
+                headers: getAuthTokenFromLocalStorage(),
+                success: function (data, textStatus, jqXHR) {
+                    console.log("ALL OK");
+                },
+                error: function (jqXHR, textStatus, errorThrown) {
+
+                }
+
+            })
+
         },
         error: function (jqXHR, textStatus, errorThrown) {
             if (jqXHR.status === 401 || jqXHR.status === 400) {
@@ -63,16 +77,14 @@ function register() {
         contentType: "application/json; charset=utf-8",
         dataType: "json",
         success: function (data, textStatus, jqXHR) {
-            console.log("SUCCESS " );
+            console.log("Created SUCCESS" );
+            $('#email').html(" " + registerData.email);
+            $("#register-form").hide();
+            $("#created-message").show();
 
-            $('#message').html(data.message + " " + data.error);
         },
         error: function (jqXHR, textStatus, errorThrown) {
-            if (jqXHR.status === 401 || jqXHR.status === 400) {
-
-            } else {
-                throw new Error("an unexpected error occurred: " + errorThrown);
-            }
+            console.log("Error creating account")
         }
     });
 }
