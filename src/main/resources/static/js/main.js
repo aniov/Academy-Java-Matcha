@@ -5,71 +5,27 @@
 function login() {
 
     event.preventDefault();
-       var username= document.getElementById("username").value;
-       var password= document.getElementById("password").value;
+    var username = document.getElementById("username").value;
+    var password = document.getElementById("password").value;
     clearLoginForm();
 
     $.ajax({
-        data: "username="+username+"&password="+password,
+        data: "username=" + username + "&password=" + password,
         timeout: 1000,
         type: 'POST',
         url: '/login'
 
-    }).done(function(data, textStatus, jqXHR) {
+    }).done(function (data, textStatus, jqXHR) {
         window.location.replace("/main");
 
-    }).fail(function(data, jqXHR, textStatus) {
+    }).fail(function (data, jqXHR, textStatus) {
 
         $("#login-message").html(data.responseJSON.message)
             .show().fadeTo(4000, 500).slideUp(500, function () {
             $("#login-message").slideUp(500);
         });
     });
-
-    /*$.ajax({
-        url: "/login",
-        type: "POST",
-        data: "username="+username+"&password="+password,
-        success: function (data, textStatus, jqXHR) {
-            console.log(data);
-          //  window.location.replace("/main");
-        },
-        error: function (data, textStatus, jqXHR) {
-
-            console.log("ERROR LOG");
-
-            $("#reset-login-message").html(data.responseJSON.message)
-                .show().fadeTo(3000, 500).slideUp(500, function () {
-                $("#reset-login-message").slideUp(500);
-            });
-        }
-    });*/
 }
-
-/*$('#loginform').submit(function (event) {
-    event.preventDefault();
-    var data = 'username=' + $('#username').val() + '&password=' + $('#password').val();
-    $.ajax({
-        data: data,
-        timeout: 1000,
-        type: 'POST',
-        url: '/login'
-
-    }).done(function(data, textStatus, jqXHR) {
-      //  var preLoginInfo = JSON.parse($.cookie('dashboard.pre.login.request'));
-      //  window.location = preLoginInfo.url;
-        window.location = "/main";
-        console.log("OK");
-
-    }).fail(function(data, jqXHR, textStatus) {
-        console.log("ERROR LOG");
-
-        $("#reset-login-message").html(data.responseJSON.message)
-            .show().fadeTo(3000, 500).slideUp(500, function () {
-            $("#reset-login-message").slideUp(500);
-        });
-    });
-});*/
 
 function register() {
 
@@ -106,36 +62,6 @@ function register() {
             });
         }
     });
-}
-
-function parseListMessages(list) {
-    var text = "<ul>";
-    for (i = 0; i < list.length; i++) {
-        text += "<li>" + list[i] + "</li>";
-    }
-    return text + "</ul>";
-}
-
-function clearChangePasswordForm() {
-    document.getElementById("plainPassword").value = '';
-    document.getElementById("repeatPlainPassword").value = '';
-}
-
-function clearResetPasswordForm() {
-    document.getElementById("email").value = '';
-}
-
-
-function clearLoginForm() {
-    document.getElementById("username").value = '';
-    document.getElementById("password").value = '';
-}
-
-function clearRegisterForm() {
-    document.getElementById("registerUsername").value = '';
-    document.getElementById("registerEmail").value = '';
-    document.getElementById("registerPassword").value = '';
-    document.getElementById("registerRepeatPassword").value = '';
 }
 
 function resetPassword() {
@@ -191,10 +117,10 @@ function changePassword() {
             $("#success-message").html(data.messages)
                 .show().fadeTo(5000, 500).slideUp(500, function () {
                 $("#success-message").slideUp(500);
+                window.location.replace("/login");
             });
         },
         error: function (data, textStatus, jqXHR) {
-
             $("#change-message").html(parseListMessages(data.responseJSON.messages))
                 .show().fadeTo(4000, 500).slideUp(500, function () {
                 $("#change-message").slideUp(500);
@@ -206,3 +132,77 @@ function changePassword() {
 function getURLParameter(name) {
     return decodeURIComponent((new RegExp('[?|&]' + name + '=' + '([^&;]+?)(&|#|;|$)').exec(location.search) || [null, ''])[1].replace(/\+/g, '%20')) || null;
 }
+
+function parseListMessages(list) {
+    var text = "<ul>";
+    for (i = 0; i < list.length; i++) {
+        text += "<li>" + list[i] + "</li>";
+    }
+    return text + "</ul>";
+}
+
+function clearChangePasswordForm() {
+    document.getElementById("plainPassword").value = '';
+    document.getElementById("repeatPlainPassword").value = '';
+}
+
+function clearResetPasswordForm() {
+    document.getElementById("email").value = '';
+}
+
+
+function clearLoginForm() {
+    document.getElementById("username").value = '';
+    document.getElementById("password").value = '';
+}
+
+function clearRegisterForm() {
+    document.getElementById("registerUsername").value = '';
+    document.getElementById("registerEmail").value = '';
+    document.getElementById("registerPassword").value = '';
+    document.getElementById("registerRepeatPassword").value = '';
+}
+
+/*$('#loginform').submit(function (event) {
+ event.preventDefault();
+ var data = 'username=' + $('#username').val() + '&password=' + $('#password').val();
+ $.ajax({
+ data: data,
+ timeout: 1000,
+ type: 'POST',
+ url: '/login'
+
+ }).done(function(data, textStatus, jqXHR) {
+ //  var preLoginInfo = JSON.parse($.cookie('dashboard.pre.login.request'));
+ //  window.location = preLoginInfo.url;
+ window.location = "/main";
+ console.log("OK");
+
+ }).fail(function(data, jqXHR, textStatus) {
+ console.log("ERROR LOG");
+
+ $("#reset-login-message").html(data.responseJSON.message)
+ .show().fadeTo(3000, 500).slideUp(500, function () {
+ $("#reset-login-message").slideUp(500);
+ });
+ });
+ });*/
+
+/*$.ajax({
+ url: "/login",
+ type: "POST",
+ data: "username="+username+"&password="+password,
+ success: function (data, textStatus, jqXHR) {
+ console.log(data);
+ //  window.location.replace("/main");
+ },
+ error: function (data, textStatus, jqXHR) {
+
+ console.log("ERROR LOG");
+
+ $("#reset-login-message").html(data.responseJSON.message)
+ .show().fadeTo(3000, 500).slideUp(500, function () {
+ $("#reset-login-message").slideUp(500);
+ });
+ }
+ });*/
