@@ -29,9 +29,7 @@ public class UserService implements UserDetailsService {
         if (user == null) {
             return null;
         }
-        //return new SiteUserDetails(user);
-        return new org.springframework.security.core.userdetails.User(username, user.getHashedPassword(), user.getAccount().isEnabled(), user.getAccount().isAccountNonExpired(),
-                user.getAccount().isCredentialsNonExpired(), user.getAccount().isAccountNonLocked(), user.getAccount().getAuthorities());
+        return new SiteUserDetails(user);
     }
 
     public User findUserByEmail(String email) {
@@ -95,6 +93,5 @@ public class UserService implements UserDetailsService {
         retrievedUser.setHashedPassword(new BCryptPasswordEncoder().encode(plainPassword));
         userRepository.save(retrievedUser);
     }
-
 
 }

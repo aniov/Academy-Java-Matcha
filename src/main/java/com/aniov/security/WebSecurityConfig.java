@@ -51,9 +51,8 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .csrf().disable() //No need for CSRF
                     .formLogin()
                         .loginPage("/login").permitAll()
-                .failureHandler(myAuthenticationErrorHandler)
-                    .successHandler(myAuthenticationSuccessHandler)
-                //.defaultSuccessUrl("/")
+                            .failureHandler(myAuthenticationErrorHandler)
+                            .successHandler(myAuthenticationSuccessHandler)
                 .and()
                     .authorizeRequests()
                         .antMatchers("/", "/login", "/register", "/activate", "/changepassword", "resetpassword")

@@ -12,7 +12,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
 /**
- * Created by Marius on 7/20/2017.
+ * Error Authentication handler
  */
 @Component
 public class MyAuthenticationErrorHandler extends SimpleUrlAuthenticationFailureHandler{

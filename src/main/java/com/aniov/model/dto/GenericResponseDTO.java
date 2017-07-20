@@ -1,18 +1,27 @@
 package com.aniov.model.dto;
 
-import lombok.AllArgsConstructor;
-import lombok.Data;
+import lombok.Getter;
 
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Generic message sent to front-end as Json
  */
 
-@Data
-@AllArgsConstructor
 public class GenericResponseDTO implements Serializable {
 
     private String message;
-    private String error;
+    @Getter
+    private List<String> messages = new ArrayList<>();
+
+    public GenericResponseDTO(String message) {
+        this.message = message;
+        this.messages.add(message);
+    }
+
+    public GenericResponseDTO(List<String> messages) {
+        this.messages = messages;
+    }
 }

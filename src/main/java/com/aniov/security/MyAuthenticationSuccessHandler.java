@@ -10,14 +10,14 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
 /**
- * A Authentication handler used to redirect after login
+ * A Success Authentication handler
  */
 @Component
 public class MyAuthenticationSuccessHandler extends SimpleUrlAuthenticationSuccessHandler {
 
     @Override
     public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response, Authentication authentication) throws IOException, ServletException {
-        //setDefaultTargetUrl("/main");
+
         this.logger.warn("Authentication success: " + response + "; authentication: " + authentication);
         super.onAuthenticationSuccess(request, response, authentication);
     }

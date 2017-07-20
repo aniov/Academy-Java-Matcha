@@ -14,23 +14,20 @@ import java.io.Serializable;
  * User Registration form dto
  */
 @Data
-@MatchFields(first = "password", second = "repeatPlainPassword", message = "passwords don't match")
+@MatchFields(first = "plainPassword", second = "repeatPlainPassword", message = "passwords don't match")
 public class UserRegisterDTO implements Serializable{
 
-    @NotBlank
-    @Size(min = 5, max = 30)
+    @Size(min = 5, max = 30, message = "username should be between 5 and 30 characters")
     @UserNameIsUnique
     private String username;
 
-    @NotBlank
     @EmailIsUnique
     @EmailIsValid
-    @Size(min = 5, max = 50, message = "Email must be between 5 and 50 characters long")
+    @Size(min = 5, max = 50, message = "email must be between 5 and 50 characters long")
     private String email;
 
-    @NotBlank
+    @Size(min = 5, max = 50, message = "password should be between 5 and 50 characters")
     private String plainPassword;
 
-    @NotBlank
     private String repeatPlainPassword;
 }

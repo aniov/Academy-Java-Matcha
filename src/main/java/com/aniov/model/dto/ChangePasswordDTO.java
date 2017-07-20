@@ -4,6 +4,7 @@ import com.aniov.model.dto.validators.MatchFields;
 import lombok.Data;
 import org.hibernate.validator.constraints.NotBlank;
 
+import javax.validation.constraints.Size;
 import java.io.Serializable;
 
 /**
@@ -11,12 +12,11 @@ import java.io.Serializable;
  */
 
 @Data
-@MatchFields(first = "password", second = "repeatPlainPassword", message = "passwords don't match")
+@MatchFields(first = "plainPassword", second = "repeatPlainPassword", message = "Passwords don't match")
 public class ChangePasswordDTO implements Serializable {
 
-    @NotBlank
+    @Size(min = 5, max = 50, message = "Password should be between 5 and 50 characters")
     private String plainPassword;
 
-    @NotBlank
     private String repeatPlainPassword;
 }

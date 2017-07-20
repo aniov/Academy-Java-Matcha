@@ -90,15 +90,17 @@ function register() {
         dataType: "json",
         success: function (data, textStatus, jqXHR) {
             console.log("Created SUCCESS");
-            $("#register-success-message").html(data.message)
+            $("#register-success-message").html(data.messages)
                 .show().fadeTo(4000, 500).slideUp(500, function () {
-                $("#register-message").slideUp(500);
+                $("#register-success-message").slideUp(1000);
+                $("#register-form").hide();
+                $("#created-message").show();
             });
 
         },
         error: function (data, textStatus, jqXHR) {
-            console.log("Error creating account");
-            $("#register-message").html(data.responseJSON.message)
+            console.log("Error creating account " + data.responseJSON);
+            $("#register-message").html(parseListMessages(data.responseJSON.messages))
                 .show().fadeTo(4000, 500).slideUp(500, function () {
                 $("#register-message").slideUp(500);
             });
@@ -106,8 +108,16 @@ function register() {
     });
 }
 
+function parseListMessages(list) {
+    var text = "<ul>";
+    for (i = 0; i < list.length; i++) {
+        text += "<li>" + list[i] + "</li>";
+    }
+    return text + "</ul>";
+}
+
 function clearChangePasswordForm() {
-    document.getElementById("password").value = '';
+    document.getElementById("plainPassword").value = '';
     document.getElementById("repeatPlainPassword").value = '';
 }
 
@@ -144,14 +154,14 @@ function resetPassword() {
         dataType: "json",
         success: function (data, textStatus, jqXHR) {
 
-            $("#success-message").html(data.message)
+            $("#success-message").html(data.messages)
                 .show().fadeTo(5000, 500).slideUp(500, function () {
                 $("#success-message").slideUp(500);
             });
         },
         error: function (data, textStatus, jqXHR) {
 
-            $("#reset-message").html(data.responseJSON.message)
+            $("#reset-message").html(parseListMessages(data.responseJSON.messages))
                 .show().fadeTo(3000, 500).slideUp(500, function () {
                 $("#reset-message").slideUp(500);
             });
@@ -163,7 +173,7 @@ function changePassword() {
 
     event.preventDefault();
     var passwordData = {
-        plainPassword: document.getElementById("password").value,
+        plainPassword: document.getElementById("plainPassword").value,
         repeatPlainPassword: document.getElementById("repeatPlainPassword").value,
     };
     clearChangePasswordForm();
@@ -176,40 +186,23 @@ function changePassword() {
         data: JSON.stringify(passwordData),
         contentType: "application/json; charset=utf-8",
         dataType: "json",
-/*        success: function (data, textStatus, jqXHR) {
+        success: function (data, textStatus, jqXHR) {
 
-            $("#success-message").html(data.message)
+            $("#success-message").html(data.messages)
                 .show().fadeTo(5000, 500).slideUp(500, function () {
                 $("#success-message").slideUp(500);
             });
         },
         error: function (data, textStatus, jqXHR) {
 
-            $("#change-message").html(data.responseJSON.message)
-                .show().fadeTo(3000, 500).slideUp(500, function () {
+            $("#change-message").html(parseListMessages(data.responseJSON.messages))
+                .show().fadeTo(4000, 500).slideUp(500, function () {
                 $("#change-message").slideUp(500);
             });
-        }*/
+        }
     });
-}
-
-function getAuthTokenFromLocalStorage() {
-    var token = localStorage.getItem(TOKEN_KEY);
-    if (token) {
-        return {"Authorization": token}; //this is the name after we will be looking for token in the back-end
-    } else {
-        return {};
-    }
 }
 
 function getURLParameter(name) {
     return decodeURIComponent((new RegExp('[?|&]' + name + '=' + '([^&;]+?)(&|#|;|$)').exec(location.search) || [null, ''])[1].replace(/\+/g, '%20')) || null;
-}
-
-/*headers: getAuthTokenFromLocalStorage(),*/
-
-function showToken() {
-
-    console.log(localStorage.getItem(TOKEN_KEY));
-
 }

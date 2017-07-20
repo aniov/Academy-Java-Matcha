@@ -7,23 +7,19 @@ import javax.validation.ConstraintValidator;
 import javax.validation.ConstraintValidatorContext;
 
 /**
- * Created by Marius on 12/9/2016.
- */
-
-/**
  * Create a Validator for two String fields
  * The fields should be identical to return true
  */
 public class MatchFieldsValidator implements ConstraintValidator<MatchFields, Object> {
 
-    private String firstFieldName;
-    private String secondFieldName;
+    private String firstField;
+    private String secondField;
 
     @Override
     public void initialize(MatchFields constraintAnnotation) {
 
-        firstFieldName = constraintAnnotation.first();
-        secondFieldName = constraintAnnotation.second();
+        firstField = constraintAnnotation.first();
+        secondField = constraintAnnotation.second();
     }
 
     @Override
@@ -31,10 +27,10 @@ public class MatchFieldsValidator implements ConstraintValidator<MatchFields, Ob
 
         try {
             BeanWrapper wrapper = PropertyAccessorFactory.forBeanPropertyAccess(value);
-            Object firstObj = wrapper.getPropertyValue(firstFieldName);
-            Object secondObj = wrapper.getPropertyValue(secondFieldName);
+            String firstObj = (String) wrapper.getPropertyValue(firstField);
+            String secondObj = (String) wrapper.getPropertyValue(secondField);
 
-            return firstObj == null && secondObj == null || firstObj != null && firstObj.equals(secondObj);
+            return firstObj.length() > 0 && firstObj.equals(secondObj);
 
         } catch (final Exception ignore) {
             //ignore
