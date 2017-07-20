@@ -11,7 +11,7 @@ import java.io.Serializable;
  */
 
 @Data
-@MatchFields(first = "plainPassword", second = "repeatPlainPassword", message = "passwords don't match")
+@MatchFields(first = "password", second = "repeatPlainPassword", message = "passwords don't match")
 public class ChangePasswordDTO implements Serializable {
 
     @NotBlank

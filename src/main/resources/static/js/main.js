@@ -2,63 +2,74 @@
  * Created by aniov on 7/13/2017.
  */
 
-var TOKEN_KEY = "jwtToken";
-
-//On window load we check if we have a token, and assume that is valid so we are logged
-document.addEventListener('DOMContentLoaded', function () {
-    if (localStorage.getItem(TOKEN_KEY) == null) {
-       // window.location.replace("/");
-        console.log("No Token " + TOKEN_KEY);
-    }
-}, false);
-
 function login() {
 
     event.preventDefault();
-    var loginData = {
-        username: document.getElementById("username").value,
-        plainPassword: document.getElementById("password").value,
-    };
+       var username= document.getElementById("username").value;
+       var password= document.getElementById("password").value;
     clearLoginForm();
 
     $.ajax({
+        data: "username="+username+"&password="+password,
+        timeout: 1000,
+        type: 'POST',
+        url: '/login'
+
+    }).done(function(data, textStatus, jqXHR) {
+        window.location.replace("/main");
+
+    }).fail(function(data, jqXHR, textStatus) {
+
+        $("#login-message").html(data.responseJSON.message)
+            .show().fadeTo(4000, 500).slideUp(500, function () {
+            $("#login-message").slideUp(500);
+        });
+    });
+
+    /*$.ajax({
         url: "/login",
         type: "POST",
-        data: JSON.stringify(loginData),
-        contentType: "application/json; charset=utf-8",
-        dataType: "json",
+        data: "username="+username+"&password="+password,
         success: function (data, textStatus, jqXHR) {
-            localStorage.setItem(TOKEN_KEY, data.token);
-            console.log("LOGIN SUCCESS");
-
-            $.ajax({
-                url: "/main",
-                type: "GET",
-                contentType: "application/json; charset=utf-8",
-                dataType: "json",
-                headers: getAuthTokenFromLocalStorage(),
-                success: function (data, textStatus, jqXHR) {
-                    console.log("ALL OK");
-                },
-                error: function (jqXHR, textStatus, errorThrown) {
-
-                }
-
-            })
-
+            console.log(data);
+          //  window.location.replace("/main");
         },
-        error: function (jqXHR, textStatus, errorThrown) {
-            if (jqXHR.status === 401 || jqXHR.status === 400) {
-                $("#loginError")
-                    .show().fadeTo(2000, 500).slideUp(500, function () {
-                    $("#loginError").slideUp(500);
-                });
-            } else {
-                throw new Error("an unexpected error occurred: " + errorThrown);
-            }
+        error: function (data, textStatus, jqXHR) {
+
+            console.log("ERROR LOG");
+
+            $("#reset-login-message").html(data.responseJSON.message)
+                .show().fadeTo(3000, 500).slideUp(500, function () {
+                $("#reset-login-message").slideUp(500);
+            });
         }
-    });
+    });*/
 }
+
+/*$('#loginform').submit(function (event) {
+    event.preventDefault();
+    var data = 'username=' + $('#username').val() + '&password=' + $('#password').val();
+    $.ajax({
+        data: data,
+        timeout: 1000,
+        type: 'POST',
+        url: '/login'
+
+    }).done(function(data, textStatus, jqXHR) {
+      //  var preLoginInfo = JSON.parse($.cookie('dashboard.pre.login.request'));
+      //  window.location = preLoginInfo.url;
+        window.location = "/main";
+        console.log("OK");
+
+    }).fail(function(data, jqXHR, textStatus) {
+        console.log("ERROR LOG");
+
+        $("#reset-login-message").html(data.responseJSON.message)
+            .show().fadeTo(3000, 500).slideUp(500, function () {
+            $("#reset-login-message").slideUp(500);
+        });
+    });
+});*/
 
 function register() {
 
@@ -78,30 +89,25 @@ function register() {
         contentType: "application/json; charset=utf-8",
         dataType: "json",
         success: function (data, textStatus, jqXHR) {
-            console.log("Created SUCCESS" );
-            $('#email').html(" " + registerData.email);
-            $("#register-form").hide();
-            $("#created-message").show();
+            console.log("Created SUCCESS");
+            $("#register-success-message").html(data.message)
+                .show().fadeTo(4000, 500).slideUp(500, function () {
+                $("#register-message").slideUp(500);
+            });
 
         },
-        error: function (jqXHR, textStatus, errorThrown) {
-            console.log("Error creating account")
+        error: function (data, textStatus, jqXHR) {
+            console.log("Error creating account");
+            $("#register-message").html(data.responseJSON.message)
+                .show().fadeTo(4000, 500).slideUp(500, function () {
+                $("#register-message").slideUp(500);
+            });
         }
     });
 }
 
-/*function goToRegister() {
-    $("#login").hide();
-    $("#register").show();
-}
-
-function goToLogin() {
-    $("#register").hide();
-    $("#login").show();
-}*/
-
 function clearChangePasswordForm() {
-    document.getElementById("plainPassword").value = '';
+    document.getElementById("password").value = '';
     document.getElementById("repeatPlainPassword").value = '';
 }
 
@@ -157,7 +163,7 @@ function changePassword() {
 
     event.preventDefault();
     var passwordData = {
-        plainPassword: document.getElementById("plainPassword").value,
+        plainPassword: document.getElementById("password").value,
         repeatPlainPassword: document.getElementById("repeatPlainPassword").value,
     };
     clearChangePasswordForm();
@@ -170,7 +176,7 @@ function changePassword() {
         data: JSON.stringify(passwordData),
         contentType: "application/json; charset=utf-8",
         dataType: "json",
-        success: function (data, textStatus, jqXHR) {
+/*        success: function (data, textStatus, jqXHR) {
 
             $("#success-message").html(data.message)
                 .show().fadeTo(5000, 500).slideUp(500, function () {
@@ -183,7 +189,7 @@ function changePassword() {
                 .show().fadeTo(3000, 500).slideUp(500, function () {
                 $("#change-message").slideUp(500);
             });
-        }
+        }*/
     });
 }
 
@@ -201,3 +207,9 @@ function getURLParameter(name) {
 }
 
 /*headers: getAuthTokenFromLocalStorage(),*/
+
+function showToken() {
+
+    console.log(localStorage.getItem(TOKEN_KEY));
+
+}

@@ -1,19 +1,18 @@
 package com.aniov.security;
 
-import com.aniov.jwtConfig.JwtAuthenticationEntryPoint;
-import com.aniov.jwtConfig.JwtAuthenticationTokenFilter;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.autoconfigure.security.SecurityProperties;
+import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.core.annotation.Order;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
-import org.springframework.security.config.http.SessionCreationPolicy;
-import org.springframework.security.core.userdetails.UserDetailsService;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import org.springframework.security.core.session.SessionRegistry;
+import org.springframework.security.core.session.SessionRegistryImpl;
 
 /**
  * Configure Http Security
@@ -22,52 +21,61 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 @Configuration
 @EnableWebSecurity
 @EnableGlobalMethodSecurity(prePostEnabled = true)
-public class WebSecurityConfig extends WebSecurityConfigurerAdapter{
+@Order(SecurityProperties.ACCESS_OVERRIDE_ORDER)
+public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Autowired
-    private JwtAuthenticationTokenFilter jwtAuthenticationTokenFilter;
+    private DatabaseAuthenticationProvider databaseAuthenticationProvider;
 
     @Autowired
-    private JwtAuthenticationEntryPoint jwtAuthenticationEntryPoint;
+    private MyAuthenticationSuccessHandler myAuthenticationSuccessHandler;
 
     @Autowired
-    private UserDetailsService userDetailsService;
+    private MyAuthenticationErrorHandler myAuthenticationErrorHandler;
 
-    // We encode input password from Login page with BCrypt and then compare it with the one in DB
     @Autowired
-    public void encryptPassword(AuthenticationManagerBuilder authenticationManagerBuilder) throws Exception {
-        authenticationManagerBuilder
-                .userDetailsService(this.userDetailsService)
-                .passwordEncoder(new BCryptPasswordEncoder());
+    public void configureGlobal(AuthenticationManagerBuilder auth) {
+        auth.authenticationProvider(databaseAuthenticationProvider).eraseCredentials(true);
+    }
+
+    /* Set up SessionRegistry used to access logged accounts*/
+    @Bean
+    public SessionRegistry sessionRegistry() {
+        return new SessionRegistryImpl();
     }
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
-
+        // @formatter:off
         http
                 .csrf().disable() //No need for CSRF
-                    .exceptionHandling().authenticationEntryPoint(jwtAuthenticationEntryPoint)//We handle possible errors thrown by DB query
-                .and()
-               /* .formLogin()
-                .loginPage("/")
-                .and()*/
-                    .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS) //No need for Session
+                    .formLogin()
+                        .loginPage("/login").permitAll()
+                .failureHandler(myAuthenticationErrorHandler)
+                    .successHandler(myAuthenticationSuccessHandler)
+                //.defaultSuccessUrl("/")
                 .and()
                     .authorizeRequests()
-                    .antMatchers("/", "/login", "/register", "/activate", "/resetpassword", "/changepassword")
-                    .permitAll()
-                    .anyRequest().authenticated()
-                .and()/**We use our custom filter to check the token first */
-                    .addFilterBefore(jwtAuthenticationTokenFilter, UsernamePasswordAuthenticationFilter.class);
-
-        http
-                .headers().cacheControl();
+                        .antMatchers("/", "/login", "/register", "/activate", "/changepassword", "resetpassword")
+                            .permitAll()
+                .and()
+                    .authorizeRequests()
+                        .antMatchers("/main", "/logout")
+                    .authenticated()
+                /* Configure so we have 1 session used in SessionRegistry*/
+                .and()
+                    .sessionManagement()
+                        .maximumSessions(1)
+                        .maxSessionsPreventsLogin(true)
+                        .sessionRegistry(sessionRegistry());
+                // @formatter:on
     }
 
     @Override
     public void configure(WebSecurity web) throws Exception {
 
         web.ignoring()
-                .antMatchers("/js/**", "/css/**", "/img/**", "/font/**");
+                .antMatchers("/js*", "/css*", "/img*", "/font*");
     }
+
 }

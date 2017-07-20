@@ -14,7 +14,7 @@ import java.io.Serializable;
  * User Registration form dto
  */
 @Data
-@MatchFields(first = "plainPassword", second = "repeatPlainPassword", message = "passwords don't match")
+@MatchFields(first = "password", second = "repeatPlainPassword", message = "passwords don't match")
 public class UserRegisterDTO implements Serializable{
 
     @NotBlank

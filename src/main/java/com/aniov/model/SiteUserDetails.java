@@ -1,8 +1,8 @@
 package com.aniov.model;
 
+import lombok.AllArgsConstructor;
 import lombok.Data;
-import lombok.NonNull;
-import lombok.RequiredArgsConstructor;
+import lombok.NoArgsConstructor;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
@@ -12,10 +12,10 @@ import java.util.Collection;
  * Created by aniov on 7/13/2017.
  */
 @Data
-@RequiredArgsConstructor
+@AllArgsConstructor
+@NoArgsConstructor
 public class SiteUserDetails implements UserDetails {
 
-    @NonNull
     private User user;
 
     @Override

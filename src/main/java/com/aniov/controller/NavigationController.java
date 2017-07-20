@@ -6,6 +6,7 @@ import com.aniov.model.VerificationToken;
 import com.aniov.service.UserService;
 import com.aniov.service.VerificationTokenService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.session.SessionRegistry;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -13,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.Date;
+import java.util.stream.Collectors;
 
 /**
  * Navigation between pages
@@ -27,9 +29,12 @@ public class NavigationController {
     @Autowired
     private UserService userService;
 
+    @Autowired
+    private SessionRegistry sessionRegistry;
+
     @GetMapping(path = "/")
-    public String login() {
-        return "loginpage.html";
+    public String home() {
+        return "redirect:/main";
     }
 
     @GetMapping(path = "/register")
@@ -49,6 +54,7 @@ public class NavigationController {
 
     @GetMapping(path = "/main")
     public String mainPage() {
+        System.out.println("Redirect to main paige");
         return "usermainpage.html";
     }
 

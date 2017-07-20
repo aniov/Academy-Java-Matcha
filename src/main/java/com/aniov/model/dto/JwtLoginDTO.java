@@ -21,5 +21,5 @@ public class JwtLoginDTO{
 
     @NotBlank
     @Size(min = 6, max = 50)
-    private String plainPassword;
+    private String password;
 }

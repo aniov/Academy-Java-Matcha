@@ -1,6 +1,5 @@
 package com.aniov.controller;
 
-import com.aniov.jwtConfig.JwtTokenUtil;
 import com.aniov.model.TokenType;
 import com.aniov.model.User;
 import com.aniov.model.VerificationToken;
@@ -34,9 +33,6 @@ import java.util.Date;
 @RestController
 public class UserController {
 
-    @Value("${config.security.header}")
-    private String tokenHeader;
-
     @Autowired
     private UserService userService;
 
@@ -46,14 +42,13 @@ public class UserController {
     @Autowired
     private VerificationTokenService verificationTokenService;
 
-    @Autowired
-    private JwtTokenUtil jwtTokenUtil;
-
     @PostMapping(path = "/register", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<?> registerNewUser(@RequestBody @Valid UserRegisterDTO userRegisterDTO, BindingResult result) throws MessagingException {
 
         if (result.hasErrors()) {
-            return new ResponseEntity<>(new GenericResponseDTO("ERRR", "ERRR"), HttpStatus.INTERNAL_SERVER_ERROR);
+            System.out.println(result.getAllErrors());
+
+            return new ResponseEntity<>(new GenericResponseDTO("Invalid input", "error"), HttpStatus.INTERNAL_SERVER_ERROR);
         }
 
         User savedUser = userService.registerNewUser(userRegisterDTO);

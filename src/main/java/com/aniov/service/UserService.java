@@ -13,8 +13,6 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import javax.mail.MessagingException;
-
 /**
  * User service
  */
@@ -24,25 +22,24 @@ public class UserService implements UserDetailsService {
     @Autowired
     private UserRepository userRepository;
 
-    @Autowired
-    private VerificationTokenService verificationTokenService;
-
-    @Autowired
-    private EmailService emailService;
-
     @Override
-    public UserDetails loadUserByUsername(String userName) throws UsernameNotFoundException {
+    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
 
-        User user = userRepository.findByUsername(userName);
-        return new SiteUserDetails(user);
+        User user = userRepository.findByUsername(username);
+        if (user == null) {
+            return null;
+        }
+        //return new SiteUserDetails(user);
+        return new org.springframework.security.core.userdetails.User(username, user.getHashedPassword(), user.getAccount().isEnabled(), user.getAccount().isAccountNonExpired(),
+                user.getAccount().isCredentialsNonExpired(), user.getAccount().isAccountNonLocked(), user.getAccount().getAuthorities());
     }
 
     public User findUserByEmail(String email) {
         return userRepository.findByEmail(email);
     }
 
-    public User findUserByUserName(String userName) {
-        return userRepository.findByUsername(userName);
+    public User findUserByUserName(String username) {
+        return userRepository.findByUsername(username);
     }
 
     public User saveUser(User user) {
