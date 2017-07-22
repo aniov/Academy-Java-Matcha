@@ -16,3 +16,44 @@
 #activated-message {
     margin-top: 150px;
 }
+
+.view {
+    height: 100%;
+}
+/* Navigation*/
+
+.navbar {
+    background-color: #0099CC;
+}
+
+/*Background image*/
+.full-height,
+.full-height body,
+.full-height header,
+.full-height header .view {
+    height: 100%; }
+
+/*Intro*/
+.view-bk {
+    background: url("https://static.pexels.com/photos/121848/pexels-photo-121848.jpeg")no-repeat center center;
+    background-size: cover;
+}
+
+main {
+    margin-top: 3rem;
+}
+
+main .card {
+    margin-bottom: 2rem;
+}
+
+@media only screen and (max-width: 768px) {
+    .read-more {
+        text-align: center;
+    }
+}
+
+footer.page-footer {
+    background-color: #37474F;
+    margin-top: 2rem;
+}

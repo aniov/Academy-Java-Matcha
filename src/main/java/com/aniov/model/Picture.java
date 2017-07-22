@@ -24,6 +24,7 @@ public class Picture implements Serializable {
     @Lob
     private byte[] pictureData;
 
+    @Temporal(TemporalType.TIMESTAMP)
     private Date date;
 
     @ManyToOne(cascade = CascadeType.ALL)

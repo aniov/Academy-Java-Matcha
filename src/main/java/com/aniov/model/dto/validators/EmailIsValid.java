@@ -22,7 +22,7 @@ import static java.lang.annotation.RetentionPolicy.RUNTIME;
 @Documented
 public @interface EmailIsValid {
 
-    String message() default "Please enter a valid email address";
+    String message() default "please enter a valid email address";
     Class<?>[] groups() default {};
     Class<? extends Payload>[] payload() default{};
 

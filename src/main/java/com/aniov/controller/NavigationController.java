@@ -48,8 +48,13 @@ public class NavigationController {
     }
 
     @GetMapping(path = "/main")
-    public String mainPage() {
+    public String main() {
         return "usermainpage.html";
+    }
+
+    @GetMapping(path = "/profile")
+    public String profile() {
+        return "profilepage.html";
     }
 
     @GetMapping(path = "/activate")

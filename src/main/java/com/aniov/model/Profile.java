@@ -10,6 +10,7 @@ import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import java.io.Serializable;
+import java.util.Date;
 import java.util.List;
 import java.util.Set;
 
@@ -25,8 +26,10 @@ public class Profile implements Serializable{
     @GenericGenerator(name = "myGenerator", strategy = "foreign", parameters = @Parameter(name = "property", value = "user"))
     private Long id;
 
-    @Size()
     private String aboutMe;
+    private String whatImDoing;
+    private String goodAt;
+    private String favorites;
 
     @Size(min = 3, max = 50)
     private String firstName;
@@ -34,8 +37,20 @@ public class Profile implements Serializable{
     @Size(min = 3, max = 50)
     private String lastName;
 
+    @Size(min = 3, max = 50)
+    private String country;
+
+    @Size(min = 3, max = 50)
+    private String town;
+
+    @Temporal(TemporalType.TIMESTAMP)
+    private Date bornDate;
+
     @Enumerated(EnumType.STRING)
     private Gender gender;
+
+    @Enumerated(EnumType.STRING)
+    private Gender lookingFor;
 
     @Enumerated(EnumType.STRING)
     private SexualOrientation sexualOrientation;

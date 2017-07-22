@@ -2,6 +2,11 @@
  * Created by aniov on 7/13/2017.
  */
 
+// Tooltips Initialization
+$(function () {
+    $('[data-toggle="tooltip"]').tooltip()
+})
+
 function login() {
 
     event.preventDefault();
