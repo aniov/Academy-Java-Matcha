@@ -23,7 +23,9 @@
 /* Navigation*/
 
 .navbar {
-    background-color: #0099CC;
+    background-color: #3F729B;
+    color: white;
+    icon: inherit;
 }
 
 /*Background image*/

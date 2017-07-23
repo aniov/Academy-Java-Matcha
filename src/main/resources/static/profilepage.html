@@ -14,16 +14,7 @@
     <link href="css/mdb.min.css" rel="stylesheet">
     <!-- Your custom styles (optional) -->
     <link href="css/style.css" rel="stylesheet">
-    <!-- JQuery -->
-    <script type="text/javascript" src="js/jquery-2.2.3.min.js"></script>
-    <script>
-        $.get("../static/navbar.html", function(data){
-            $("#nav-placeholder").replaceWith(data);
-        });
-        $.get("../static/footer.html", function(data){
-            $("#footer-placeholder").replaceWith(data);
-        });
-    </script>
+
 </head>
 <body>
 <header>
@@ -219,6 +210,8 @@
 
 <!-- SCRIPTS -->
 
+<!-- JQuery -->
+<script type="text/javascript" src="js/jquery-2.2.3.min.js"></script>
 <!-- Bootstrap tooltips -->
 <script type="text/javascript" src="js/tether.min.js"></script>
 <!-- Bootstrap core JavaScript -->
@@ -226,7 +219,9 @@
 <!-- MDB core JavaScript -->
 <script type="text/javascript" src="js/mdb.min.js"></script>
 <!-- Main JavaScript -->
-<script type="text/javascript" src="js/main.js"></script>
+<script type="text/javascript" src="js/profile.js"></script>
+
+
 <script>
     new WOW().init();
 </script>
