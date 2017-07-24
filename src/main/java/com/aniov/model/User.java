@@ -1,5 +1,6 @@
 package com.aniov.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -22,6 +23,7 @@ public class User implements Serializable{
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
+    @JsonIgnore
     private Long id;
 
     @NotNull
@@ -30,12 +32,14 @@ public class User implements Serializable{
     private String username;
 
     @NotBlank
+    @JsonIgnore
     private String hashedPassword;
 
     @Email
     @NotNull
     @Size(min = 3, max = 50)
     @Column(unique = true)
+    @JsonIgnore
     private String email;
 
     @NotNull
