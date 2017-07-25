@@ -27,6 +27,72 @@
     <!--Main layout-->
     <div class="container">
 
+
+       <!-- <div class="bd-example">
+            <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal" data-whatever="@mdo">Open modal for @mdo</button>
+            <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal" data-whatever="@fat">Open modal for @fat</button>
+            <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal" data-whatever="@getbootstrap">Open modal for @getbootstrap</button>
+            <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                            <h4 class="modal-title" id="exampleModalLabel">New message</h4>
+                        </div>
+                        <div class="modal-body">
+                            <form>
+                                <div class="md-form">
+                                    <input type="text" class="form-control" id="recipient-name">
+                                </div>
+                                <div class="md-form">
+                                    <textarea type="text" id="message-text" class="md-textarea"></textarea>
+                                </div>
+                            </form>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                            <button type="button" class="btn btn-primary">Send message</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>-->
+
+
+
+        <!-- Modal -->
+        <div class="modal fade" id="basicExample" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <!--Content-->
+                <div class="modal-content">
+                    <!--Header-->
+                    <div class="modal-header">
+                        <h4 class="modal-title" id="myModalLabel">Modal title</h4>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <!--Body-->
+                    <div class="modal-body">
+                        <form>
+                            <div class="md-form">
+                                <textarea type="text" id="message-text" class="md-textarea"></textarea>
+                            </div>
+                        </form>
+                    </div>
+                    <!--Footer-->
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                        <button type="button" class="btn btn-primary">Save changes</button>
+                    </div>
+                </div>
+                <!--/.Content-->
+            </div>
+        </div>
+        <!-- Modal -->
+
         <!--Page heading-->
         <div class="row wow fadeIn" data-wow-delay="0.2s" style="margin-top: 100px;">
             <div class="col-md-12">
@@ -88,7 +154,7 @@
                     incidunt tempora ducimus! At cum iusto necessitatibus sed omnis nemo natus. iure magni quasi dolores
                     similique aspernatur.</p>-->
                 <div class="read-more">
-                    <a href="#!" class="btn btn-primary waves-effect waves-light">Edit Photos</a>
+                    <a href="#!" class="btn btn-info waves-effect waves-light">Edit Photos</a>
                 </div>
             </div>
             <!--/.Post excerpt-->
@@ -105,7 +171,7 @@
 
                     <!--Card image-->
                     <div class="view overlay hm-white-slight">
-                        <img src="../static/photos/4.png" class="img-fluid" alt="">
+                        <img src="photos/4.png" class="img-fluid" alt="">
                         <a href="#!">
                             <div class="mask"></div>
                         </a>
@@ -120,7 +186,7 @@
                         <p class="card-text">Some quick example text to build on the card title and make up the bulk of
                             the card's content.</p>
                         <div class="read-more">
-                            <a href="#!" class="btn btn-info">Edit</a>
+                            <a href="#!" class="btn btn-info" data-toggle="modal" data-target="#basicExample">Edit</a>
                         </div>
                     </div>
                     <!--/.Card content-->
@@ -137,7 +203,7 @@
 
                     <!--Card image-->
                     <div class="view overlay hm-white-slight">
-                        <img src="../static/photos/3.png" class="img-fluid" alt="">
+                        <img src="photos/3.png" class="img-fluid" alt="">
                         <a href="#!">
                             <div class="mask"></div>
                         </a>
@@ -173,7 +239,7 @@
 
                     <!--Card image-->
                     <div class="view overlay hm-white-slight">
-                        <img src="../static/photos/5.png" class="img-fluid" alt="">
+                        <img src="photos/5.png" class="img-fluid" alt="">
                         <a href="#!">
                             <div class="mask"></div>
                         </a>
@@ -205,7 +271,7 @@
 
                     <!--Card image-->
                     <div class="view overlay hm-white-slight">
-                        <img src="../static/photos/2.png" class="img-fluid" alt="">
+                        <img src="photos/2.png" class="img-fluid" alt="">
                         <a href="#!">
                             <div class="mask"></div>
                         </a>
