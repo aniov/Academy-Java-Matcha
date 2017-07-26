@@ -44,9 +44,11 @@ public class User implements Serializable{
 
     @NotNull
     @OneToOne(mappedBy = "user", cascade = CascadeType.ALL)
+    @JsonIgnore
     private Profile profile;
 
     @NotNull
     @OneToOne(mappedBy = "user", cascade = CascadeType.ALL)
+    @JsonIgnore
     private Account account;
 }

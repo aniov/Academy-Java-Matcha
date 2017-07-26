@@ -58,11 +58,11 @@ public class NavigationController {
     }
 
     @GetMapping(path = "/activate")
-    public String activateAccount(@RequestParam(name = "token") String tokenString, HttpServletResponse response) throws IOException {
+    public String activateAccount(@RequestParam(name = "token") String tokenString) throws IOException {
 
         VerificationToken token = verificationTokenService.getVerificationToken(tokenString);
 
-        if (token == null) {
+        if (token == null) {//TODO
             // return new ResponseEntity<>(new GenericResponseDTO("Token expired", "this is the error"), HttpStatus.NOT_FOUND);
         }
         Date expiryDate = token.getExpiryDate();
