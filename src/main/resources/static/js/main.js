@@ -18,7 +18,10 @@ function login() {
         data: "username=" + username + "&password=" + password,
         timeout: 1000,
         type: 'POST',
-        url: '/login'
+        url: '/login',
+        beforeSend: function (xhr) {
+            xhr.setRequestHeader('X-CSRF-Token', $('meta[name="_csrf"]').attr('content'))
+        },
 
     }).done(function (data, textStatus, jqXHR) {
         window.location.replace("/main");

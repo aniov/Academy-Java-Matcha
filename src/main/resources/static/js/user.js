@@ -15,7 +15,6 @@ window.onload = function(){
             $("#userName").html(data.username);
         },
         error: function (data, textStatus, jqXHR) {
-
             console.log("Cannot read username");
         }
     });

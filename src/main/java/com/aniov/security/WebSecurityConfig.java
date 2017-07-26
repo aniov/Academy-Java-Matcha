@@ -48,7 +48,6 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity http) throws Exception {
         // @formatter:off
         http
-                .csrf().disable() //No need for CSRF
                     .formLogin()
                         .loginPage("/login").permitAll()
                             .failureHandler(myAuthenticationErrorHandler)
