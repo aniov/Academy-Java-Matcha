@@ -3,7 +3,6 @@ package com.aniov.controller;
 import com.aniov.model.Profile;
 import com.aniov.model.User;
 import com.aniov.model.dto.GenericResponseDTO;
-import com.aniov.service.ProfileService;
 import com.aniov.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -14,24 +13,24 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+/**
+ * User controller
+ */
+
 @RestController
 public class UserController {
 
     @Autowired
     private UserService userService;
 
-    @Autowired
-    private ProfileService profileService;
-
-
-    @GetMapping(path = "/user/me")
+    @GetMapping(path = "/user")
     public ResponseEntity<?> getCurrentUser() {
 
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         String username = auth.getName();
-        User currentUser =  userService.findUserByUserName(username);
+        User authUser = userService.findUserByUserName(username);
 
-        return new ResponseEntity<>(currentUser, HttpStatus.OK);
+        return new ResponseEntity<>(authUser, HttpStatus.OK);
     }
 
     @GetMapping(path = "/user/profile")
@@ -41,16 +40,16 @@ public class UserController {
 
         if (username == null) {
             Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-            String retrieveUser = auth.getName();
-            profile = userService.findUserByUserName(retrieveUser).getProfile();
-            System.out.println("user name: " + retrieveUser + " " + profile);
+            String authUsername = auth.getName();
+            profile = userService.findUserByUserName(authUsername).getProfile();
         } else {
             if (userService.findUserByUserName(username) == null) {
                 return new ResponseEntity<>(new GenericResponseDTO("User not found"), HttpStatus.NOT_FOUND);
             }
             profile = userService.findUserByUserName(username).getProfile();
         }
-
-        return new ResponseEntity<>(profile, HttpStatus.OK);
+        return new ResponseEntity<Object>(profile, HttpStatus.OK);
     }
+
+
 }
