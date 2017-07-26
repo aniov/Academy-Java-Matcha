@@ -10,7 +10,7 @@ window.onload = function(){
     });
 
     $.ajax({
-        url: "/user/me",
+        url: "/user",
         type: "GET",
         contentType: "application/json; charset=utf-8",
         success: function (data, textStatus, jqXHR) {
@@ -19,7 +19,7 @@ window.onload = function(){
         },
         error: function (data, textStatus, jqXHR) {
 
-            console.log("Cannot read username");
+            console.log("Cannot read username !!!!!!!");
         }
     });
 
@@ -33,7 +33,7 @@ function edit() {
 function loadProfileData() {
 
     $.ajax({
-        url: "/user/me",
+        url: "/user",
         type: "GET",
         contentType: "application/json; charset=utf-8",
         success: function (data, textStatus, jqXHR) {

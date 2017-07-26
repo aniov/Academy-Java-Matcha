@@ -7,7 +7,7 @@ window.onload = function(){
     });
 
     $.ajax({
-        url: "/user/me",
+        url: "/user",
         type: "GET",
         contentType: "application/json; charset=utf-8",
         success: function (data, textStatus, jqXHR) {

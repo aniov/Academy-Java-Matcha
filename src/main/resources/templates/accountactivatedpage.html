@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no"/>
+    <meta http-equiv="x-ua-compatible" content="ie=edge"/>
+    <title>Matcha</title>
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.0/css/font-awesome.min.css"/>
+    <!-- Bootstrap core CSS -->
+    <link href="../static/css/bootstrap.min.css" th:href="@{/css/bootstrap.min.css}" rel="stylesheet"/>
+    <!-- Material Design Bootstrap -->
+    <link href="../static/css/mdb.min.css" th:href="@{/css/mdb.min.css}" rel="stylesheet"/>
+    <!-- Your custom styles (optional) -->
+    <link href="../static/css/style.css" th:href="@{/css/style.css}" rel="stylesheet"/>
+</head>
+<body>
+
+<!--Panel-->
+<div id="activated-message">
+    <div class="row">
+        <div class="mx-auto col-sm-6 col-md-4 col-lg-3">
+            <div class="col-xs-4 col-xs-offset-4">
+                <!--Panel-->
+                <div class="card text-center">
+                    <div th:text="${response.header}" class="card-header primary-color"></div>
+                    <div class="card-block">
+                        <h4 class="card-title"><a th:text="${response.title}"></a></h4>
+                        <div th:if="${response.noError} == true">
+                            <p>Go and login</p>
+                            <a href="/" class="btn primary-color">Login</a>
+                        </div>
+                    </div>
+                    <div class="card-footer text-muted secondary-color-dark white-text">
+                        <p>Matcha dating site</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!--/.Panel-->
+</body>
+</html>

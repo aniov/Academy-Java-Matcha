@@ -30,7 +30,7 @@ public class LoginController {
                 .map(Object::toString)
                 .collect(Collectors.toList()));
 
-        return "loginpage.html";
+        return "loginpage";
     }
 
     /* At logout we remove user from session*/

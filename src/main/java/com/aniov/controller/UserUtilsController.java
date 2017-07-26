@@ -97,8 +97,6 @@ public class UserUtilsController {
     public ResponseEntity<?> changePassword(@RequestParam(name = "token") String tokenString,
                                             @RequestBody @Valid ChangePasswordDTO changePasswordDTO, BindingResult result) {
 
-        System.out.println(changePasswordDTO.getPlainPassword() + " " + changePasswordDTO.getRepeatPlainPassword());
-
         VerificationToken token = verificationTokenService.getVerificationToken(tokenString);
 
         if (token == null) {
@@ -118,8 +116,6 @@ public class UserUtilsController {
         }
 
         List<String> errors = getErrorMessage(result);
-
-        System.out.println("ERRR: " + errors);
 
         if (! errors.isEmpty()) {
             return new ResponseEntity<>(new GenericResponseDTO(errors), HttpStatus.FORBIDDEN);
