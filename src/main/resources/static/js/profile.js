@@ -14,7 +14,6 @@ window.onload = function(){
         type: "GET",
         contentType: "application/json; charset=utf-8",
         success: function (data, textStatus, jqXHR) {
-            console.log("User ata: " + data.username)
             $("#userName").html(data.username);
         },
         error: function (data, textStatus, jqXHR) {
@@ -33,11 +32,11 @@ function edit() {
 function loadProfileData() {
 
     $.ajax({
-        url: "/user/profile",
+        url: "/user/profile?name=Mari",
         type: "GET",
         contentType: "application/json; charset=utf-8",
         success: function (data, textStatus, jqXHR) {
-            console.log("User data: " + data.whatImDoing);
+            console.log("User data: " + data.firstName + " " + data.lastName);
             $("#self-summary").html(data.aboutMe);
             $("#what-im-doing").html(data.whatImDoing);
             $("#good-at").html(data.goodAt);

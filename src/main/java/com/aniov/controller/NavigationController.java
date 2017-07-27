@@ -63,13 +63,12 @@ public class NavigationController {
 
         VerificationToken token = verificationTokenService.getVerificationToken(tokenString);
         ActivationStatusDTO response = new ActivationStatusDTO();
-
+        model.addAttribute("response", response);
 
         if (token == null) {
             response.setHeader("Error");
             response.setTitle("TOKEN WAS NOT FOUND");
             response.setNoError(false);
-            model.addAttribute("response", response);
             return "accountactivatedpage";
         }
         Date expiryDate = token.getExpiryDate();

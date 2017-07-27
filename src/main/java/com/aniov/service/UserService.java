@@ -7,6 +7,7 @@ import com.aniov.model.User;
 import com.aniov.model.dto.UserRegisterDTO;
 import com.aniov.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -21,6 +22,9 @@ public class UserService implements UserDetailsService {
 
     @Autowired
     private UserRepository userRepository;
+
+    @Value("${account.activated}")
+    private boolean isEnabled;
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
@@ -62,6 +66,9 @@ public class UserService implements UserDetailsService {
 
         //Account
         Account newAccount = new Account();
+        if (isEnabled) {
+            newAccount.setEnabled(true);
+        }
         //Profile
         Profile newProfile = new Profile();
 

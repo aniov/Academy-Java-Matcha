@@ -35,6 +35,9 @@ public class EmailService {
     @Value("${site.url}")
     private String url;
 
+    @Value("${email.send}")
+    private boolean send;
+
     @Async
     private void sendEmail(String to, String subject, String body) throws MessagingException {
 
@@ -65,7 +68,9 @@ public class EmailService {
         StringWriter sw = new StringWriter();
         template.merge(context, sw);//We merge the context(body of our message) to a StringWriter - sw
 
-        sendEmail(user.getEmail(), subject, sw.toString());
+        if (send) {
+            sendEmail(user.getEmail(), subject, sw.toString());
+        }
     }
 
     public void resetPasswordToken(User user) throws MessagingException {
@@ -82,7 +87,9 @@ public class EmailService {
         StringWriter sw = new StringWriter();
         template.merge(context, sw);//We merge the context(body of our message) to a StringWriter - sw
 
-        sendEmail(user.getEmail(), subject, sw.toString());
+        if (send) {
+            sendEmail(user.getEmail(), subject, sw.toString());
+        }
     }
 
     private void setProperties() {

@@ -3,6 +3,8 @@
 
 <head>
     <meta charset="utf-8"/>
+    <meta name="_csrf" th:content="${_csrf.token}"/>
+    <meta name="_csrf_header" th:content="${_csrf.headerName}"/>
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no"/>
     <meta http-equiv="x-ua-compatible" content="ie=edge"/>
     <title>Matcha</title>
@@ -65,8 +67,8 @@
                                 <!--Footer-->
                                 <div class="modal-footer">
                                     <div class="options">
-                                        <p>You are a member ? <a href="/">Login</a></p>
-                                        <p>Forgot <a href="/resetpassword">Password ?</a></p>
+                                        <p>You are a member ? <a th:href="@{/}">Login</a></p>
+                                        <p>Forgot <a th:href="@{/resetpassword}">Password ?</a></p>
                                     </div>
                                 </div>
                             </div>

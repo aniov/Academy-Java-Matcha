@@ -19,7 +19,7 @@ import java.util.Set;
  */
 @Entity
 @Data
-public class Profile implements Serializable{
+public class Profile implements Serializable {
 
     @Id
     @GeneratedValue(generator = "myGenerator")
@@ -55,6 +55,9 @@ public class Profile implements Serializable{
     @Enumerated(EnumType.STRING)
     private SexualOrientation sexualOrientation;
 
+    @Enumerated(EnumType.STRING)
+    private Status status;
+
     @OneToMany(mappedBy = "profile", cascade = CascadeType.ALL)
     private List<Picture> pictures;
 
@@ -78,4 +81,9 @@ public class Profile implements Serializable{
     private enum Gender {
         MALE, FEMALE
     }
+
+    private enum Status {
+        SINGLE, IN_A_RELATION, MARRIED
+    }
+
 }

@@ -52,6 +52,9 @@ function register() {
         data: JSON.stringify(registerData),
         contentType: "application/json; charset=utf-8",
         dataType: "json",
+        beforeSend: function (xhr) {
+            xhr.setRequestHeader('X-CSRF-Token', $('meta[name="_csrf"]').attr('content'));
+        },
         success: function (data, textStatus, jqXHR) {
             console.log("Created SUCCESS");
             $("#register-success-message").html(data.messages)
@@ -86,6 +89,9 @@ function resetPassword() {
         data: JSON.stringify(emailData),
         contentType: "application/json; charset=utf-8",
         dataType: "json",
+        beforeSend: function (xhr) {
+            xhr.setRequestHeader('X-CSRF-Token', $('meta[name="_csrf"]').attr('content'));
+        },
         success: function (data, textStatus, jqXHR) {
 
             $("#success-message").html(data.messages)
@@ -120,6 +126,9 @@ function changePassword() {
         data: JSON.stringify(passwordData),
         contentType: "application/json; charset=utf-8",
         dataType: "json",
+        beforeSend: function (xhr) {
+            xhr.setRequestHeader('X-CSRF-Token', $('meta[name="_csrf"]').attr('content'));
+        },
         success: function (data, textStatus, jqXHR) {
 
             $("#success-message").html(data.messages)
