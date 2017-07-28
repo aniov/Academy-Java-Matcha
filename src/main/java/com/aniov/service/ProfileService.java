@@ -2,6 +2,7 @@ package com.aniov.service;
 
 import com.aniov.model.Profile;
 import com.aniov.model.User;
+import com.aniov.model.dto.ProfileDTO;
 import com.aniov.repository.ProfileRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -18,11 +19,16 @@ public class ProfileService {
     @Autowired
     private UserService userService;
 
-   /* public Profile findByUserName(String username) {
-        System.out.println("Here");
+    public Profile findByUserName(String username) {
+
         User user = userService.findUserByUserName(username);
-        System.out.println("after " + user);
-        System.out.println("Profile: " + profileRepository.findByUser(user));
-        return profileRepository.findByUser(user);
-    }*/
+        return profileRepository.findByUserId(user.getId());
+    }
+
+   public Profile saveProfile(ProfileDTO profileDTO, String username){
+
+       Profile profile = findByUserName(username);
+       profile.edit(profileDTO);
+       return profileRepository.save(profile);
+   }
 }

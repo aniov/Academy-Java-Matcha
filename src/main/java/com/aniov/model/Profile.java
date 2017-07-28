@@ -1,5 +1,6 @@
 package com.aniov.model;
 
+import com.aniov.model.dto.ProfileDTO;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.Data;
@@ -24,6 +25,7 @@ public class Profile implements Serializable {
     @Id
     @GeneratedValue(generator = "myGenerator")
     @GenericGenerator(name = "myGenerator", strategy = "foreign", parameters = @Parameter(name = "property", value = "user"))
+    @JsonIgnore
     private Long id;
 
     private String aboutMe;
@@ -74,15 +76,31 @@ public class Profile implements Serializable {
     @JsonIgnore
     private User user;
 
-    private enum SexualOrientation {
+    public void edit(ProfileDTO profileDTO) {
+        this.aboutMe = profileDTO.getAboutMe();
+        this.whatImDoing = profileDTO.getWhatImDoing();
+        this.goodAt = profileDTO.getGoodAt();
+        this.favorites = profileDTO.getFavorites();
+        this.firstName = profileDTO.getFirstName();
+        this.lastName = profileDTO.getLastName();
+        this.country = profileDTO.getCountry();
+        this.town = profileDTO.getTown();
+        this.bornDate = profileDTO.getBornDate();
+        this.gender = profileDTO.getGender();
+        this.lookingFor = profileDTO.getLookingFor();
+        this.sexualOrientation = profileDTO.getSexualOrientation();
+        this.status = profileDTO.getStatus();
+    }
+
+    public enum SexualOrientation {
         HETEROSEXUAL, BI_SEXUAL, GAY
     }
 
-    private enum Gender {
+    public enum Gender {
         MALE, FEMALE
     }
 
-    private enum Status {
+    public enum Status {
         SINGLE, IN_A_RELATION, MARRIED
     }
 

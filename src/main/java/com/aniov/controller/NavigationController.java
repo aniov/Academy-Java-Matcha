@@ -58,6 +58,11 @@ public class NavigationController {
         return "profilepage";
     }
 
+    @GetMapping(path = "/photo")
+    public String photos() {
+        return "photopage";
+    }
+
     @GetMapping(path = "/activate")
     public String activateAccount(@RequestParam(name = "token") String tokenString, Model model) throws IOException {
 

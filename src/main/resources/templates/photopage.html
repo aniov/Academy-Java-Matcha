@@ -1,22 +1,24 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <meta http-equiv="x-ua-compatible" content="ie=edge">
+    <meta charset="utf-8"/>
+    <meta name="_csrf" th:content="${_csrf.token}"/>
+    <meta name="_csrf_header" th:content="${_csrf.headerName}"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no"/>
+    <meta http-equiv="x-ua-compatible" content="ie=edge"/>
 
     <title>Matcha</title>
     <!-- Font Awesome -->
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.0/css/font-awesome.min.css"/>
     <!-- Bootstrap core CSS -->
-    <link href="css/bootstrap.min.css" rel="stylesheet">
+    <link href="../static/css/bootstrap.min.css" th:href="@{/css/bootstrap.min.css}" rel="stylesheet"/>
     <!-- Material Design Bootstrap -->
-    <link href="css/mdb.min.css" rel="stylesheet">
+    <link href="../static/css/mdb.min.css" th:href="@{/css/mdb.min.css}" rel="stylesheet"/>
     <!-- Your custom styles (optional) -->
-    <link href="css/style.css" rel="stylesheet">
-    <link rel="stylesheet" id="compiled.css-css"
-          href="https://mdbootstrap.com/wp-content/themes/mdbootstrap4/css/compiled.min.css?ver=4.3.2" type="text/css"
-          media="all">
+    <link href="../static/css/style.css" th:href="@{/css/style.css}" rel="stylesheet"/>
+    <link rel="stylesheet" id="compiled.css-css" href="../static/css/mdb.themes.min.css"
+          th:href="@{/css/mdb.themes.min.css}" type="text/css"
+          media="all"/>
 
 </head>
 <header>
@@ -72,7 +74,7 @@
                                                      style="display: block; transform: translate3d(-2131px, 0px, 0px);">
                                                     <div class="pswp__zoom-wrap"
                                                          style="transform: translate3d(280px, 44px, 0px) scale(1);">
-                                                            </div>
+                                                    </div>
                                                 </div>
                                                 <div class="pswp__item"
                                                      style="transform: translate3d(0px, 0px, 0px);">
@@ -100,8 +102,7 @@
                                                             title="Toggle fullscreen"></button>
                                                     <button class="pswp__button pswp__button--zoom"
                                                             title="Zoom in/out"></button>
-                                                    <!-- Preloader demo http://codepen.io/dimsemenov/pen/yyBWoR -->
-                                                    <!-- element will get class pswp__preloader--active when preloader is running -->
+
                                                     <div class="pswp__preloader">
                                                         <div class="pswp__preloader__icn">
                                                             <div class="pswp__preloader__cut">
@@ -126,8 +127,8 @@
                             </div>
                         </div>
                         <!-- /.Live preview-->
-                        <br>
-                        <br>
+                        <br/>
+                        <br/>
                     </section>
                     <!-- SECTION-->
 
@@ -146,7 +147,8 @@
                                            data-size="1600x1067">
                                             <!-- thumbnail-->
                                             <img src="http://www.wonderslist.com/wp-content/uploads/2016/02/Pia-Wurtzbach-Most-Beautiful-Woman-2016.jpg"
-                                                 class="img-fluid z-depth-2" alt="LightBox with margins gallery image 1">
+                                                 class="img-fluid z-depth-2"
+                                                 alt="LightBox with margins gallery image 1"/>
                                         </a>
                                     </figure>
 
@@ -154,7 +156,7 @@
                                         <a href="https://mdbootstrap.com/img/Photos/Horizontal/Nature/12-col/img%20(42).jpg"
                                            data-size="1600x1067">
                                             <img src="https://mdbootstrap.com/img/Photos/Horizontal/Nature/4-col/img%20(42).jpg"
-                                                 class="img-fluid z-depth-2" alt="Gallery image 2">
+                                                 class="img-fluid z-depth-2" alt="Gallery image 2"/>
                                         </a>
                                     </figure>
 
@@ -162,7 +164,7 @@
                                         <a href="https://mdbootstrap.com/img/Photos/Horizontal/Nature/12-col/img%20(43).jpg"
                                            data-size="1600x1067">
                                             <img src="https://mdbootstrap.com/img/Photos/Horizontal/Nature/4-col/img%20(43).jpg"
-                                                 class="img-fluid z-depth-2" alt="Gallery image 3">
+                                                 class="img-fluid z-depth-2" alt="Gallery image 3"/>
                                         </a>
                                     </figure>
 
@@ -170,7 +172,7 @@
                                         <a href="https://mdbootstrap.com/img/Photos/Horizontal/Nature/12-col/img%20(45).jpg"
                                            data-size="1600x1067">
                                             <img src="https://mdbootstrap.com/img/Photos/Horizontal/Nature/4-col/img%20(45).jpg"
-                                                 class="img-fluid z-depth-2" alt="Gallery image 4">
+                                                 class="img-fluid z-depth-2" alt="Gallery image 4"/>
                                         </a>
                                     </figure>
 
@@ -178,7 +180,7 @@
                                         <a href="https://mdbootstrap.com/img/Photos/Horizontal/Nature/12-col/img%20(46).jpg"
                                            data-size="1600x1067">
                                             <img src="https://mdbootstrap.com/img/Photos/Horizontal/Nature/4-col/img%20(46).jpg"
-                                                 class="img-fluid z-depth-2" alt="Gallery image 5">
+                                                 class="img-fluid z-depth-2" alt="Gallery image 5"/>
                                         </a>
                                     </figure>
 
@@ -186,7 +188,7 @@
                                         <a href="https://mdbootstrap.com/img/Photos/Horizontal/Nature/12-col/img%20(47).jpg"
                                            data-size="1600x1067">
                                             <img src="https://mdbootstrap.com/img/Photos/Horizontal/Nature/4-col/img%20(47).jpg"
-                                                 class="img-fluid z-depth-2" alt="Gallery image 6">
+                                                 class="img-fluid z-depth-2" alt="Gallery image 6"/>
                                         </a>
                                     </figure>
 
@@ -194,7 +196,7 @@
                                         <a href="https://mdbootstrap.com/img/Photos/Horizontal/Nature/12-col/img%20(48).jpg"
                                            data-size="1600x1067">
                                             <img src="https://mdbootstrap.com/img/Photos/Horizontal/Nature/4-col/img%20(48).jpg"
-                                                 class="img-fluid z-depth-2" alt="Gallery image 7">
+                                                 class="img-fluid z-depth-2" alt="Gallery image 7"/>
                                         </a>
                                     </figure>
 
@@ -202,7 +204,7 @@
                                         <a href="https://mdbootstrap.com/img/Photos/Horizontal/Nature/12-col/img%20(49).jpg"
                                            data-size="1600x1067">
                                             <img src="https://mdbootstrap.com/img/Photos/Horizontal/Nature/4-col/img%20(49).jpg"
-                                                 class="img-fluid z-depth-2" alt="Gallery image 8">
+                                                 class="img-fluid z-depth-2" alt="Gallery image 8"/>
                                         </a>
                                     </figure>
 
@@ -210,7 +212,7 @@
                                         <a href="https://mdbootstrap.com/img/Photos/Horizontal/Nature/12-col/img%20(51).jpg"
                                            data-size="1600x1067">
                                             <img src="https://mdbootstrap.com/img/Photos/Horizontal/Nature/4-col/img%20(51).jpg"
-                                                 class="img-fluid z-depth-2" alt="Gallery image 9">
+                                                 class="img-fluid z-depth-2" alt="Gallery image 9"/>
                                         </a>
                                     </figure>
 
@@ -238,20 +240,20 @@
 <!--end of Footer-->
 
 
-<script type="text/javascript"
-        src="https://mdbootstrap.com/wp-content/themes/mdbootstrap4/js/compiled.min.js?ver=4.3.2"></script>
 <!-- SCRIPTS -->
-
+<script type="text/javascript"
+        src="../static/js/mdb.themes.min.js" th:src="@{/js/mdb.themes.min.js}"></script>
 <!-- JQuery -->
-<script type="text/javascript" src="js/jquery-2.2.3.min.js"></script>
+<script type="text/javascript" src="../static/js/jquery-3.1.1.min.js" th:src="@{/js/jquery-3.1.1.min.js}"></script>
 <!-- Bootstrap tooltips -->
-<script type="text/javascript" src="js/tether.min.js"></script>
+<script type="text/javascript" src="../static/js/tether.min.js" th:src="@{/js/tether.min.js}"></script>
 <!-- Bootstrap core JavaScript -->
-<script type="text/javascript" src="js/bootstrap.min.js"></script>
+<script type="text/javascript" src="../static/js/bootstrap.min.js" th:src="@{/js/bootstrap.min.js}"></script>
 <!-- MDB core JavaScript -->
-<script type="text/javascript" src="js/mdb.min.js"></script>
+<script type="text/javascript" src="../static/js/mdb.min.js" th:src="@{/js/mdb.min.js}"></script>
 <!-- Main JavaScript -->
-<script type="text/javascript" src="js/photo.js"></script>
+<script type="text/javascript" src="../static/js/photo.js" th:src="@{/js/photo.js}"></script>
+
 <script>
     new WOW().init();
 </script>

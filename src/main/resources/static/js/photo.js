@@ -1,8 +1,20 @@
 window.onload = function(){
-    $.get("../static/navbar.html", function(data){
+    $.get("navbar.html", function(data){
         $("#nav-placeholder").replaceWith(data);
     });
-    $.get("../static/footer.html", function(data){
+    $.get("footer.html", function(data){
         $("#footer-placeholder").replaceWith(data);
+    });
+
+    $.ajax({
+        url: "/user",
+        type: "GET",
+        contentType: "application/json; charset=utf-8",
+        success: function (data, textStatus, jqXHR) {
+            $("#userName").html(data.username);
+        },
+        error: function (data, textStatus, jqXHR) {
+            console.log("Cannot read username !!!!!!!");
+        }
     });
 }

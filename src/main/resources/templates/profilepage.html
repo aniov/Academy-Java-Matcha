@@ -2,6 +2,8 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="utf-8"/>
+    <meta name="_csrf" th:content="${_csrf.token}"/>
+    <meta name="_csrf_header" th:content="${_csrf.headerName}"/>
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no"/>
     <meta http-equiv="x-ua-compatible" content="ie=edge"/>
 
@@ -27,49 +29,14 @@
     <!--Main layout-->
     <div class="container">
 
-
-       <!-- <div class="bd-example">
-            <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal" data-whatever="@mdo">Open modal for @mdo</button>
-            <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal" data-whatever="@fat">Open modal for @fat</button>
-            <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal" data-whatever="@getbootstrap">Open modal for @getbootstrap</button>
-            <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-                <div class="modal-dialog" role="document">
-                    <div class="modal-content">
-                        <div class="modal-header">
-                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                <span aria-hidden="true">&times;</span>
-                            </button>
-                            <h4 class="modal-title" id="exampleModalLabel">New message</h4>
-                        </div>
-                        <div class="modal-body">
-                            <form>
-                                <div class="md-form">
-                                    <input type="text" class="form-control" id="recipient-name">
-                                </div>
-                                <div class="md-form">
-                                    <textarea type="text" id="message-text" class="md-textarea"></textarea>
-                                </div>
-                            </form>
-                        </div>
-                        <div class="modal-footer">
-                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                            <button type="button" class="btn btn-primary">Send message</button>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>-->
-
-
-
         <!-- Modal -->
-        <div class="modal fade" id="basicExample" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+        <div class="modal fade" id="editStatus" tabindex="-1" role="dialog" aria-hidden="true">
             <div class="modal-dialog" role="document">
                 <!--Content-->
                 <div class="modal-content">
                     <!--Header-->
                     <div class="modal-header">
-                        <h4 class="modal-title" id="myModalLabel">Modal title</h4>
+                        <h4 class="modal-title">Edit information about yourself</h4>
                         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                             <span aria-hidden="true">&times;</span>
                         </button>
@@ -78,14 +45,16 @@
                     <div class="modal-body">
                         <form>
                             <div class="md-form">
-                                <textarea type="text" id="message-text" class="md-textarea" style="height: 200px;"></textarea>
+                                <textarea type="text" id="message-text" class="md-textarea"
+                                          style="height: 200px;"></textarea>
+                                <input type="hidden" id="fieldVariable" value=""/>
                             </div>
                         </form>
                     </div>
                     <!--Footer-->
                     <div class="modal-footer">
                         <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                        <button type="button" class="btn btn-primary">Save changes</button>
+                        <button type="button" class="btn btn-primary" id="saveChanges">Save changes</button>
                     </div>
                 </div>
                 <!--/.Content-->
@@ -97,68 +66,67 @@
         <div class="row wow fadeIn" data-wow-delay="0.2s" style="margin-top: 100px;">
             <div class="col-md-12">
                 <h1 class="h1-responsive">Profile:
-                    <small class="text-muted">Alemnykua</small>
+                    <small class="text-muted" id="profile-username"></small>
                 </h1>
             </div>
         </div>
         <!--/.Page heading-->
         <hr/>
-
-        <div class="row wow fadeIn" data-wow-delay="0.2s"
-             style="visibility: visible; animation-delay: 0.2s; animation-name: fadeIn;">
-            <!--Featured image-->
-            <div class="col-lg-7">
-                <div class="view overlay hm-white-light z-depth-1-half">
-                    <img src="https://hips.hearstapps.com/cos.h-cdn.co/assets/cm/14/25/539fd6a0d9b01_-_cos-02-beautiful-woman-outside-de.jpg"
-                         class="img-fluid" alt=""/>
-                    <div class="mask"></div>
+            <div class="row wow fadeIn" data-wow-delay="0.2s"
+                 style="visibility: visible; animation-delay: 0.2s; animation-name: fadeIn;">
+                <!--Featured image-->
+                <div class="col-lg-7">
+                    <div class="view overlay hm-white-light z-depth-1-half">
+                        <img src="https://hips.hearstapps.com/cos.h-cdn.co/assets/cm/14/25/539fd6a0d9b01_-_cos-02-beautiful-woman-outside-de.jpg"
+                             class="img-fluid" alt=""/>
+                        <div class="mask"></div>
+                    </div>
                 </div>
+                <!--/.Featured image-->
+
+                <!--Post excerpt-->
+                <div class="col-lg-5">
+                    <!--<a href="#!"><h2 class="post-title">.......</h2></a>-->
+                    <!--Panel-->
+                    <div class="card card-block">
+                        <!--<h4 class="card-title">Panel title</h4>-->
+                        <p class="card-text">Bisexual, Woman, Single, 5’ 3”, Full figured</p>
+                        <!--<div class="flex-row">
+                            <a class="card-link">Card link</a>
+                            <a class="card-link">Another link</a>
+                        </div>-->
+                    </div>
+                    <!--/.Panel-->
+                    <!--Panel-->
+                    <div class="card card-block">
+                        <!--<h4 class="card-title">Panel title</h4>-->
+                        <p class="card-text">White, Speaks English</p>
+                        <!--<div class="flex-row">
+                            <a class="card-link">Card link</a>
+                            <a class="card-link">Another link</a>
+                        </div>-->
+                    </div>
+                    <!--/.Panel-->
+                    <!--Panel-->
+                    <div class="card card-block">
+                        <!--<h4 class="card-title">Panel title</h4>-->
+                        <p class="card-text" id="looking-for">Looking for people, ages 18-37, bi-sexual</p>
+                        <!--<div class="flex-row">
+                            <a class="card-link">Card link</a>
+                            <a class="card-link">Another link</a>
+                        </div>-->
+                    </div>
+                    <!--/.Panel-->
+
+                    <!--<p class="lead">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Impedit molestias voluptates
+                        incidunt tempora ducimus! At cum iusto necessitatibus sed omnis nemo natus. iure magni quasi dolores
+                        similique aspernatur.</p>-->
+                    <div class="read-more">
+                        <a href="/photo" th:href="@{/photo}" class="btn btn-primary waves-effect waves-light">photo album</a>
+                    </div>
+                </div>
+                <!--/.Post excerpt-->
             </div>
-            <!--/.Featured image-->
-
-            <!--Post excerpt-->
-            <div class="col-lg-5">
-                <!--<a href="#!"><h2 class="post-title">.......</h2></a>-->
-                <!--Panel-->
-                <div class="card card-block">
-                    <!--<h4 class="card-title">Panel title</h4>-->
-                    <p class="card-text">Bisexual, Woman, Single, 5’ 3”, Full figured</p>
-                    <!--<div class="flex-row">
-                        <a class="card-link">Card link</a>
-                        <a class="card-link">Another link</a>
-                    </div>-->
-                </div>
-                <!--/.Panel-->
-                <!--Panel-->
-                <div class="card card-block">
-                    <!--<h4 class="card-title">Panel title</h4>-->
-                    <p class="card-text">White, Speaks English</p>
-                    <!--<div class="flex-row">
-                        <a class="card-link">Card link</a>
-                        <a class="card-link">Another link</a>
-                    </div>-->
-                </div>
-                <!--/.Panel-->
-                <!--Panel-->
-                <div class="card card-block">
-                    <!--<h4 class="card-title">Panel title</h4>-->
-                    <p class="card-text" id="looking-for">Looking for people, ages 18-37, bi-sexual</p>
-                    <!--<div class="flex-row">
-                        <a class="card-link">Card link</a>
-                        <a class="card-link">Another link</a>
-                    </div>-->
-                </div>
-                <!--/.Panel-->
-
-                <!--<p class="lead">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Impedit molestias voluptates
-                    incidunt tempora ducimus! At cum iusto necessitatibus sed omnis nemo natus. iure magni quasi dolores
-                    similique aspernatur.</p>-->
-                <div class="read-more">
-                    <a href="#!" class="btn btn-primary waves-effect waves-light">Edit Photos</a>
-                </div>
-            </div>
-            <!--/.Post excerpt-->
-        </div>
         <hr/>
 
 
@@ -185,7 +153,7 @@
                         <!--Text-->
                         <p class="card-text" id="self-summary"></p>
                         <div class="read-more">
-                            <a href="#!" class="btn btn-primary" data-toggle="modal" data-target="#basicExample">Edit</a>
+                            <a class="btn btn-primary" data-toggle="modal" onClick="editSummary()">Edit</a>
                         </div>
                     </div>
                     <!--/.Card content-->
@@ -216,7 +184,7 @@
                         <!--Text-->
                         <p class="card-text" id="what-im-doing"></p>
                         <div class="read-more">
-                            <a href="#!" class="btn btn-primary">Edit</a>
+                            <a href="#!" class="btn btn-primary" onclick="editWhatImDoing()">Edit</a>
                         </div>
                     </div>
                     <!--/.Card content-->
@@ -251,7 +219,7 @@
                         <!--Text-->
                         <p class="card-text" id="good-at"></p>
                         <div class="read-more">
-                            <a href="#!" class="btn btn-primary">Edit</a>
+                            <a href="#!" class="btn btn-primary" onclick="editGoodAt()">Edit</a>
                         </div>
                     </div>
                     <!--/.Card content-->
@@ -282,7 +250,7 @@
                         <!--Text-->
                         <p class="card-text" id="favorite-stuff"></p>
                         <div class="read-more">
-                            <a href="#!" class="btn btn-primary">Edit</a>
+                            <a href="#!" class="btn btn-primary" onclick="editFavorites()">Edit</a>
                         </div>
                     </div>
                     <!--/.Card content-->
