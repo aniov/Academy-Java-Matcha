@@ -45,10 +45,12 @@
                     <div class="modal-body">
                         <form>
                             <div class="md-form">
+                                <i class="fa fa-pencil prefix"></i>
                                 <textarea type="text" id="message-text" class="md-textarea"
                                           style="height: 200px;"></textarea>
                                 <input type="hidden" id="fieldVariable" value=""/>
                             </div>
+                            <h6 class="pull-right" id="count_message"></h6>
                         </form>
                     </div>
                     <!--Footer-->
@@ -61,6 +63,53 @@
             </div>
         </div>
         <!-- Modal -->
+
+        <!-- Modal Edit Basic Info-->
+        <div class="modal fade" id="editInfo" tabindex="-1" role="dialog" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <!--Content-->
+                <div class="modal-content">
+                    <!--Header-->
+                    <div class="modal-header">
+                        <h4 class="modal-title">Edit your basic info</h4>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <!--Body-->
+                    <div class="modal-body">
+                        <form>
+                            <div class="md-form">
+
+                                <div class="btn-group" data-toggle="buttons">
+                                    <label class="btn btn-primary active">
+                                        <input type="radio" name="options" id="option1" autocomplete="off"/> Radio 1 (preselected)
+                                    </label>
+                                    <label class="btn btn-primary">
+                                        <input type="radio" name="options" id="option2" autocomplete="off"/> Radio 2
+                                    </label>
+                                    <label class="btn btn-primary">
+                                        <input type="radio" name="options" id="option3" autocomplete="off"/> Radio 3
+                                    </label>
+                                </div>
+
+                            </div>
+
+                        </form>
+                    </div>
+                    <!--Footer-->
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                        <button type="button" class="btn btn-primary" id="saveInfo">Save changes</button>
+                    </div>
+                </div>
+                <!--/.Content-->
+            </div>
+        </div>
+        <!-- Modal Edit Basic Info-->
+
+
+
 
         <!--Page heading-->
         <div class="row wow fadeIn" data-wow-delay="0.2s" style="margin-top: 100px;">
@@ -123,6 +172,7 @@
                         similique aspernatur.</p>-->
                     <div class="read-more">
                         <a href="/photo" th:href="@{/photo}" class="btn btn-primary waves-effect waves-light">photo album</a>
+                        <a onclick="editInfo()" class="btn btn-primary waves-effect waves-light">edit info</a>
                     </div>
                 </div>
                 <!--/.Post excerpt-->

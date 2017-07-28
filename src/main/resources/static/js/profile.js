@@ -49,26 +49,34 @@ function loadProfileData() {
 
 function editSummary() {
     document.getElementById("message-text").value = profile.aboutMe;
+    charsToWrite();
     $("#editStatus").modal('show');
     document.getElementById("fieldVariable").value = "aboutMe";
 }
 
 function editWhatImDoing() {
     document.getElementById("message-text").value = profile.whatImDoing;
+    charsToWrite();
     $("#editStatus").modal('show');
     document.getElementById("fieldVariable").value = "whatImDoing";
 }
 
 function editGoodAt() {
     document.getElementById("message-text").value = profile.goodAt;
+    charsToWrite();
     $("#editStatus").modal('show');
     document.getElementById("fieldVariable").value = "goodAt";
 }
 
 function editFavorites() {
     document.getElementById("message-text").value = profile.favorites;
+    charsToWrite();
     $("#editStatus").modal('show');
     document.getElementById("fieldVariable").value = "favorites";
+}
+
+function editInfo() {
+    $("#editInfo").modal('show');
 }
 
 document.getElementById("saveChanges").onclick = function () {
@@ -97,3 +105,16 @@ document.getElementById("saveChanges").onclick = function () {
         }
     });
 }
+
+var text_max = 200;
+function charsToWrite() {
+    var text_length = $('#message-text').val().length;
+    $('#count_message').html((text_max - text_length) + ' remaining');
+}
+
+$('#message-text').keyup(function() {
+    var text_length = $('#message-text').val().length;
+    var text_remaining = text_max - text_length;
+
+    $('#count_message').html(text_remaining + ' remaining');
+});
