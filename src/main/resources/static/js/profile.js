@@ -118,3 +118,15 @@ $('#message-text').keyup(function() {
 
     $('#count_message').html(text_remaining + ' remaining');
 });
+
+$( function() {
+    var date = new Date();
+    date.setFullYear(date.getFullYear() - 18);
+
+    $("#datepicker").datepicker({
+        startDate: "01/01/1900",
+        endDate: date,
+        clearBtn: true,
+        autoclose: true
+    })
+} );

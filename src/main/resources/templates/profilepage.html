@@ -16,6 +16,8 @@
     <link href="../static/css/mdb.min.css" th:href="@{/css/mdb.min.css}" rel="stylesheet"/>
     <!-- Your custom styles (optional) -->
     <link href="../static/css/style.css" th:href="@{/css/style.css}" rel="stylesheet"/>
+    <!-- Date Picker -->
+    <link href="../static/css/datepicker/bootstrap-datepicker.css" th:href="@{/css/bootstrap-datepicker.css}" rel="stylesheet"/>
 
 </head>
 <body>
@@ -66,7 +68,7 @@
 
         <!-- Modal Edit Basic Info-->
         <div class="modal fade" id="editInfo" tabindex="-1" role="dialog" aria-hidden="true">
-            <div class="modal-dialog" role="document">
+            <div class="modal-dialog modal-md" role="">
                 <!--Content-->
                 <div class="modal-content">
                     <!--Header-->
@@ -78,24 +80,62 @@
                     </div>
                     <!--Body-->
                     <div class="modal-body">
-                        <form>
-                            <div class="md-form">
 
-                                <div class="btn-group" data-toggle="buttons">
-                                    <label class="btn btn-primary active">
-                                        <input type="radio" name="options" id="option1" autocomplete="off"/> Radio 1 (preselected)
-                                    </label>
-                                    <label class="btn btn-primary">
-                                        <input type="radio" name="options" id="option2" autocomplete="off"/> Radio 2
-                                    </label>
-                                    <label class="btn btn-primary">
-                                        <input type="radio" name="options" id="option3" autocomplete="off"/> Radio 3
-                                    </label>
-                                </div>
-
+                        <div class=""><a style="font-size: larger">Gender</a>
+                            <div class="btn-group pull-right" data-toggle="buttons">
+                                <label class="btn btn-primary">
+                                    <input type="radio" name="options" id="genderMale" autocomplete="off"/> Male
+                                </label>
+                                <label class="btn btn-primary">
+                                    <input type="radio" name="options" id="genderFemale" autocomplete="off"/> Female
+                                </label>
                             </div>
+                        </div>
+                        <br/>
+                        <div class=""><a style="font-size: larger;">Looking for</a>
+                            <div class="btn-group pull-right" data-toggle="buttons">
+                                <label class="btn btn-primary">
+                                    <input type="checkbox" autocomplete="off"/> Male
+                                </label>
+                                <label class="btn btn-primary">
+                                    <input type="checkbox" autocomplete="off"/> Female
+                                </label>
+                            </div>
+                        </div>
+                        <br/>
+                        <div class="">
+                            <label>Marital status</label>
+                            <select class="form-control form-control-lg" style="font-size: larger">
+                                <option value="0">Not saying</option>
+                                <option value="1">Single</option>
+                                <option value="2">Married</option>
+                                <option value="3">In a relation</option>
+                            </select>
+                        </div>
 
-                        </form>
+                        <div class="row">
+                            <!--Text validation-->
+                            <div class="md-form col-md-6">
+                                <i class="fa fa-caret-right prefix"></i>
+                                <input type="text" id="form9" class="form-control validate"/>
+                                <label for="form9" data-error="wrong" data-success="right">first name</label>
+                            </div>
+                            <!--Text validation-->
+                            <div class="md-form col-md-6">
+                                <i class="fa fa-caret-right prefix"></i>
+                                <input type="text" id="form10" class="form-control validate"/>
+                                <label for="form10" data-error="wrong" data-success="right">last name</label>
+                            </div>
+                        </div>
+
+                        <div class="form-group row">
+                            <label for="datepicker" class="col-2 col-form-label">Born date</label>
+                            <div class="col-10">
+                                <p><input type="text" id="datepicker"/></p>
+                            </div>
+                        </div>
+
+
                     </div>
                     <!--Footer-->
                     <div class="modal-footer">
@@ -109,8 +149,6 @@
         <!-- Modal Edit Basic Info-->
 
 
-
-
         <!--Page heading-->
         <div class="row wow fadeIn" data-wow-delay="0.2s" style="margin-top: 100px;">
             <div class="col-md-12">
@@ -121,62 +159,63 @@
         </div>
         <!--/.Page heading-->
         <hr/>
-            <div class="row wow fadeIn" data-wow-delay="0.2s"
-                 style="visibility: visible; animation-delay: 0.2s; animation-name: fadeIn;">
-                <!--Featured image-->
-                <div class="col-lg-7">
-                    <div class="view overlay hm-white-light z-depth-1-half">
-                        <img src="https://hips.hearstapps.com/cos.h-cdn.co/assets/cm/14/25/539fd6a0d9b01_-_cos-02-beautiful-woman-outside-de.jpg"
-                             class="img-fluid" alt=""/>
-                        <div class="mask"></div>
-                    </div>
+        <div class="row wow fadeIn" data-wow-delay="0.2s"
+             style="visibility: visible; animation-delay: 0.2s; animation-name: fadeIn;">
+            <!--Featured image-->
+            <div class="col-lg-7">
+                <div class="view overlay hm-white-light z-depth-1-half">
+                    <img src="https://hips.hearstapps.com/cos.h-cdn.co/assets/cm/14/25/539fd6a0d9b01_-_cos-02-beautiful-woman-outside-de.jpg"
+                         class="img-fluid" alt=""/>
+                    <div class="mask"></div>
                 </div>
-                <!--/.Featured image-->
-
-                <!--Post excerpt-->
-                <div class="col-lg-5">
-                    <!--<a href="#!"><h2 class="post-title">.......</h2></a>-->
-                    <!--Panel-->
-                    <div class="card card-block">
-                        <!--<h4 class="card-title">Panel title</h4>-->
-                        <p class="card-text">Bisexual, Woman, Single, 5’ 3”, Full figured</p>
-                        <!--<div class="flex-row">
-                            <a class="card-link">Card link</a>
-                            <a class="card-link">Another link</a>
-                        </div>-->
-                    </div>
-                    <!--/.Panel-->
-                    <!--Panel-->
-                    <div class="card card-block">
-                        <!--<h4 class="card-title">Panel title</h4>-->
-                        <p class="card-text">White, Speaks English</p>
-                        <!--<div class="flex-row">
-                            <a class="card-link">Card link</a>
-                            <a class="card-link">Another link</a>
-                        </div>-->
-                    </div>
-                    <!--/.Panel-->
-                    <!--Panel-->
-                    <div class="card card-block">
-                        <!--<h4 class="card-title">Panel title</h4>-->
-                        <p class="card-text" id="looking-for">Looking for people, ages 18-37, bi-sexual</p>
-                        <!--<div class="flex-row">
-                            <a class="card-link">Card link</a>
-                            <a class="card-link">Another link</a>
-                        </div>-->
-                    </div>
-                    <!--/.Panel-->
-
-                    <!--<p class="lead">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Impedit molestias voluptates
-                        incidunt tempora ducimus! At cum iusto necessitatibus sed omnis nemo natus. iure magni quasi dolores
-                        similique aspernatur.</p>-->
-                    <div class="read-more">
-                        <a href="/photo" th:href="@{/photo}" class="btn btn-primary waves-effect waves-light">photo album</a>
-                        <a onclick="editInfo()" class="btn btn-primary waves-effect waves-light">edit info</a>
-                    </div>
-                </div>
-                <!--/.Post excerpt-->
             </div>
+            <!--/.Featured image-->
+
+            <!--Post excerpt-->
+            <div class="col-lg-5">
+                <!--<a href="#!"><h2 class="post-title">.......</h2></a>-->
+                <!--Panel-->
+                <div class="card card-block">
+                    <!--<h4 class="card-title">Panel title</h4>-->
+                    <p class="card-text">Bisexual, Woman, Single, 5’ 3”, Full figured</p>
+                    <!--<div class="flex-row">
+                        <a class="card-link">Card link</a>
+                        <a class="card-link">Another link</a>
+                    </div>-->
+                </div>
+                <!--/.Panel-->
+                <!--Panel-->
+                <div class="card card-block">
+                    <!--<h4 class="card-title">Panel title</h4>-->
+                    <p class="card-text">White, Speaks English</p>
+                    <!--<div class="flex-row">
+                        <a class="card-link">Card link</a>
+                        <a class="card-link">Another link</a>
+                    </div>-->
+                </div>
+                <!--/.Panel-->
+                <!--Panel-->
+                <div class="card card-block">
+                    <!--<h4 class="card-title">Panel title</h4>-->
+                    <p class="card-text" id="looking-for">Looking for people, ages 18-37, bi-sexual</p>
+                    <!--<div class="flex-row">
+                        <a class="card-link">Card link</a>
+                        <a class="card-link">Another link</a>
+                    </div>-->
+                </div>
+                <!--/.Panel-->
+
+                <!--<p class="lead">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Impedit molestias voluptates
+                    incidunt tempora ducimus! At cum iusto necessitatibus sed omnis nemo natus. iure magni quasi dolores
+                    similique aspernatur.</p>-->
+                <div class="read-more">
+                    <a href="/photo" th:href="@{/photo}" class="btn btn-primary waves-effect waves-light">photo
+                        album</a>
+                    <a onclick="editInfo()" class="btn btn-primary waves-effect waves-light">edit info</a>
+                </div>
+            </div>
+            <!--/.Post excerpt-->
+        </div>
         <hr/>
 
 
@@ -341,7 +380,8 @@
 <script type="text/javascript" src="../static/js/profile.js" th:src="@{/js/profile.js}"></script>
 <!-- Main JavaScript -->
 <script type="text/javascript" src="../static/js/googlelocation.js" th:src="@{/js/googlelocation.js}"></script>
-
+<!-- Date Picker -->
+<script type="text/javascript" src="../static/js/datepicker/bootstrap-datepicker.js" th:src="@{/js/bootstrap-datepicker.js}"></script>
 <script>
     new WOW().init();
 </script>
