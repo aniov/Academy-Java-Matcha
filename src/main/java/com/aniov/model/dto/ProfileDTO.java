@@ -44,7 +44,7 @@ public class ProfileDTO implements Serializable {
 
     private String status;
 
-  //  @Range(min = 120, max = 230)
+    //@Range(min = 120, max = 230)
     private Integer height;
 
     private String bodyType;
@@ -64,6 +64,7 @@ public class ProfileDTO implements Serializable {
         this.country = profile.getCountry();
         this.town = profile.getTown();
         this.bornDate = profile.getBornDate();
+        this.height = profile.getHeight();
         if (profile.getGender() != null) {
             this.gender = profile.getGender().getGenderType();
         }

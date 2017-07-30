@@ -8,7 +8,6 @@ import lombok.Data;
 import lombok.Getter;
 import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.annotations.Parameter;
-import org.hibernate.validator.constraints.Range;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
@@ -70,7 +69,7 @@ public class Profile implements Serializable {
     private BodyType bodyType;
 
     @Enumerated(EnumType.STRING)
-    private ETHNICITY ethnicity;
+    private Ethnicity ethnicity;
 
     @Enumerated(EnumType.STRING)
     private Status status;
@@ -101,6 +100,7 @@ public class Profile implements Serializable {
         this.country = profileDTO.getCountry();
         this.town = profileDTO.getTown();
         this.bornDate = profileDTO.getBornDate();
+        this.height = profileDTO.getHeight();
         if (profileDTO.getGender() != null) {
             this.gender = Gender.valueOf(profileDTO.getGender().toUpperCase());
         }
@@ -114,6 +114,12 @@ public class Profile implements Serializable {
             this.status = Status.values()[Status.position(profileDTO.getStatus())];
         }
         setSexualOrientation();
+        if (profileDTO.getBodyType() != null) {
+            this.bodyType = BodyType.values()[BodyType.position(profileDTO.getBodyType())];
+        }
+        if (profileDTO.getEthnicity() != null) {
+            this.ethnicity = Ethnicity.values()[Ethnicity.position(profileDTO.getEthnicity())];
+        }
 
     }
 
@@ -152,14 +158,32 @@ public class Profile implements Serializable {
     public enum BodyType {
         SLIM("Slim"), ATHLETIC("Athletic"), AVERAGE("Average"), CURVY("Curvy");
         private String body;
+
+        private static int position(String body) {
+            for (int i = 0; i < BodyType.values().length; i++) {
+                if (body.equalsIgnoreCase(BodyType.values()[i].getBody())) {
+                    return i;
+                }
+            }
+            return -1;
+        }
     }
 
     @Getter
     @AllArgsConstructor
-    public enum ETHNICITY {
+    public enum Ethnicity {
         ASIAN("Asian"), BLACK_AFRICAN("Black/African"), INDIAN("Indian"), LATINO_HISPANIC("Latino/Hispanic"),
         MIDDLE_EASTERN("Middle Eastern"), WHITE_CAUCASIAN("White/Caucasian"), MIXED_OTHER("Mixed/Other");
         private String ethnicity;
+
+        private static int position(String body) {
+            for (int i = 0; i < Ethnicity.values().length; i++) {
+                if (body.equalsIgnoreCase(Ethnicity.values()[i].getEthnicity())) {
+                    return i;
+                }
+            }
+            return -1;
+        }
     }
 
     private void setSexualOrientation() {

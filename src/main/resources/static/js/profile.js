@@ -1,32 +1,15 @@
 var profile;
 
-window.onload = function(){
-    $.get("navbar.html", function(data){
+window.onload = function () {
+    $.get("navbar.html", function (data) {
         $("#nav-placeholder").replaceWith(data);
     });
-    $.get("footer.html", function(data){
+    $.get("footer.html", function (data) {
         $("#footer-placeholder").replaceWith(data);
     });
-    $.get("googlemap.html", function(data){
+    $.get("googlemap.html", function (data) {
         $("#google-placeholder").replaceWith(data);
     });
-
-    $.ajax({
-        url: "/user",
-        type: "GET",
-        contentType: "application/json; charset=utf-8",
-        success: function (data, textStatus, jqXHR) {
-            $("#userName").html(data.username);
-        },
-        error: function (data, textStatus, jqXHR) {
-            console.log("Cannot read username !!!!!!!");
-        }
-    });
-
-    loadProfileData();
-}
-
-function loadProfileData() {
 
     $.ajax({
         url: "/user/profile",
@@ -34,17 +17,29 @@ function loadProfileData() {
         contentType: "application/json; charset=utf-8",
         success: function (data, textStatus, jqXHR) {
             profile = data;
-            $("#self-summary").html(data.aboutMe);
-            $("#what-im-doing").html(data.whatImDoing);
-            $("#good-at").html(data.goodAt);
-            $("#favorite-stuff").html(data.favorites);
-            $("#profile-username").html(data.username);
 
+            $("#userName").html(profile.username);
+            loadProfileData();
+            loadCards();
         },
         error: function (data, textStatus, jqXHR) {
             console.log("Cannot read username");
         }
     });
+}
+
+function loadProfileData() {
+    $("#self-summary").html(profile.aboutMe);
+    $("#what-im-doing").html(profile.whatImDoing);
+    $("#good-at").html(profile.goodAt);
+    $("#favorite-stuff").html(profile.favorites);
+    $("#profile-username").html(profile.username);
+}
+
+function loadCards() {
+    $("#card-one").html(profile.sexualOrientation + ", " + profile.gender + ", " + profile.status + ", " + (new Date().getYear() - new Date(profile.bornDate).getYear()) + " years");
+    $("#card-two").html(profile.ethnicity + ", " + profile.bodyType + ", Height: " + profile.height + " cm");
+    $("#card-three").html("Looking for: " + profile.lookingFor);
 }
 
 function editSummary() {
@@ -81,7 +76,7 @@ function editInfo() {
     document.getElementById("classGenderMale").className = "btn btn-primary";
     if (profile.gender === 'Man') {
         document.getElementById("classGenderMale").className += " active";
-    } else if (profile.gender === 'Woman'){
+    } else if (profile.gender === 'Woman') {
         document.getElementById("classGenderFemale").className += " active";
     }
     /*Looking for buttons*/
@@ -101,6 +96,24 @@ function editInfo() {
     /*Marital status select box*/
     document.getElementById("status").value = profile.status;
 
+    /*Ethnicity select box*/
+    document.getElementById("ethnicity").value = profile.ethnicity;
+
+    /*Body type*/
+    document.getElementById("bodyType").value = profile.bodyType;
+
+    /*Height*/
+    var min = 120;
+    var max = 220;
+    var select = document.getElementById('height');
+    for (var i = min; i <= max; i++) {
+        var opt = document.createElement('option');
+        opt.value = i;
+        opt.innerHTML = i + " cm";
+        select.appendChild(opt);
+    }
+    document.getElementById("height").value = profile.height;
+
     /*Name*/
     document.getElementById("firstName").value = profile.firstName;
     document.getElementById("lastName").value = profile.lastName;
@@ -109,7 +122,6 @@ function editInfo() {
     var d = new Date(profile.bornDate);
     var date = (d.getMonth() + 1) + "/" + d.getDate() + "/" + d.getFullYear();
     document.getElementById("datepicker").value = date;
-
 
 
     $("#editInfo").modal('show');
@@ -143,6 +155,18 @@ document.getElementById("saveInfo").onclick = function () {
     var e = document.getElementById("status");
     profile.status = e.options[e.selectedIndex].text;
 
+    /*Ethnicity*/
+    e = document.getElementById("ethnicity");
+    profile.ethnicity = e.options[e.selectedIndex].text;
+
+    /*Body type*/
+    e = document.getElementById("bodyType");
+    profile.bodyType = e.options[e.selectedIndex].text;
+
+    /*Height*/
+    e = document.getElementById("height");
+    profile.height = e.options[e.selectedIndex].value;
+
     /*Name*/
     var firstName = document.getElementById("firstName").value;
     var lastName = document.getElementById("lastName").value;
@@ -153,7 +177,6 @@ document.getElementById("saveInfo").onclick = function () {
     /*Born date*/
     var date = document.getElementById("datepicker").value;
     profile.bornDate = new Date(date);
-
 
 
     $.ajax({
@@ -175,6 +198,8 @@ document.getElementById("saveInfo").onclick = function () {
             $("#editInfo").modal('hide');
         }
     });
+
+    loadCards();
 
 }
 
@@ -206,29 +231,29 @@ document.getElementById("saveChanges").onclick = function () {
 }
 
 var text_max = 200;
+
 function charsToWrite() {
     var text_length = $('#message-text').val().length;
     $('#count_message').html((text_max - text_length) + ' remaining');
 }
 
-$('#message-text').keyup(function() {
+$('#message-text').keyup(function () {
     var text_length = $('#message-text').val().length;
     var text_remaining = text_max - text_length;
 
     $('#count_message').html(text_remaining + ' remaining');
 });
 
-$( function() {
+$(function () {
     var date = new Date();
     date.setFullYear(date.getFullYear() - 18);
 
     $("#datepicker").datepicker({
-      //  format: 'mm/dd/yyyy',
         startDate: "01/01/1900",
         endDate: date,
         clearBtn: true,
         autoclose: true,
     })
-} );
+});
 
 

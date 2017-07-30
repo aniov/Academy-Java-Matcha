@@ -17,7 +17,8 @@
     <!-- Your custom styles (optional) -->
     <link href="../static/css/style.css" th:href="@{/css/style.css}" rel="stylesheet"/>
     <!-- Date Picker -->
-    <link href="../static/css/datepicker/bootstrap-datepicker.css" th:href="@{/css/bootstrap-datepicker.css}" rel="stylesheet"/>
+    <link href="../static/css/datepicker/bootstrap-datepicker.css" th:href="@{/css/bootstrap-datepicker.css}"
+          rel="stylesheet"/>
 
 </head>
 <body>
@@ -105,11 +106,44 @@
                         <br/>
                         <div class="row">
                             <div class="col-md-3"><a style="font-size: larger;">Status</a></div>
-                            <select id="status" class="form-control col-md-5" style="font-size: medium; margin-left: 150px">
-                                <option value="Not saying">Not saying</option>
+                            <select id="status" class="form-control col-md-5"
+                                    style="font-size: medium; margin-left: 150px">
+                                <option value="Not saying" selected="selected">Not saying</option>
                                 <option value="Single">Single</option>
                                 <option value="Married">Married</option>
                                 <option value="In a relation">In a relation</option>
+                            </select>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-md-3"><a style="font-size: larger;">Ethnicity</a></div>
+                            <select id="ethnicity" class="form-control col-md-5"
+                                    style="font-size: medium; margin-left: 150px">
+                                <option value="Asian">Asian</option>
+                                <option value="Black/African">Black/African</option>
+                                <option value="Indian">Indian</option>
+                                <option value="Latino/Hispanic">Latino/Hispanic</option>
+                                <option value="Middle Eastern" selected="selected">Middle Eastern</option>
+                                <option value="White/Caucasian">White/Caucasian</option>
+                                <option value="Mixed/Other">Mixed/Other</option>
+                            </select>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-md-3"><a style="font-size: larger;">Body type</a></div>
+                            <select id="bodyType" class="form-control col-md-5"
+                                    style="font-size: medium; margin-left: 150px">
+                                <option value="Slim">Slim</option>
+                                <option value="Athletic">Athletic</option>
+                                <option value="Average" selected="selected">Average</option>
+                                <option value="Curvy">Curvy</option>
+                            </select>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-md-3"><a style="font-size: larger;">Height</a></div>
+                            <select id="height" class="form-control col-md-5"
+                                    style="font-size: medium; margin-left: 150px">
                             </select>
                         </div>
 
@@ -134,7 +168,6 @@
                                 <p><input type="text" id="datepicker"/></p>
                             </div>
                         </div>
-
 
                     </div>
                     <!--Footer-->
@@ -177,7 +210,7 @@
                 <!--Panel-->
                 <div class="card card-block">
                     <!--<h4 class="card-title">Panel title</h4>-->
-                    <p class="card-text">Bisexual, Woman, Single, 5’ 3”, Full figured</p>
+                    <p class="card-text" id="card-one">Sexual orientation, Gender, ....</p>
                     <!--<div class="flex-row">
                         <a class="card-link">Card link</a>
                         <a class="card-link">Another link</a>
@@ -187,7 +220,7 @@
                 <!--Panel-->
                 <div class="card card-block">
                     <!--<h4 class="card-title">Panel title</h4>-->
-                    <p class="card-text">White, Speaks English</p>
+                    <p class="card-text" id="card-two">Ethnicity, Body Type, Height</p>
                     <!--<div class="flex-row">
                         <a class="card-link">Card link</a>
                         <a class="card-link">Another link</a>
@@ -197,7 +230,7 @@
                 <!--Panel-->
                 <div class="card card-block">
                     <!--<h4 class="card-title">Panel title</h4>-->
-                    <p class="card-text" id="looking-for">Looking for people, ages 18-37, bi-sexual</p>
+                    <p class="card-text" id="card-three">Looking for people........</p>
                     <!--<div class="flex-row">
                         <a class="card-link">Card link</a>
                         <a class="card-link">Another link</a>
@@ -381,7 +414,8 @@
 <!-- Main JavaScript -->
 <script type="text/javascript" src="../static/js/googlelocation.js" th:src="@{/js/googlelocation.js}"></script>
 <!-- Date Picker -->
-<script type="text/javascript" src="../static/js/datepicker/bootstrap-datepicker.js" th:src="@{/js/bootstrap-datepicker.js}"></script>
+<script type="text/javascript" src="../static/js/datepicker/bootstrap-datepicker.js"
+        th:src="@{/js/bootstrap-datepicker.js}"></script>
 <script>
     new WOW().init();
 </script>
