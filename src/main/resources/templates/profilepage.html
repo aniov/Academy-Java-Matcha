@@ -83,33 +83,33 @@
 
                         <div class=""><a style="font-size: larger">Gender</a>
                             <div class="btn-group pull-right" data-toggle="buttons">
-                                <label class="btn btn-primary">
-                                    <input type="radio" name="options" id="genderMale" autocomplete="off"/> Male
+                                <label class="btn btn-primary" id="classGenderMale">
+                                    <input type="radio" id="genderMale" name="myGender"/> Man
                                 </label>
-                                <label class="btn btn-primary">
-                                    <input type="radio" name="options" id="genderFemale" autocomplete="off"/> Female
+                                <label class="btn btn-primary" id="classGenderFemale">
+                                    <input type="radio" id="genderFemale" name="myGender"/> Woman
                                 </label>
                             </div>
                         </div>
                         <br/>
                         <div class=""><a style="font-size: larger;">Looking for</a>
                             <div class="btn-group pull-right" data-toggle="buttons">
-                                <label class="btn btn-primary">
-                                    <input type="checkbox" autocomplete="off"/> Male
+                                <label class="btn btn-primary" id="classLookingForMan">
+                                    <input type="checkbox" id="lookingForMan"/> Man
                                 </label>
-                                <label class="btn btn-primary">
-                                    <input type="checkbox" autocomplete="off"/> Female
+                                <label class="btn btn-primary" id="classLookingForWoman">
+                                    <input type="checkbox" id="lookingForWoman"/> Woman
                                 </label>
                             </div>
                         </div>
                         <br/>
-                        <div class="">
-                            <label>Marital status</label>
-                            <select class="form-control form-control-lg" style="font-size: larger">
-                                <option value="0">Not saying</option>
-                                <option value="1">Single</option>
-                                <option value="2">Married</option>
-                                <option value="3">In a relation</option>
+                        <div class="row">
+                            <div class="col-md-3"><a style="font-size: larger;">Status</a></div>
+                            <select id="status" class="form-control col-md-5" style="font-size: medium; margin-left: 150px">
+                                <option value="Not saying">Not saying</option>
+                                <option value="Single">Single</option>
+                                <option value="Married">Married</option>
+                                <option value="In a relation">In a relation</option>
                             </select>
                         </div>
 
@@ -117,14 +117,14 @@
                             <!--Text validation-->
                             <div class="md-form col-md-6">
                                 <i class="fa fa-caret-right prefix"></i>
-                                <input type="text" id="form9" class="form-control validate"/>
-                                <label for="form9" data-error="wrong" data-success="right">first name</label>
+                                <input type="text" value="John" id="firstName" class="form-control"/>
+                                <label for="firstName">first name</label>
                             </div>
                             <!--Text validation-->
                             <div class="md-form col-md-6">
                                 <i class="fa fa-caret-right prefix"></i>
-                                <input type="text" id="form10" class="form-control validate"/>
-                                <label for="form10" data-error="wrong" data-success="right">last name</label>
+                                <input type="text" value="Doe" id="lastName" class="form-control"/>
+                                <label for="lastName">last name</label>
                             </div>
                         </div>
 

@@ -3,10 +3,13 @@ package com.aniov.model.dto;
 import com.aniov.model.Profile;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.hibernate.validator.constraints.Range;
 
 import javax.validation.constraints.Size;
 import java.io.Serializable;
 import java.util.Date;
+import java.util.HashSet;
+import java.util.Set;
 
 /**
  * DTO for user profile
@@ -35,13 +38,20 @@ public class ProfileDTO implements Serializable {
 
     private Date bornDate;
 
-    private Profile.Gender gender;
+    private String gender;
 
-    private Profile.Gender lookingFor;
+    private Set<String> lookingFor = new HashSet<>();
 
-    private Profile.SexualOrientation sexualOrientation;
+    private String status;
 
-    private Profile.Status status;
+  //  @Range(min = 120, max = 230)
+    private Integer height;
+
+    private String bodyType;
+
+    private String ethnicity;
+
+    private String sexualOrientation;
 
     public ProfileDTO(Profile profile) {
         this.username = profile.getUser().getUsername();
@@ -54,9 +64,27 @@ public class ProfileDTO implements Serializable {
         this.country = profile.getCountry();
         this.town = profile.getTown();
         this.bornDate = profile.getBornDate();
-        this.gender = profile.getGender();
-        this.lookingFor = profile.getLookingFor();
-        this.sexualOrientation = profile.getSexualOrientation();
-        this.status = profile.getStatus();
+        if (profile.getGender() != null) {
+            this.gender = profile.getGender().getGenderType();
+        }
+        if (!profile.getLookingFor().isEmpty()) {
+            for (Profile.Gender gender : profile.getLookingFor()) {
+                lookingFor.add(gender.getGenderType());
+            }
+        }
+        if (profile.getStatus() != null) {
+            this.status = profile.getStatus().getStatus();
+        }
+        if (profile.getSexualOrientation() != null) {
+            this.sexualOrientation = profile.getSexualOrientation().getSexualType();
+        }
+        this.height = profile.getHeight();
+        if (profile.getBodyType() != null) {
+            this.bodyType = profile.getBodyType().getBody();
+        }
+        if (profile.getEthnicity() != null) {
+            this.ethnicity = profile.getEthnicity().getEthnicity();
+        }
+
     }
 }

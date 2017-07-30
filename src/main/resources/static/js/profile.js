@@ -76,7 +76,106 @@ function editFavorites() {
 }
 
 function editInfo() {
+    /*Gender buttons*/
+    document.getElementById("classGenderFemale").className = "btn btn-primary";
+    document.getElementById("classGenderMale").className = "btn btn-primary";
+    if (profile.gender === 'Man') {
+        document.getElementById("classGenderMale").className += " active";
+    } else if (profile.gender === 'Woman'){
+        document.getElementById("classGenderFemale").className += " active";
+    }
+    /*Looking for buttons*/
+    var looking = profile.lookingFor;
+    document.getElementById("classLookingForWoman").className = "btn btn-primary";
+    document.getElementById("classLookingForMan").className = "btn btn-primary";
+    for (i = 0; i < looking.length; i++) {
+        if (looking[i] === 'Man') {
+            document.getElementById("classLookingForMan").className += " active";
+            document.getElementById("lookingForMan").checked = "checked";
+        }
+        if (looking[i] === 'Woman') {
+            document.getElementById("classLookingForWoman").className += " active";
+            document.getElementById("lookingForWoman").checked = "checked";
+        }
+    }
+    /*Marital status select box*/
+    document.getElementById("status").value = profile.status;
+
+    /*Name*/
+    document.getElementById("firstName").value = profile.firstName;
+    document.getElementById("lastName").value = profile.lastName;
+
+    /*Born date*/
+    var d = new Date(profile.bornDate);
+    var date = (d.getMonth() + 1) + "/" + d.getDate() + "/" + d.getFullYear();
+    document.getElementById("datepicker").value = date;
+
+
+
     $("#editInfo").modal('show');
+
+}
+
+/*Save Basic info*/
+document.getElementById("saveInfo").onclick = function () {
+    /*My Gender*/
+    var man = document.getElementById("genderMale").checked;
+    var woman = document.getElementById("genderFemale").checked;
+    if (man) {
+        profile.gender = "Man";
+    } else if (woman) {
+        profile.gender = "Woman";
+    }
+
+    /*Looking for*/
+    var looking = [];
+    man = document.getElementById("lookingForMan").checked;
+    woman = document.getElementById("lookingForWoman").checked;
+    if (man) {
+        looking.push("Man");
+    }
+    if (woman) {
+        looking.push("Woman");
+    }
+    profile.lookingFor = looking;
+
+    /*Marital status*/
+    var e = document.getElementById("status");
+    profile.status = e.options[e.selectedIndex].text;
+
+    /*Name*/
+    var firstName = document.getElementById("firstName").value;
+    var lastName = document.getElementById("lastName").value;
+
+    profile.firstName = firstName;
+    profile.lastName = lastName;
+
+    /*Born date*/
+    var date = document.getElementById("datepicker").value;
+    profile.bornDate = new Date(date);
+
+
+
+    $.ajax({
+        url: "/user/profile",
+        type: "POST",
+        data: JSON.stringify(profile),
+        contentType: "application/json; charset=utf-8",
+        dataType: "json",
+        beforeSend: function (xhr) {
+            xhr.setRequestHeader('X-CSRF-Token', $('meta[name="_csrf"]').attr('content'));
+        },
+        success: function (data, textStatus, jqXHR) {
+            console.log("Basic Info Edit success");
+            $("#editInfo").modal('hide');
+            loadProfileData();
+        },
+        error: function (data, textStatus, jqXHR) {
+            console.log("Edit error");
+            $("#editInfo").modal('hide');
+        }
+    });
+
 }
 
 document.getElementById("saveChanges").onclick = function () {
@@ -124,9 +223,12 @@ $( function() {
     date.setFullYear(date.getFullYear() - 18);
 
     $("#datepicker").datepicker({
+      //  format: 'mm/dd/yyyy',
         startDate: "01/01/1900",
         endDate: date,
         clearBtn: true,
-        autoclose: true
+        autoclose: true,
     })
 } );
+
+
