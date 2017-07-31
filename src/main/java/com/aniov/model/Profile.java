@@ -11,7 +11,6 @@ import org.hibernate.annotations.Parameter;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Size;
 import java.io.Serializable;
 import java.util.Date;
 import java.util.HashSet;
@@ -36,17 +35,15 @@ public class Profile implements Serializable {
     private String goodAt;
     private String favorites;
 
-    @Size(min = 3, max = 50)
+    /* @Null
+     @Size(min = 3, max = 50)*/
     private String firstName;
 
-    @Size(min = 3, max = 50)
+    /*@Null
+    @Size(min = 3, max = 50)*/
     private String lastName;
 
-    @Size(min = 3, max = 50)
-    private String country;
-
-    @Size(min = 3, max = 50)
-    private String town;
+    private String googleLocationID;
 
     @Temporal(TemporalType.TIMESTAMP)
     private Date bornDate;
@@ -62,7 +59,8 @@ public class Profile implements Serializable {
     @Enumerated(EnumType.STRING)
     private SexualOrientation sexualOrientation;
 
-    //@Range(min = 120, max = 230)
+    // @Null
+    // @Range(min = 120, max = 230)
     private Integer height;
 
     @Enumerated(EnumType.STRING)
@@ -97,8 +95,7 @@ public class Profile implements Serializable {
         this.favorites = profileDTO.getFavorites();
         this.firstName = profileDTO.getFirstName();
         this.lastName = profileDTO.getLastName();
-        this.country = profileDTO.getCountry();
-        this.town = profileDTO.getTown();
+        this.googleLocationID = profileDTO.getGoogleLocationID();
         this.bornDate = profileDTO.getBornDate();
         this.height = profileDTO.getHeight();
         if (profileDTO.getGender() != null) {
@@ -140,7 +137,7 @@ public class Profile implements Serializable {
     @Getter
     @AllArgsConstructor
     public enum Status {
-        NOT_SAYING("Not Saying"), SINGLE("Single"), IN_A_RELATION("In a relation"), MARRIED("Married");
+        SINGLE("Single"), IN_A_RELATION("In a relation"), MARRIED("Married");
         private String status;
 
         private static int position(String status) {

@@ -66,10 +66,10 @@ public class UserController {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         String authUsername = auth.getName();
 
-        profileService.saveProfile(profileDTO, authUsername);
+        Profile savedProfile = profileService.saveProfile(profileDTO, authUsername);
 
 
-        return new ResponseEntity<>(new GenericResponseDTO("All OK"), HttpStatus.OK);
+        return new ResponseEntity<>(new ProfileDTO(savedProfile), HttpStatus.OK);
     }
 
 

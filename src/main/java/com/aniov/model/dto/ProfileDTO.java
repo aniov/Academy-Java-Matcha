@@ -3,9 +3,7 @@ package com.aniov.model.dto;
 import com.aniov.model.Profile;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.hibernate.validator.constraints.Range;
 
-import javax.validation.constraints.Size;
 import java.io.Serializable;
 import java.util.Date;
 import java.util.HashSet;
@@ -24,17 +22,15 @@ public class ProfileDTO implements Serializable {
     private String goodAt;
     private String favorites;
 
-    @Size(min = 3, max = 50)
+    /* @Null
+     @Size(min = 3, max = 50)*/
     private String firstName;
 
-    @Size(min = 3, max = 50)
+    /*@Null
+    @Size(min = 3, max = 50)*/
     private String lastName;
 
-    @Size(min = 3, max = 50)
-    private String country;
-
-    @Size(min = 3, max = 50)
-    private String town;
+    private String googleLocationID;
 
     private Date bornDate;
 
@@ -44,6 +40,7 @@ public class ProfileDTO implements Serializable {
 
     private String status;
 
+    //@Null
     //@Range(min = 120, max = 230)
     private Integer height;
 
@@ -61,8 +58,7 @@ public class ProfileDTO implements Serializable {
         this.favorites = profile.getFavorites();
         this.firstName = profile.getFirstName();
         this.lastName = profile.getLastName();
-        this.country = profile.getCountry();
-        this.town = profile.getTown();
+        this.googleLocationID = profile.getGoogleLocationID();
         this.bornDate = profile.getBornDate();
         this.height = profile.getHeight();
         if (profile.getGender() != null) {

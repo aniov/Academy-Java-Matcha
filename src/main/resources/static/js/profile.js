@@ -21,6 +21,8 @@ window.onload = function () {
             $("#userName").html(profile.username);
             loadProfileData();
             loadCards();
+            setPlaceId(profile.googleLocationID);
+
         },
         error: function (data, textStatus, jqXHR) {
             console.log("Cannot read username");
@@ -33,12 +35,26 @@ function loadProfileData() {
     $("#what-im-doing").html(profile.whatImDoing);
     $("#good-at").html(profile.goodAt);
     $("#favorite-stuff").html(profile.favorites);
-    $("#profile-username").html(profile.username);
+    $("#profile-username").html("Profile of " + profile.username);
+    $("#profile-realName").html(profile.firstName + " " + profile.lastName);
 }
 
 function loadCards() {
-    $("#card-one").html(profile.sexualOrientation + ", " + profile.gender + ", " + profile.status + ", " + (new Date().getYear() - new Date(profile.bornDate).getYear()) + " years");
-    $("#card-two").html(profile.ethnicity + ", " + profile.bodyType + ", Height: " + profile.height + " cm");
+
+    var sexOrientation = profile.sexualOrientation === null ? "" : profile.sexualOrientation + ", ";
+    var gender = profile.gender === null ? "" : profile.gender + ", ";
+    var status = profile.status === null ? "" : profile.status + ", ";
+    var date = profile.bornDate === null ? "" : calculateAge(profile.bornDate) + " years";
+    if (profile.sexualOrientation || profile.gender || profile.status || profile.bornDate > 0) {
+        $("#card-one").html(gender + sexOrientation + status + date);
+    }
+
+    var ethnicity = profile.ethnicity === null ? "" : profile.ethnicity + ", ";
+    var bodyType = profile.bodyType === null ? "" : profile.bodyType + ", ";
+    var height = profile.height === null ? "" : "Height: " + profile.height + " cm";
+    if (profile.ethnicity || profile.bodyType || profile.height) {
+        $("#card-two").html(ethnicity + bodyType + height);
+    }
     $("#card-three").html("Looking for: " + profile.lookingFor);
 }
 
@@ -119,10 +135,11 @@ function editInfo() {
     document.getElementById("lastName").value = profile.lastName;
 
     /*Born date*/
-    var d = new Date(profile.bornDate);
-    var date = (d.getMonth() + 1) + "/" + d.getDate() + "/" + d.getFullYear();
-    document.getElementById("datepicker").value = date;
-
+    if (profile.bornDate > 0) {
+        var d = new Date(profile.bornDate);
+        var date = (d.getMonth() + 1) + "/" + d.getDate() + "/" + d.getYear();
+        document.getElementById("datepicker").value = date;
+    }
 
     $("#editInfo").modal('show');
 
@@ -153,19 +170,27 @@ document.getElementById("saveInfo").onclick = function () {
 
     /*Marital status*/
     var e = document.getElementById("status");
-    profile.status = e.options[e.selectedIndex].text;
+    if (e.selectedIndex !== -1) {
+        profile.status = e.options[e.selectedIndex].text;
+    }
 
     /*Ethnicity*/
     e = document.getElementById("ethnicity");
-    profile.ethnicity = e.options[e.selectedIndex].text;
+    if (e.selectedIndex !== -1) {
+        profile.ethnicity = e.options[e.selectedIndex].text;
+    }
 
     /*Body type*/
     e = document.getElementById("bodyType");
-    profile.bodyType = e.options[e.selectedIndex].text;
+    if (e.selectedIndex !== -1) {
+        profile.bodyType = e.options[e.selectedIndex].text;
+    }
 
     /*Height*/
     e = document.getElementById("height");
-    profile.height = e.options[e.selectedIndex].value;
+    if (e.selectedIndex !== -1) {
+        profile.height = e.options[e.selectedIndex].value;
+    }
 
     /*Name*/
     var firstName = document.getElementById("firstName").value;
@@ -177,7 +202,6 @@ document.getElementById("saveInfo").onclick = function () {
     /*Born date*/
     var date = document.getElementById("datepicker").value;
     profile.bornDate = new Date(date);
-
 
     $.ajax({
         url: "/user/profile",
@@ -191,7 +215,9 @@ document.getElementById("saveInfo").onclick = function () {
         success: function (data, textStatus, jqXHR) {
             console.log("Basic Info Edit success");
             $("#editInfo").modal('hide');
+            profile = data;
             loadProfileData();
+            loadCards();
         },
         error: function (data, textStatus, jqXHR) {
             console.log("Edit error");
@@ -199,7 +225,6 @@ document.getElementById("saveInfo").onclick = function () {
         }
     });
 
-    loadCards();
 
 }
 
@@ -249,6 +274,7 @@ $(function () {
     date.setFullYear(date.getFullYear() - 18);
 
     $("#datepicker").datepicker({
+        format: "mm/dd/yyyy",
         startDate: "01/01/1900",
         endDate: date,
         clearBtn: true,
@@ -256,4 +282,40 @@ $(function () {
     })
 });
 
+/*Calculate Age*/
+function calculateAge(birthDate) {
 
+    birthDate = new Date(birthDate);
+    todayDate = new Date();
+
+    var years = todayDate.getFullYear() - birthDate.getFullYear();
+    if (todayDate.getMonth() < birthDate.getMonth() ||
+        todayDate.getMonth() === birthDate.getMonth() && todayDate.getDate() < birthDate.getDate()) {
+        years--;
+    }
+    return years;
+}
+
+function saveUserLocation(place_id) {
+
+    profile.googleLocationID = place_id;
+
+    $.ajax({
+        url: "/user/profile",
+        type: "POST",
+        data: JSON.stringify(profile),
+        contentType: "application/json; charset=utf-8",
+        dataType: "json",
+        beforeSend: function (xhr) {
+            xhr.setRequestHeader('X-CSRF-Token', $('meta[name="_csrf"]').attr('content'));
+        },
+        success: function (data, textStatus, jqXHR) {
+            console.log("Edit success");
+            loadProfileData();
+        },
+        error: function (data, textStatus, jqXHR) {
+            console.log("Edit error");
+        }
+    });
+    
+}

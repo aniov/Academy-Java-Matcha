@@ -1,7 +1,26 @@
-<script async defer
+<script async defer type="text/javascript"
+        src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCBQKGxFv-CLu7_wFf3Gsl6tgZU02aq2AA&libraries=places&callback=initMap"></script>
+<script type="text/javascript" src="js/google-location.js"></script>
+
+<!--<script async defer
         src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCBQKGxFv-CLu7_wFf3Gsl6tgZU02aq2AA&callback=initMap"></script>
-<script type="text/javascript" src="js/googlelocation.js"></script>
+<script type="text/javascript" src="js/googlelocation.js"></script>-->
 
 <!--Google Maps-->
 
-<div class="col-xs-4 col-xs-offset-4 z-depth-1" id="map-container" style="height: 300px"></div>
+<!--
+<div class="col-xs-4 col-xs-offset-4 z-depth-1" id="map-container" style="height: 300px"></div>-->
+
+<div class="row">
+    <input id="pac-input" class="col-md-6" type="text"
+           placeholder="Set your location"/>
+    <button class="btn btn-primary">Save</button>
+</div>
+<br/>
+
+<div id="map" style="height: 300px"></div>
+<div id="infowindow-content">
+    <span id="place-name" class="title"></span><br>
+    Place ID <span id="place-id"></span><br>
+    <span id="place-address"></span>
+</div>
