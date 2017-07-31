@@ -44,7 +44,7 @@ public class VerificationToken {
     @PrePersist
     private void setDate(){
         Calendar c = Calendar.getInstance();
-        c.add(Calendar.HOUR, 24);
+        c.add(Calendar.MINUTE, 2);
         expiryDate = c.getTime();
     }
 }

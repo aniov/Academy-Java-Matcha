@@ -47,4 +47,9 @@ public class VerificationTokenService {
     public VerificationToken getVerificationToken(String token) {
         return verificationTokenRepository.findByToken(token);
     }
+
+    public List<VerificationToken> getAll() {
+        return verificationTokenRepository.findAll();
+    }
+
 }
