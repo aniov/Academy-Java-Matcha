@@ -22,7 +22,6 @@ window.onload = function () {
             loadProfileData();
             loadCards();
             setPlaceId(profile.googleLocationID);
-
         },
         error: function (data, textStatus, jqXHR) {
             console.log("Cannot read username");
@@ -36,7 +35,10 @@ function loadProfileData() {
     $("#good-at").html(profile.goodAt);
     $("#favorite-stuff").html(profile.favorites);
     $("#profile-username").html("Profile of " + profile.username);
-    $("#profile-realName").html(profile.firstName + " " + profile.lastName);
+    var firstName = profile.firstName === null ? "" : profile.firstName;
+    var lastName = profile.lastName === null ? "" : profile.lastName;
+    $("#profile-realName").html(firstName + " " + lastName);
+    document.getElementById("pac-input").value = profile.address;
 }
 
 function loadCards() {
@@ -45,8 +47,9 @@ function loadCards() {
     var gender = profile.gender === null ? "" : profile.gender + ", ";
     var status = profile.status === null ? "" : profile.status + ", ";
     var date = profile.bornDate === null ? "" : calculateAge(profile.bornDate) + " years";
+    var address = profile.address === null ? "" : "<p>From: " + profile.address + "</p>"  ;
     if (profile.sexualOrientation || profile.gender || profile.status || profile.bornDate > 0) {
-        $("#card-one").html(gender + sexOrientation + status + date);
+        $("#card-one").html(gender + sexOrientation + status + date + address);
     }
 
     var ethnicity = profile.ethnicity === null ? "" : profile.ethnicity + ", ";
@@ -296,9 +299,10 @@ function calculateAge(birthDate) {
     return years;
 }
 
-function saveUserLocation(place_id) {
+function saveUserLocation(place_id, address) {
 
     profile.googleLocationID = place_id;
+    profile.address = address;
 
     $.ajax({
         url: "/user/profile",
@@ -311,7 +315,7 @@ function saveUserLocation(place_id) {
         },
         success: function (data, textStatus, jqXHR) {
             console.log("Edit success");
-            loadProfileData();
+            loadCards();
         },
         error: function (data, textStatus, jqXHR) {
             console.log("Edit error");

@@ -10,7 +10,6 @@ function initMap() {
         center: {lat: -33.8688, lng: 151.2195},
         zoom: 13
     });
-
     var input = document.getElementById('pac-input');
 
     var autocomplete = new google.maps.places.Autocomplete(
@@ -43,14 +42,13 @@ function initMap() {
             return;
         }
         setLocation(place.place_id, map, marker, infowindowContent, infowindow);
-        saveUserLocation(place.place_id);
+        saveUserLocation(place.place_id, place.name);
     });
 }
 
 function setLocation(place_id, map, marker, infowindowContent, infowindow) {
     var geocoder = new google.maps.Geocoder;
     geocoder.geocode({'placeId': place_id}, function(results, status) {
-
         if (status !== 'OK') {
             window.alert('Geocoder failed due to: ' + status);
             return;
@@ -64,8 +62,8 @@ function setLocation(place_id, map, marker, infowindowContent, infowindow) {
         });
         marker.setVisible(true);
         infowindowContent.children['place-id'].textContent = place_id;
-        infowindowContent.children['place-address'].textContent =
-            results[0].formatted_address;
+        infowindowContent.children['place-address'].textContent = results[0].formatted_address;
+
         infowindow.open(map, marker);
     });
 }

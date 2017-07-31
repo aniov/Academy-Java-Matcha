@@ -32,6 +32,8 @@ public class ProfileDTO implements Serializable {
 
     private String googleLocationID;
 
+    private String address;
+
     private Date bornDate;
 
     private String gender;
@@ -59,6 +61,7 @@ public class ProfileDTO implements Serializable {
         this.firstName = profile.getFirstName();
         this.lastName = profile.getLastName();
         this.googleLocationID = profile.getGoogleLocationID();
+        this.address = profile.getAddress();
         this.bornDate = profile.getBornDate();
         this.height = profile.getHeight();
         if (profile.getGender() != null) {

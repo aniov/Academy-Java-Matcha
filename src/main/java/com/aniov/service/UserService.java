@@ -1,18 +1,19 @@
 package com.aniov.service;
 
-import com.aniov.model.Account;
-import com.aniov.model.Profile;
-import com.aniov.model.SiteUserDetails;
-import com.aniov.model.User;
+import com.aniov.model.*;
 import com.aniov.model.dto.UserRegisterDTO;
 import com.aniov.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
+
+import java.util.Date;
+import java.util.List;
 
 /**
  * User service
@@ -22,6 +23,9 @@ public class UserService implements UserDetailsService {
 
     @Autowired
     private UserRepository userRepository;
+
+    @Autowired
+    private VerificationTokenService verificationTokenService;
 
     @Value("${account.activated}")
     private boolean isEnabled;
@@ -46,6 +50,10 @@ public class UserService implements UserDetailsService {
 
     public User saveUser(User user) {
         return userRepository.save(user);
+    }
+
+    public void deleteUser(User user) {
+        userRepository.delete(user);
     }
 
     /**
@@ -101,8 +109,34 @@ public class UserService implements UserDetailsService {
         userRepository.save(retrievedUser);
     }
 
-    public void deleteUser(User user) {
-        userRepository.delete(user);
+    /**
+     * Run every 1h, and clean up data base from expired un-activated accounts
+     */
+    @Scheduled(cron = "0 0 * * * *")
+    public void deleteExpiredAccounts() {
+
+        List<VerificationToken> allTokens = verificationTokenService.getAll();
+
+        for (VerificationToken token : allTokens) {
+            deleteExpiredAccountsAndTokens(token);
+        }
+    }
+
+    private void deleteExpiredAccountsAndTokens(VerificationToken token) {
+
+        Date todayDate = new Date();
+        //Delete account & all related
+        if (token.getExpiryDate().before(todayDate) && token.getTokenType().equals(TokenType.ACTIVATION)) {
+            verificationTokenService.deleteToken(token);
+            User userToBeDeleted = token.getUser();
+            if (!userToBeDeleted.getAccount().isEnabled()) {
+                userRepository.delete(userToBeDeleted);
+            }
+
+            //Delete just token
+        } else if (token.getExpiryDate().before(todayDate) && token.getTokenType().equals(TokenType.PASSWORD_RESET)) {
+            verificationTokenService.deleteToken(token);
+        }
     }
 
 }

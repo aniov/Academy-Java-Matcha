@@ -1,8 +1,6 @@
 package com.aniov.service;
 
-import com.aniov.model.TokenType;
 import com.aniov.model.User;
-import com.aniov.model.VerificationToken;
 import lombok.Setter;
 import org.apache.velocity.Template;
 import org.apache.velocity.VelocityContext;
@@ -12,14 +10,12 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.scheduling.annotation.Async;
-import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 
 import javax.mail.MessagingException;
 import javax.mail.internet.MimeMessage;
 import java.io.StringWriter;
 import java.util.Date;
-import java.util.List;
 import java.util.Properties;
 
 /**
@@ -104,35 +100,5 @@ public class EmailService {
         properties.setProperty("resource.loader", "class");
         properties.setProperty("class.resource.loader.class", "org.apache.velocity.runtime.resource.loader.ClasspathResourceLoader");
         Velocity.init(properties);
-    }
-
-    /**
-     * Run every 2h, and clean up data base from expired un-activated accounts
-     */
-    @Scheduled(cron = "* * */2 * * *")
-    public void deleteExpiredAccounts() {
-
-        List<VerificationToken> allTokens = verificationTokenService.getAll();
-
-        for (VerificationToken token : allTokens) {
-            deleteExpiredAccountsAndTokens(token);
-        }
-    }
-
-    private void deleteExpiredAccountsAndTokens(VerificationToken token) {
-
-        Date todayDate = new Date();
-        //Delete account & all related
-        if (token.getExpiryDate().before(todayDate) && token.getTokenType().equals(TokenType.ACTIVATION)) {
-            verificationTokenService.deleteToken(token);
-            User userToBeDeleted = token.getUser();
-            if (!userToBeDeleted.getAccount().isEnabled()) {
-                userService.deleteUser(userToBeDeleted);
-            }
-
-            //Delete just token
-        } else if (token.getExpiryDate().before(todayDate) && token.getTokenType().equals(TokenType.PASSWORD_RESET)) {
-            verificationTokenService.deleteToken(token);
-        }
     }
 }
