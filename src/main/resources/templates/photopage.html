@@ -37,6 +37,31 @@
             <div class="col-md-12">
                 <h1 class="h1-responsive">Photo
                     <small class="text-muted">album</small>
+
+                    <!--Spinner-->
+                    <a class="pull-right">
+                    <div class="preloader-wrapper " id="circle-spinner">
+                        <div class="spinner-layer spinner-green-only">
+                            <div class="circle-clipper left">
+                                <div class="circle"></div>
+                            </div><div class="gap-patch">
+                            <div class="circle"></div>
+                        </div><div class="circle-clipper right">
+                            <div class="circle"></div>
+                        </div>
+                        </div>
+                    </div>
+                    <!--Drag and drop-->
+                    <div class="drop-div ">Drop!
+                        <button class="btn btn-primary btn-sm pull-right" onclick="document.querySelector('input').click()">Or click</button>
+                    </div>
+                    <div class="pull-right">
+                        <p class="uploading-photo">Uploading...</p>
+                        <a id="link">uploaded success</a>
+                    </div>
+                    <input style="visibility: collapse; width: 0px;" type="file" onchange="upload(this.files[0])"/>
+                    </a>
+
                 </h1>
             </div>
         </div>
@@ -155,7 +180,7 @@
                                     <figure class="col-lg-4 col-md-6 col-sm-12 wow fadeIn" data-wow-delay="0.2s">
                                         <a href="https://mdbootstrap.com/img/Photos/Horizontal/Nature/12-col/img%20(42).jpg"
                                            data-size="1600x1067">
-                                            <img src="https://mdbootstrap.com/img/Photos/Horizontal/Nature/4-col/img%20(42).jpg"
+                                            <img src="https://mdbootstrap.com/img/Photos/Horizontal/Nature/12-col/img%20(42).jpg"
                                                  class="img-fluid z-depth-2" alt="Gallery image 2"/>
                                         </a>
                                     </figure>
@@ -222,7 +247,6 @@
                         </div>
                         <!-- /.Live preview-->
 
-
                     </section>
                     <!-- SECTION-->
 
@@ -253,7 +277,7 @@
 <script type="text/javascript" src="../static/js/mdb.min.js" th:src="@{/js/mdb.min.js}"></script>
 <!-- Main JavaScript -->
 <script type="text/javascript" src="../static/js/photo.js" th:src="@{/js/photo.js}"></script>
-
+<script type="text/javascript" src="../static/js/drag-and-drop.js" th:src="@{/js/drag-and-drop.js}"></script>
 <script>
     new WOW().init();
 </script>

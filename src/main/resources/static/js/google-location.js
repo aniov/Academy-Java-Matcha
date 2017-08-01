@@ -61,7 +61,7 @@ function setLocation(place_id, map, marker, infowindowContent, infowindow) {
             location: results[0].geometry.location
         });
         marker.setVisible(true);
-        infowindowContent.children['place-id'].textContent = place_id;
+        //infowindowContent.children['place-id'].textContent = place_id;
         infowindowContent.children['place-address'].textContent = results[0].formatted_address;
 
         infowindow.open(map, marker);

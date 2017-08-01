@@ -7,7 +7,6 @@ import com.aniov.model.dto.ProfileDTO;
 import com.aniov.service.ProfileService;
 import com.aniov.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -15,8 +14,8 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
-import javax.naming.Binding;
 import javax.validation.Valid;
 
 /**
@@ -70,6 +69,39 @@ public class UserController {
 
 
         return new ResponseEntity<>(new ProfileDTO(savedProfile), HttpStatus.OK);
+    }
+
+    @GetMapping(path = "/user/photos")
+    public ResponseEntity<?> getPhotos(@RequestParam(name = "name", required = false) String username) {
+
+        Profile profile;
+
+        if (username == null) {
+            Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+            String authUsername = auth.getName();
+            profile = userService.findUserByUserName(authUsername).getProfile();
+        } else {
+            if (userService.findUserByUserName(username) == null) {
+                return new ResponseEntity<>(new GenericResponseDTO("User not found."), HttpStatus.NOT_FOUND);
+            }
+            profile = userService.findUserByUserName(username).getProfile();
+        }
+        return new ResponseEntity<Object>(profile.getPictures(), HttpStatus.OK);
+
+    }
+
+    @PostMapping(path = "/user/upload-photo")
+    public ResponseEntity<?> savePhoto(@RequestParam("image") MultipartFile image) {
+
+        System.out.println("THIS iS THE PHOTO: " + image.getSize() + " " + image.getName() + " " + image.getContentType());
+
+
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        String authUsername = auth.getName();
+
+        Profile profile = profileService.findByUserName(authUsername);
+
+        return new ResponseEntity<>(HttpStatus.OK);
     }
 
 
