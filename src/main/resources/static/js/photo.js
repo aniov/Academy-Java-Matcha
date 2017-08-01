@@ -40,17 +40,14 @@ function getPictures() {
 }
 
 function addUploadedPicture(newPicture) {
-
 }
 
 function showPictures() {
 
-    // for (var i = 0; i < pictures.length; i++) {
-    document.getElementById("img-big-1").href = "data:image/png;base64," + pictures[1].pictureData;
-    document.getElementById("img-big-1").setAttribute("data-size", pictures[8].pictureWidth.toString() + "x" + pictures[8].pictureHeight.toString());
-    document.getElementById("img-small-1").src = "data:image/png;base64," + pictures[1].pictureData;
-
-
-    // }
+    for (var i = 0; i < pictures.length; i++) {
+        document.getElementById("img-big-" + (i + 1).toString()).href = "data:image/png;base64," + pictures[i].pictureData;
+        document.getElementById("img-big-" + (i + 1).toString()).setAttribute("data-size", pictures[i].pictureWidth.toString() + "x" + pictures[i].pictureHeight.toString());
+        document.getElementById("img-small-" + (i + 1).toString()).src = "data:image/png;base64," + pictures[i].pictureData;
+    }
 
 }
