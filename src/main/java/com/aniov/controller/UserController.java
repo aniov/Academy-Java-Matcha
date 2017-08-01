@@ -1,12 +1,16 @@
 package com.aniov.controller;
 
+import com.aniov.model.Picture;
 import com.aniov.model.Profile;
 import com.aniov.model.User;
 import com.aniov.model.dto.GenericResponseDTO;
 import com.aniov.model.dto.ProfileDTO;
+import com.aniov.service.PictureService;
 import com.aniov.service.ProfileService;
 import com.aniov.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.web.servlet.MultipartConfigFactory;
+import org.springframework.context.annotation.Bean;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -16,7 +20,11 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
+import javax.imageio.ImageIO;
+import javax.servlet.MultipartConfigElement;
 import javax.validation.Valid;
+import java.awt.image.BufferedImage;
+import java.io.IOException;
 
 /**
  * User controller
@@ -30,6 +38,9 @@ public class UserController {
 
     @Autowired
     private ProfileService profileService;
+
+    @Autowired
+    private PictureService pictureService;
 
     @GetMapping(path = "/user")
     public ResponseEntity<?> getCurrentUser() {
@@ -86,7 +97,7 @@ public class UserController {
             }
             profile = userService.findUserByUserName(username).getProfile();
         }
-        return new ResponseEntity<Object>(profile.getPictures(), HttpStatus.OK);
+        return new ResponseEntity<>(profile.getPictures(), HttpStatus.OK);
 
     }
 
@@ -100,8 +111,18 @@ public class UserController {
         String authUsername = auth.getName();
 
         Profile profile = profileService.findByUserName(authUsername);
+        Picture savedPicture = pictureService.savePicture(image, profile);
 
-        return new ResponseEntity<>(HttpStatus.OK);
+        return new ResponseEntity<>(savedPicture, HttpStatus.OK);
+    }
+
+    /** Change the default maxSize limit of the uploaded file*/
+    @Bean
+    MultipartConfigElement multipartConfigElement() {
+        MultipartConfigFactory factory = new MultipartConfigFactory();
+        factory.setMaxFileSize("5120MB");
+        factory.setMaxRequestSize("5120MB");
+        return factory.createMultipartConfig();
     }
 
 

@@ -26,6 +26,7 @@ function upload(file) {
 
             console.log("Basic Info Edit success");
             document.body.className = "uploaded";
+            addUploadedPicture(data);
             //document.getElementById("circle-spinner").className = "preloader-wrapper";
         },
         error: function (data, textStatus, jqXHR) {

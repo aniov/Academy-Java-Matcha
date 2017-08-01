@@ -74,7 +74,7 @@ footer.page-footer {
     display: inline-block;
 }
 
-#link, .uploading-photo, .drop-div {
+#link, #uploading-photo, .drop-div {
     display: none
 }
 
@@ -90,14 +90,16 @@ footer.page-footer {
     color: #34e721;
 }
 
+.uploaded #link {
+    display: inline
+}
+
 .error-upload .drop-div{
     color: #ee0610;
 }
 
-.uploading .uploading-photo {
+.error-upload #uploading-photo {
     display: inline
 }
 
-.uploaded #link {
-    display: inline
-}
+

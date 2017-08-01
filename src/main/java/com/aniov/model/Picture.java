@@ -1,5 +1,6 @@
 package com.aniov.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Data;
 
 import javax.persistence.*;
@@ -24,10 +25,15 @@ public class Picture implements Serializable {
     @Lob
     private byte[] pictureData;
 
+    private Integer pictureHeight;
+
+    private Integer pictureWidth;
+
     @Temporal(TemporalType.TIMESTAMP)
     private Date date;
 
     @ManyToOne(cascade = CascadeType.ALL)
     @PrimaryKeyJoinColumn
+    @JsonIgnore
     private Profile profile;
 }

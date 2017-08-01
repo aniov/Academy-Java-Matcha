@@ -40,26 +40,31 @@
 
                     <!--Spinner-->
                     <a class="pull-right">
-                    <div class="preloader-wrapper " id="circle-spinner">
-                        <div class="spinner-layer spinner-green-only">
-                            <div class="circle-clipper left">
-                                <div class="circle"></div>
-                            </div><div class="gap-patch">
-                            <div class="circle"></div>
-                        </div><div class="circle-clipper right">
-                            <div class="circle"></div>
+                        <div class="preloader-wrapper " id="circle-spinner">
+                            <div class="spinner-layer spinner-green-only">
+                                <div class="circle-clipper left">
+                                    <div class="circle"></div>
+                                </div>
+                                <div class="gap-patch">
+                                    <div class="circle"></div>
+                                </div>
+                                <div class="circle-clipper right">
+                                    <div class="circle"></div>
+                                </div>
+                            </div>
                         </div>
+                        <!--Drag and drop-->
+                        <div class="drop-div ">Drop!
+                            <button class="btn btn-primary btn-sm pull-right"
+                                    onclick="document.querySelector('input').click()">Or click
+                            </button>
+                            <span style="font-size: xx-small">max size: 1Mb</span>
                         </div>
-                    </div>
-                    <!--Drag and drop-->
-                    <div class="drop-div ">Drop!
-                        <button class="btn btn-primary btn-sm pull-right" onclick="document.querySelector('input').click()">Or click</button>
-                    </div>
-                    <div class="pull-right">
-                        <p class="uploading-photo">Uploading...</p>
-                        <a id="link">uploaded success</a>
-                    </div>
-                    <input style="visibility: collapse; width: 0px;" type="file" onchange="upload(this.files[0])"/>
+                        <div class="pull-right">
+                            <a id="uploading-photo">upload error</a>
+                            <a id="link">uploaded success</a>
+                        </div>
+                        <input style="visibility: collapse; width: 0px;" type="file" onchange="upload(this.files[0])"/>
                     </a>
 
                 </h1>
@@ -166,14 +171,11 @@
 
                                 <div class="mdb-lightbox" data-pswp-uid="2">
 
+                                    <!--<img src="" id="imageDiv"/>-->
+
                                     <figure class="col-lg-4 col-md-6 col-sm-12 wow fadeIn" data-wow-delay="0.2s">
-                                        <!--Large image-->
-                                        <a href="http://www.wonderslist.com/wp-content/uploads/2016/02/Pia-Wurtzbach-Most-Beautiful-Woman-2016.jpg"
-                                           data-size="1600x1067">
-                                            <!-- thumbnail-->
-                                            <img src="http://www.wonderslist.com/wp-content/uploads/2016/02/Pia-Wurtzbach-Most-Beautiful-Woman-2016.jpg"
-                                                 class="img-fluid z-depth-2"
-                                                 alt="LightBox with margins gallery image 1"/>
+                                        <a id="img-big-1" href="" >
+                                            <img id="img-small-1" src="" class="img-fluid z-depth-2" alt="Gallery image 1"/>
                                         </a>
                                     </figure>
 
