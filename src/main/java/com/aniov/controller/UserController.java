@@ -20,11 +20,9 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
-import javax.imageio.ImageIO;
 import javax.servlet.MultipartConfigElement;
 import javax.validation.Valid;
-import java.awt.image.BufferedImage;
-import java.io.IOException;
+import java.util.List;
 
 /**
  * User controller
@@ -77,8 +75,6 @@ public class UserController {
         String authUsername = auth.getName();
 
         Profile savedProfile = profileService.saveProfile(profileDTO, authUsername);
-
-
         return new ResponseEntity<>(new ProfileDTO(savedProfile), HttpStatus.OK);
     }
 
@@ -104,9 +100,6 @@ public class UserController {
     @PostMapping(path = "/user/upload-photo")
     public ResponseEntity<?> savePhoto(@RequestParam("image") MultipartFile image) {
 
-        System.out.println("THIS iS THE PHOTO: " + image.getSize() + " " + image.getName() + " " + image.getContentType());
-
-
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         String authUsername = auth.getName();
 
@@ -116,7 +109,40 @@ public class UserController {
         return new ResponseEntity<>(savedPicture, HttpStatus.OK);
     }
 
-    /** Change the default maxSize limit of the uploaded file*/
+    /**
+     * Delete a Picture from user profile
+     *
+     * @param stringId id of Picture
+     * @return HttpStatus.OK if deleted successful, HttpStatus.FORBIDDEN if picture id doesn't belong to auth user
+     */
+    @DeleteMapping(path = "user/delete-photo")
+    public ResponseEntity<?> deletePhoto(@RequestParam("id") String stringId) {
+
+        Long id;
+        try {
+            id = Long.valueOf(stringId);
+        } catch (NumberFormatException e) {
+            return new ResponseEntity<>(new GenericResponseDTO("Error deleting - Forbidden"), HttpStatus.FORBIDDEN);
+        }
+
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        String authUsername = auth.getName();
+
+        Profile profile = profileService.findByUserName(authUsername);
+
+        List<Picture> authUserPictures = profile.getPictures();
+        for (Picture picture : authUserPictures) {
+            if (picture.getId() == id) {
+                pictureService.deletePictureById(picture, profile);
+                return new ResponseEntity<>(new GenericResponseDTO("Photo deleted"), HttpStatus.OK);
+            }
+        }
+        return new ResponseEntity<>(new GenericResponseDTO("Error deleting - Forbidden"), HttpStatus.FORBIDDEN);
+    }
+
+    /**
+     * Change the default maxSize limit of the uploaded file
+     */
     @Bean
     MultipartConfigElement multipartConfigElement() {
         MultipartConfigFactory factory = new MultipartConfigFactory();

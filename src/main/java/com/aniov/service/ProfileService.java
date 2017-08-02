@@ -31,4 +31,8 @@ public class ProfileService {
        profile.edit(profileDTO);
        return profileRepository.save(profile);
    }
+
+   public Profile saveProfileEntity(Profile profile) {
+       return profileRepository.save(profile);
+   }
 }

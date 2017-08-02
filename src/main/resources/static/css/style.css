@@ -94,12 +94,20 @@ footer.page-footer {
     display: inline
 }
 
-.error-upload .drop-div{
+.error-upload .drop-div {
     color: #ee0610;
 }
 
 .error-upload #uploading-photo {
     display: inline
+}
+
+/*Photo size and align */
+.photo-align-size {
+/*    width: 400px;
+    height: 400px;*/
+/*    display: table-cell;
+    text-align: center;*/
 }
 
 

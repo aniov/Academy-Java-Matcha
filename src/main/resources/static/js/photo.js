@@ -40,14 +40,42 @@ function getPictures() {
 }
 
 function addUploadedPicture(newPicture) {
+    pictures.push(newPicture);
+    showPictures();
 }
 
 function showPictures() {
 
-    for (var i = 0; i < pictures.length; i++) {
-        document.getElementById("img-big-" + (i + 1).toString()).href = "data:image/png;base64," + pictures[i].pictureData;
-        document.getElementById("img-big-" + (i + 1).toString()).setAttribute("data-size", pictures[i].pictureWidth.toString() + "x" + pictures[i].pictureHeight.toString());
-        document.getElementById("img-small-" + (i + 1).toString()).src = "data:image/png;base64," + pictures[i].pictureData;
+    for (var i = 0; i < 9; i++) {
+        if (i < pictures.length) {
+            document.getElementById("img-big-" + (i + 1).toString()).href = "data:image/png;base64," + pictures[i].pictureData;
+            document.getElementById("img-big-" + (i + 1).toString()).setAttribute("data-size", pictures[i].pictureWidth.toString() + "x" + pictures[i].pictureHeight.toString());
+            document.getElementById("img-small-" + (i + 1).toString()).src = "data:image/png;base64," + pictures[i].pictureData;
+        } else {
+            document.getElementById("img-big-" + (i + 1).toString()).href = "/photos/photo-avatar.png";
+            document.getElementById("img-big-" + (i + 1).toString()).setAttribute("data-size", "327x250");
+            document.getElementById("img-small-" + (i + 1).toString()).src = "/photos/photo-avatar.png";
+        }
     }
+
+}
+
+function deletePhoto(photoPosition) {
+
+    var toDelete = "?id=" + pictures[photoPosition - 1].id;
+$.ajax({
+    url: "/user/delete-photo" + toDelete,
+    type: "DELETE",
+    beforeSend: function (xhr) {
+        xhr.setRequestHeader('X-CSRF-Token', $('meta[name="_csrf"]').attr('content'));
+    },
+    success: function (data, textStatus, jqXHR) {
+        pictures.splice(pictures[photoPosition - 1], 1);
+        showPictures();
+    },
+    error: function (data, textStatus, jqXHR) {
+        console.log("Cannot delete photo");
+    }
+});
 
 }
