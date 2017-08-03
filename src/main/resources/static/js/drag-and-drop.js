@@ -24,13 +24,14 @@ function upload(file) {
         },
         success: function (data, textStatus, jqXHR) {
 
-            console.log("Basic Info Edit success");
+            console.log("Photo uploaded success");
             document.body.className = "uploaded";
             addUploadedPicture(data);
+            setAsMainIfOnePhoto();
             //document.getElementById("circle-spinner").className = "preloader-wrapper";
         },
         error: function (data, textStatus, jqXHR) {
-            console.log("Edit error");
+            console.log("Upload photo error");
             document.body.className = "error-upload";
             //setTimeout(document.body.className = "error-upload", 3000);
         }

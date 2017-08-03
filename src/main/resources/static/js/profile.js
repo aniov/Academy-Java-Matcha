@@ -1,4 +1,5 @@
 var profile;
+var mainPicture;
 
 window.onload = function () {
     $.get("navbar.html", function (data) {
@@ -38,7 +39,10 @@ function loadProfileData() {
     var firstName = profile.firstName === null ? "" : profile.firstName;
     var lastName = profile.lastName === null ? "" : profile.lastName;
     $("#profile-realName").html(firstName + " " + lastName);
-    document.getElementById("pac-input").value = profile.address;
+    if (profile.address !== null) {
+        document.getElementById("pac-input").value = profile.address;
+    }
+    showMainProfilePhoto();
 }
 
 function loadCards() {
@@ -47,7 +51,7 @@ function loadCards() {
     var gender = profile.gender === null ? "" : profile.gender + ", ";
     var status = profile.status === null ? "" : profile.status + ", ";
     var date = profile.bornDate === null ? "" : calculateAge(profile.bornDate) + " years";
-    var address = profile.address === null ? "" : "<p>From: " + profile.address + "</p>"  ;
+    var address = profile.address === null ? "" : "<p>From: " + profile.address + "</p>";
     if (profile.sexualOrientation || profile.gender || profile.status || profile.bornDate > 0) {
         $("#card-one").html(gender + sexOrientation + status + date + address);
     }
@@ -321,5 +325,21 @@ function saveUserLocation(place_id, address) {
             console.log("Edit error");
         }
     });
-    
+
+}
+
+function showMainProfilePhoto() {
+
+    $.ajax({
+        url: "/user/photo-main",
+        type: "GET",
+        contentType: "application/json; charset=utf-8",
+        success: function (data, textStatus, jqXHR) {
+            mainPicture = data;
+            document.getElementById("main-profile-photo").src = "data:image/png;base64," + mainPicture.pictureData;
+        },
+        error: function (data, textStatus, jqXHR) {
+            console.log("Cannot load main photo !!");
+        }
+    });
 }

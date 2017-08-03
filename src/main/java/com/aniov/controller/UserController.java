@@ -112,18 +112,11 @@ public class UserController {
     /**
      * Delete a Picture from user profile
      *
-     * @param stringId id of Picture
+     * @param id id of Picture
      * @return HttpStatus.OK if deleted successful, HttpStatus.FORBIDDEN if picture id doesn't belong to auth user
      */
     @DeleteMapping(path = "user/delete-photo")
-    public ResponseEntity<?> deletePhoto(@RequestParam("id") String stringId) {
-
-        Long id;
-        try {
-            id = Long.valueOf(stringId);
-        } catch (NumberFormatException e) {
-            return new ResponseEntity<>(new GenericResponseDTO("Error deleting - Forbidden"), HttpStatus.FORBIDDEN);
-        }
+    public ResponseEntity<?> deletePhoto(@RequestParam("id") Long id) {
 
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         String authUsername = auth.getName();
@@ -138,6 +131,40 @@ public class UserController {
             }
         }
         return new ResponseEntity<>(new GenericResponseDTO("Error deleting - Forbidden"), HttpStatus.FORBIDDEN);
+    }
+
+    @PutMapping(path = "/user/set-main-photo")
+    public ResponseEntity<?> setPhotoAsMain(@RequestParam("id") Long id) {
+
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        String authUsername = auth.getName();
+        Profile profile = profileService.findByUserName(authUsername);
+
+        pictureService.setAsMainPhoto(id, profile);
+        return new ResponseEntity<>(new GenericResponseDTO("Photo set as main"), HttpStatus.OK);
+    }
+
+    @GetMapping(path = "/user/photo-main")
+    public ResponseEntity<?> getMainPhoto(@RequestParam(name = "name", required = false) String username) {
+
+        Profile profile;
+
+        if (username == null) {
+            Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+            String authUsername = auth.getName();
+            profile = userService.findUserByUserName(authUsername).getProfile();
+        } else {
+            if (userService.findUserByUserName(username) == null) {
+                return new ResponseEntity<>(new GenericResponseDTO("User not found."), HttpStatus.NOT_FOUND);
+            }
+            profile = userService.findUserByUserName(username).getProfile();
+        }
+
+        Picture picture = pictureService.getMainPhoto(profile);
+        if (picture != null) {
+            return new ResponseEntity<>(picture, HttpStatus.OK);
+        }
+        return new ResponseEntity<>(new GenericResponseDTO("Cannot find main profile photo"), HttpStatus.FORBIDDEN);
     }
 
     /**

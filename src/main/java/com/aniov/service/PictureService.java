@@ -11,6 +11,7 @@ import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.util.Date;
+import java.util.List;
 
 /**
  * Service service
@@ -36,7 +37,6 @@ public class PictureService {
         Picture newPicture = new Picture();
         newPicture.setDate(new Date());
         newPicture.setPictureName(file.getOriginalFilename());
-        newPicture.setProfilePicture(true);
         try {
             newPicture.setPictureData(file.getBytes());
 
@@ -55,5 +55,29 @@ public class PictureService {
     public void deletePictureById(Picture picture, Profile profile) {
         profile.getPictures().remove(picture);
         pictureRepository.delete(picture);
+    }
+
+    public void setAsMainPhoto(Long id, Profile profile) {
+
+        List<Picture> pictures = profile.getPictures();
+        for (Picture picture : pictures) {
+            if (id == picture.getId()) {
+                picture.setProfilePicture(true);
+            } else {
+                picture.setProfilePicture(false);
+            }
+            pictureRepository.save(picture);
+        }
+    }
+
+    public Picture getMainPhoto(Profile profile) {
+
+        List<Picture> pictures = profile.getPictures();
+        for (Picture picture : pictures) {
+            if (picture.isProfilePicture()) {
+                return picture;
+            }
+        }
+        return null;
     }
 }

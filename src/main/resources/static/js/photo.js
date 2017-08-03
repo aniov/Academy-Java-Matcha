@@ -63,19 +63,41 @@ function showPictures() {
 function deletePhoto(photoPosition) {
 
     var toDelete = "?id=" + pictures[photoPosition - 1].id;
-$.ajax({
-    url: "/user/delete-photo" + toDelete,
-    type: "DELETE",
-    beforeSend: function (xhr) {
-        xhr.setRequestHeader('X-CSRF-Token', $('meta[name="_csrf"]').attr('content'));
-    },
-    success: function (data, textStatus, jqXHR) {
-        pictures.splice(pictures[photoPosition - 1], 1);
-        showPictures();
-    },
-    error: function (data, textStatus, jqXHR) {
-        console.log("Cannot delete photo");
-    }
-});
+    $.ajax({
+        url: "/user/delete-photo" + toDelete,
+        type: "DELETE",
+        beforeSend: function (xhr) {
+            xhr.setRequestHeader('X-CSRF-Token', $('meta[name="_csrf"]').attr('content'));
+        },
+        success: function (data, textStatus, jqXHR) {
+            pictures.splice(pictures[photoPosition - 1], 1);
+            showPictures();
+        },
+        error: function (data, textStatus, jqXHR) {
+            console.log("Cannot delete photo");
+        }
+    });
 
+}
+
+function setMainPhoto(photoPosition) {
+    var toBeMain = "?id=" + pictures[photoPosition - 1].id;
+    $.ajax({
+        url: "/user/set-main-photo" + toBeMain,
+        type: "PUT",
+        beforeSend: function (xhr) {
+            xhr.setRequestHeader('X-CSRF-Token', $('meta[name="_csrf"]').attr('content'));
+        },
+        success: function (data, textStatus, jqXHR) {
+            console.log("Main picture set");
+
+        },
+        error: function (data, textStatus, jqXHR) {
+            console.log("Error set picture as main");
+        }
+    });
+}
+
+function setAsMainIfOnePhoto() {
+    setMainPhoto(0);
 }
