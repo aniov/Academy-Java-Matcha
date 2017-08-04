@@ -217,15 +217,13 @@
                 </div>
                 <!--/.Panel-->
                 <div class="read-more">
-                    <a href="/photo" th:href="@{/photo}" class="btn btn-primary waves-effect waves-light">photo
-                        album</a>
-                    <a onclick="editInfo()" class="btn btn-primary waves-effect waves-light">edit info</a>
+                    <a onclick="photoAlbum()" class="btn btn-primary waves-effect waves-light">photo album</a>
+                    <a onclick="editInfo()" id="editInfoButton" class="btn btn-primary waves-effect waves-light" style="display: none;">edit info</a>
                 </div>
             </div>
             <!--/.Post excerpt-->
         </div>
         <hr/>
-
 
         <!--First row-->
         <div class="row wow fadeIn" data-wow-delay="0.2s">
@@ -250,7 +248,7 @@
                         <!--Text-->
                         <p class="card-text" id="self-summary"></p>
                         <div class="read-more">
-                            <a class="btn btn-primary" data-toggle="modal" onClick="editSummary()">Edit</a>
+                            <a class="btn btn-primary" id="editSummaryButton" data-toggle="modal" onClick="editSummary()" style="display: none;">Edit</a>
                         </div>
                     </div>
                     <!--/.Card content-->
@@ -281,7 +279,7 @@
                         <!--Text-->
                         <p class="card-text" id="what-im-doing"></p>
                         <div class="read-more">
-                            <a href="#!" class="btn btn-primary" onclick="editWhatImDoing()">Edit</a>
+                            <a href="#!" id="editWhatImDoingButton" class="btn btn-primary" onclick="editWhatImDoing()" style="display: none;">Edit</a>
                         </div>
                     </div>
                     <!--/.Card content-->
@@ -316,7 +314,7 @@
                         <!--Text-->
                         <p class="card-text" id="good-at"></p>
                         <div class="read-more">
-                            <a href="#!" class="btn btn-primary" onclick="editGoodAt()">Edit</a>
+                            <a href="#!" id="editGoodAtButton" class="btn btn-primary" onclick="editGoodAt()" style="display: none;">Edit</a>
                         </div>
                     </div>
                     <!--/.Card content-->
@@ -347,7 +345,7 @@
                         <!--Text-->
                         <p class="card-text" id="favorite-stuff"></p>
                         <div class="read-more">
-                            <a href="#!" class="btn btn-primary" onclick="editFavorites()">Edit</a>
+                            <a href="#!" id="editFavoritesButton" class="btn btn-primary" onclick="editFavorites()" style="display: none;">Edit</a>
                         </div>
                     </div>
                     <!--/.Card content-->
@@ -356,7 +354,7 @@
             </div>
             <!--Second column-->
         </div>
-        <h1 class="h3-responsive">user location:</h1>
+        <h1 class="h3-responsive">user location: <span id="userLocation"></span></h1>
         <!--/.Second row-->
         <hr/>
     </div>

@@ -27,12 +27,14 @@ function upload(file) {
             console.log("Photo uploaded success");
             document.body.className = "uploaded";
             addUploadedPicture(data);
-            setAsMainIfOnePhoto();
             //document.getElementById("circle-spinner").className = "preloader-wrapper";
         },
-        error: function (data, textStatus, jqXHR) {
-            console.log("Upload photo error");
+        error: function (xhr, status, error) {
+            console.log("Upload photo error" + xhr.responseText);
             document.body.className = "error-upload";
+            if (xhr.status === 507) {
+                $("#tooManyPhotosModal").modal('show');
+            }
             //setTimeout(document.body.className = "error-upload", 3000);
         }
     });

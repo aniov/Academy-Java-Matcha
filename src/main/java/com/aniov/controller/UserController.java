@@ -104,6 +104,10 @@ public class UserController {
         String authUsername = auth.getName();
 
         Profile profile = profileService.findByUserName(authUsername);
+        //We set a max number of pictures a user can have
+        if (profile.getPictures().size() >= 9) {
+            return new ResponseEntity<>(new GenericResponseDTO("Max size exceeded. Delete one photo."), HttpStatus.INSUFFICIENT_STORAGE);
+        }
         Picture savedPicture = pictureService.savePicture(image, profile);
 
         return new ResponseEntity<>(savedPicture, HttpStatus.OK);

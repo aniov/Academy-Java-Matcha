@@ -1,4 +1,5 @@
 var pictures = [];
+var profile;
 
 window.onload = function () {
     $.get("navbar.html", function (data) {
@@ -8,12 +9,17 @@ window.onload = function () {
         $("#footer-placeholder").replaceWith(data);
     });
 
+
     $.ajax({
         url: "/user",
         type: "GET",
         contentType: "application/json; charset=utf-8",
         success: function (data, textStatus, jqXHR) {
             $("#userName").html(data.username);
+            if (data.username === getURLParameter('name')) {
+                showHiddenButtons();
+            }
+
         },
         error: function (data, textStatus, jqXHR) {
             console.log("Cannot read username !!!!!!!");
@@ -70,14 +76,13 @@ function deletePhoto(photoPosition) {
             xhr.setRequestHeader('X-CSRF-Token', $('meta[name="_csrf"]').attr('content'));
         },
         success: function (data, textStatus, jqXHR) {
-            pictures.splice(pictures[photoPosition - 1], 1);
+            pictures.splice(photoPosition - 1, 1);
             showPictures();
         },
         error: function (data, textStatus, jqXHR) {
             console.log("Cannot delete photo");
         }
     });
-
 }
 
 function setMainPhoto(photoPosition) {
@@ -98,6 +103,12 @@ function setMainPhoto(photoPosition) {
     });
 }
 
-function setAsMainIfOnePhoto() {
-    setMainPhoto(0);
+function showHiddenButtons() {
+
+    document.getElementById("uploadPhoto").style.display = "inline";
+    var len = document.getElementsByClassName("myHiddenButtons").length;
+    for (var i = 0; i < len; i++) {
+        document.getElementsByClassName("myHiddenButtons").item(i).style.display = "inline";
+    }
+
 }

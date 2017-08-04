@@ -1,4 +1,5 @@
 var profile;
+var authUser;
 var mainPicture;
 
 window.onload = function () {
@@ -13,13 +14,12 @@ window.onload = function () {
     });
 
     $.ajax({
-        url: "/user/profile",
+        url: "/user/profile?name=Marius",
         type: "GET",
         contentType: "application/json; charset=utf-8",
         success: function (data, textStatus, jqXHR) {
             profile = data;
-
-            $("#userName").html(profile.username);
+            getAuthUser();
             loadProfileData();
             loadCards();
             setPlaceId(profile.googleLocationID);
@@ -41,7 +41,9 @@ function loadProfileData() {
     $("#profile-realName").html(firstName + " " + lastName);
     if (profile.address !== null) {
         document.getElementById("pac-input").value = profile.address;
+        document.getElementById("userLocation").innerHTML = profile.address;
     }
+
     showMainProfilePhoto();
 }
 
@@ -57,7 +59,7 @@ function loadCards() {
     }
 
     var ethnicity = profile.ethnicity === null ? "" : profile.ethnicity + ", ";
-    var bodyType = profile.bodyType === null ? "" : profile.bodyType + ", ";
+    var bodyType = profile.bodyType === null ? "" : "Body: " + profile.bodyType + ", ";
     var height = profile.height === null ? "" : "Height: " + profile.height + " cm";
     if (profile.ethnicity || profile.bodyType || profile.height) {
         $("#card-two").html(ethnicity + bodyType + height);
@@ -331,7 +333,7 @@ function saveUserLocation(place_id, address) {
 function showMainProfilePhoto() {
 
     $.ajax({
-        url: "/user/photo-main",
+        url: "/user/photo-main" + "?name=" + profile.username,
         type: "GET",
         contentType: "application/json; charset=utf-8",
         success: function (data, textStatus, jqXHR) {
@@ -342,4 +344,40 @@ function showMainProfilePhoto() {
             console.log("Cannot load main photo !!");
         }
     });
+}
+
+function getAuthUser() {
+    $.ajax({
+        url: "/user",
+        type: "GET",
+        beforeSend: function (xhr) {
+            xhr.setRequestHeader('X-CSRF-Token', $('meta[name="_csrf"]').attr('content'));
+        },
+        success: function (data, textStatus, jqXHR) {
+            console.log("Auth user is here: " + data.username);
+            authUser = data.username;
+            $("#userName").html(authUser);
+            if (authUser === profile.username) {
+                showEditButtons();
+            }
+
+        },
+        error: function (data, textStatus, jqXHR) {
+            console.log("Cannot see current logged user");
+        }
+    });
+
+}
+
+function showEditButtons() {
+    document.getElementById("editInfoButton").style.display = "inline";
+    document.getElementById("editSummaryButton").style.display = "inline";
+    document.getElementById("editWhatImDoingButton").style.display = "inline";
+    document.getElementById("editGoodAtButton").style.display = "inline";
+    document.getElementById("editFavoritesButton").style.display = "inline";
+    document.getElementById("pac-input").style.visibility = "visible";
+}
+
+function photoAlbum() {
+    window.location.replace('/photo?name=' + profile.username);
 }

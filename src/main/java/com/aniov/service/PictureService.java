@@ -43,6 +43,9 @@ public class PictureService {
             BufferedImage bufferedImage = ImageIO.read(file.getInputStream());
             newPicture.setPictureHeight(bufferedImage.getHeight());
             newPicture.setPictureWidth(bufferedImage.getWidth());
+            if (profile.getPictures().isEmpty()) {
+                newPicture.setProfilePicture(true);
+            }
         } catch (IOException e) {
             return null;
         }
@@ -54,6 +57,11 @@ public class PictureService {
 
     public void deletePictureById(Picture picture, Profile profile) {
         profile.getPictures().remove(picture);
+        if (picture.isProfilePicture() && !profile.getPictures().isEmpty()) {
+            //If photo we delete the profile one we set next one as profile photo
+            profile.getPictures().get(0).setProfilePicture(true);
+
+        }
         pictureRepository.delete(picture);
     }
 

@@ -30,6 +30,38 @@
 
 <!-- Main layout-->
 <main>
+
+    <!-- Central Modal Medium Danger -->
+    <div class="modal fade" id="tooManyPhotosModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-notify modal-danger" role="document">
+            <!--Content-->
+            <div class="modal-content">
+                <!--Header-->
+                <div class="modal-header">
+                    <p class="heading lead">Error uploading picture</p>
+
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true" class="white-text">&times;</span>
+                    </button>
+                </div>
+                <!--Body-->
+                <div class="modal-body">
+                    <div class="text-center">
+                        <i class="fa fa-check fa-4x mb-3 animated rotateIn"></i>
+                        <p>Max number of pictures is exceeded.</p>
+                        <p>Please DELETE at least one photo from your gallery</p>
+                    </div>
+                </div>
+                <!--Footer-->
+                <div class="modal-footer justify-content-center">
+                    <a type="button" class="btn btn-outline-secondary-modal waves-effect" data-dismiss="modal">Got it</a>
+                </div>
+            </div>
+            <!--/.Content-->
+        </div>
+    </div>
+    <!-- Central Modal Medium Danger-->
+
     <div class="container">
 
         <!--Page heading-->
@@ -38,23 +70,9 @@
                 <h1 class="h1-responsive">Photo
                     <small class="text-muted">album</small>
 
-                    <!--Spinner-->
-                    <a class="pull-right">
-                        <div class="preloader-wrapper " id="circle-spinner">
-                            <div class="spinner-layer spinner-green-only">
-                                <div class="circle-clipper left">
-                                    <div class="circle"></div>
-                                </div>
-                                <div class="gap-patch">
-                                    <div class="circle"></div>
-                                </div>
-                                <div class="circle-clipper right">
-                                    <div class="circle"></div>
-                                </div>
-                            </div>
-                        </div>
+                    <a class="pull-right" id="uploadPhoto" style="display: none;">
                         <!--Drag and drop-->
-                        <div class="drop-div ">Drop!
+                        <div class="drop-div">Drop!
                             <button class="btn btn-primary btn-sm pull-right"
                                     onclick="document.querySelector('input').click()">Or click
                             </button>
@@ -66,7 +84,6 @@
                         </div>
                         <input style="visibility: collapse; width: 0px;" type="file" onchange="upload(this.files[0])"/>
                     </a>
-
                 </h1>
             </div>
         </div>
@@ -171,8 +188,6 @@
 
                                 <div class="mdb-lightbox" data-pswp-uid="2">
 
-                                    <!--<img src="" id="imageDiv"/>-->
-
                                     <figure class="col-lg-4 col-md-6 col-sm-12 wow fadeIn text-center"
                                             data-wow-delay="0.2s" style="height: 300px; width: 400px;">
                                         <a id="img-big-1" href="" data-size="327x250">
@@ -180,7 +195,7 @@
                                                  alt="Gallery image"
                                                  style="max-width: 100%; max-height: 100%;"/>
                                         </a>
-                                        <div>
+                                        <div style="display: none;" class="myHiddenButtons">
                                             <button type="button" class="btn btn-mdb btn-sm set-profile-picture" onclick="setMainPhoto(1)">set
                                                 main
                                             </button>
@@ -195,7 +210,7 @@
                                                  alt="Gallery image"
                                                  style="max-width: 100%; max-height: 100%;"/>
                                         </a>
-                                        <div>
+                                        <div style="display: none;" class="myHiddenButtons">
                                             <button type="button" class="btn btn-mdb btn-sm set-profile-picture" onclick="setMainPhoto(2)">set
                                                 main
                                             </button>
@@ -210,7 +225,7 @@
                                                  alt="Gallery image"
                                                  style="max-width: 100%; max-height: 100%;"/>
                                         </a>
-                                        <div>
+                                        <div style="display: none;" class="myHiddenButtons">
                                             <button type="button" class="btn btn-mdb btn-sm set-profile-picture" onclick="setMainPhoto(3)">set
                                                 main
                                             </button>
@@ -225,7 +240,7 @@
                                                  alt="Gallery image"
                                                  style="max-width: 100%; max-height: 100%;"/>
                                         </a>
-                                        <div>
+                                        <div style="display: none;" class="myHiddenButtons">
                                             <button type="button" class="btn btn-mdb btn-sm set-profile-picture" onclick="setMainPhoto(4)">set
                                                 main
                                             </button>
@@ -240,7 +255,7 @@
                                                  alt="Gallery image"
                                                  style="max-width: 100%; max-height: 100%;"/>
                                         </a>
-                                        <div>
+                                        <div style="display: none;" class="myHiddenButtons">
                                             <button type="button" class="btn btn-mdb btn-sm set-profile-picture" onclick="setMainPhoto(5)">set
                                                 main
                                             </button>
@@ -255,7 +270,7 @@
                                                  alt="Gallery image"
                                                  style="max-width: 100%; max-height: 100%;"/>
                                         </a>
-                                        <div>
+                                        <div style="display: none;" class="myHiddenButtons">
                                             <button type="button" class="btn btn-mdb btn-sm set-profile-picture" onclick="setMainPhoto(6)">set
                                                 main
                                             </button>
@@ -270,7 +285,7 @@
                                                  alt="Gallery image"
                                                  style="max-width: 100%; max-height: 100%;"/>
                                         </a>
-                                        <div>
+                                        <div style="display: none;" class="myHiddenButtons">
                                             <button type="button" class="btn btn-mdb btn-sm set-profile-picture" onclick="setMainPhoto(7)">set
                                                 main
                                             </button>
@@ -285,7 +300,7 @@
                                                  alt="Gallery image"
                                                  style="max-width: 100%; max-height: 100%;"/>
                                         </a>
-                                        <div>
+                                        <div style="display: none;" class="myHiddenButtons">
                                             <button type="button" class="btn btn-mdb btn-sm set-profile-picture" onclick="setMainPhoto(8)">set
                                                 main
                                             </button>
@@ -300,7 +315,7 @@
                                                  alt="Gallery image"
                                                  style="max-width: 100%; max-height: 100%;"/>
                                         </a>
-                                        <div>
+                                        <div style="display: none;" class="myHiddenButtons">
                                             <button type="button" class="btn btn-mdb btn-sm set-profile-picture" onclick="setMainPhoto(9)">set
                                                 main
                                             </button>
@@ -354,6 +369,7 @@
 <!-- Main JavaScript -->
 <script type="text/javascript" src="../static/js/photo.js" th:src="@{/js/photo.js}"></script>
 <script type="text/javascript" src="../static/js/drag-and-drop.js" th:src="@{/js/drag-and-drop.js}"></script>
+<script type="text/javascript" src="../static/js/main.js" th:src="@{/js/main.js}"></script>
 <script>
     new WOW().init();
 </script>

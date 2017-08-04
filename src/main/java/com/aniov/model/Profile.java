@@ -11,6 +11,7 @@ import org.hibernate.annotations.Parameter;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 import java.io.Serializable;
 import java.util.Date;
 import java.util.HashSet;
@@ -75,6 +76,7 @@ public class Profile implements Serializable {
     private Status status;
 
     @OneToMany(mappedBy = "profile", cascade = CascadeType.ALL)
+    @Size(max = 9)
     private List<Picture> pictures;
 
     @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
