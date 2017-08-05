@@ -7,6 +7,9 @@ import com.aniov.repository.ProfileRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * Profile service for user
  */
@@ -34,5 +37,15 @@ public class ProfileService {
 
    public Profile saveProfileEntity(Profile profile) {
        return profileRepository.save(profile);
+   }
+
+   public List<ProfileDTO> getAllProfiles() {
+       List<Profile> profiles = profileRepository.findAll();
+       List<ProfileDTO> profileDTOS = new ArrayList<>();
+
+       for (Profile profile : profiles) {
+           profileDTOS.add(new ProfileDTO(profile));
+       }
+       return profileDTOS;
    }
 }

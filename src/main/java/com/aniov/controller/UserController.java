@@ -171,6 +171,14 @@ public class UserController {
         return new ResponseEntity<>(new GenericResponseDTO("Cannot find main profile photo"), HttpStatus.FORBIDDEN);
     }
 
+    @GetMapping(path = "/profiles")
+    public ResponseEntity<?> getAllprofiles() {
+
+        List<ProfileDTO> profileDTOS = profileService.getAllProfiles();
+
+        return new ResponseEntity<>(profileDTOS, HttpStatus.OK);
+    }
+
     /**
      * Change the default maxSize limit of the uploaded file
      */
