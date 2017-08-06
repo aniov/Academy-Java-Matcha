@@ -165,10 +165,8 @@ public class UserController {
         }
 
         Picture picture = pictureService.getMainPhoto(profile);
-        if (picture != null) {
-            return new ResponseEntity<>(picture, HttpStatus.OK);
-        }
-        return new ResponseEntity<>(new GenericResponseDTO("Cannot find main profile photo"), HttpStatus.FORBIDDEN);
+        return new ResponseEntity<>(picture, HttpStatus.OK);
+
     }
 
     @GetMapping(path = "/profiles")

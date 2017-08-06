@@ -49,17 +49,18 @@ function createCards() {
     for (var i = 0; i < profiles.length; i++) {
 
         $.ajax({
-            url: "/user/photo-main" + "?name=" + profiles[i].username,
+            url: "/user/photo-main?name=" + profiles[i].username,
             type: "GET",
             contentType: "application/json; charset=utf-8",
             success: function (data, textStatus, jqXHR) {
-                var picture = data;
-                if (picture === null) {
-                    picture = "/photos/photo-avatar";
+
+                var photo = data.pictureData;
+                if (photo === undefined) {
+                    photo = "../photos/photo-avatar.png";
                 } else {
-                    picture = "data:image/png;base64," + picture.pictureData;
+                    photo = "data:image/png;base64," + photo;
                 }
-                displayProfilesCards(picture , cards, i);
+                displayProfilesCards(photo , cards, i);
 
             },
             error: function (data, textStatus, jqXHR) {
