@@ -55,14 +55,14 @@ public class UserController {
 
         Profile profile;
 
-        if (username == null) {
+        if (username == null || userService.findUserByUserName(username) == null) {
             Authentication auth = SecurityContextHolder.getContext().getAuthentication();
             String authUsername = auth.getName();
             profile = userService.findUserByUserName(authUsername).getProfile();
         } else {
-            if (userService.findUserByUserName(username) == null) {
+           /* if (userService.findUserByUserName(username) == null) {
                 return new ResponseEntity<>(new GenericResponseDTO("User not found"), HttpStatus.NOT_FOUND);
-            }
+            }*/
             profile = userService.findUserByUserName(username).getProfile();
         }
         return new ResponseEntity<Object>(new ProfileDTO(profile), HttpStatus.OK);

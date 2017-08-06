@@ -10,6 +10,19 @@ window.onload = function () {
     });
 
     $.ajax({
+        url: "/user",
+        type: "GET",
+        contentType: "application/json; charset=utf-8",
+        success: function (data, textStatus, jqXHR) {
+            console.log("User ata: " + data.username)
+            $("#userName").html(data.username);
+        },
+        error: function (data, textStatus, jqXHR) {
+            console.log("Cannot read username");
+        }
+    });
+
+    $.ajax({
         url: "/profiles",
         type: "GET",
         contentType: "application/json; charset=utf-8",
@@ -51,7 +64,13 @@ function createCards() {
             type: "GET",
             contentType: "application/json; charset=utf-8",
             success: function (data, textStatus, jqXHR) {
-                displayProfilesCards("data:image/png;base64," + data.pictureData, cards, i);
+                var picture = data;
+                if (picture === null) {
+                    picture = "/photos/photo-avatar";
+                } else {
+                    picture = "data:image/png;base64," + picture.pictureData;
+                }
+                displayProfilesCards(picture , cards, i);
 
             },
             error: function (data, textStatus, jqXHR) {

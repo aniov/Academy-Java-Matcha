@@ -24,11 +24,11 @@ function login() {
         },
 
     }).done(function (data, textStatus, jqXHR) {
-        window.location.replace("/profile");
+        window.location.replace("/profile?name=" + username);
 
     }).fail(function (data, jqXHR, textStatus) {
 
-        $("#login-message").html(data.message)
+        $("#login-message").html(data.responseJSON.message)
             .show().fadeTo(4000, 500).slideUp(500, function () {
             $("#login-message").slideUp(500);
         });

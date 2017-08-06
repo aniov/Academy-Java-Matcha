@@ -14,7 +14,7 @@ window.onload = function () {
     });
 
     $.ajax({
-        url: "/user/profile?name=Marius",
+        url: "/user/profile?name=" + getURLParameter('name'),
         type: "GET",
         contentType: "application/json; charset=utf-8",
         success: function (data, textStatus, jqXHR) {
