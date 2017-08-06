@@ -60,9 +60,6 @@ public class UserController {
             String authUsername = auth.getName();
             profile = userService.findUserByUserName(authUsername).getProfile();
         } else {
-           /* if (userService.findUserByUserName(username) == null) {
-                return new ResponseEntity<>(new GenericResponseDTO("User not found"), HttpStatus.NOT_FOUND);
-            }*/
             profile = userService.findUserByUserName(username).getProfile();
         }
         return new ResponseEntity<Object>(new ProfileDTO(profile), HttpStatus.OK);

@@ -19,7 +19,8 @@ window.onload = function () {
             console.log("Got the profiles here");
             profiles = data;
             console.log(profiles.length);
-            createCards();
+            //createCards();
+            displayProfilesCards();
 
         },
         error: function (data, textStatus, jqXHR) {
@@ -30,43 +31,37 @@ window.onload = function () {
 
 }
 
-function displayProfilesCards(photo, cards, i) {
-
-    cards[i] =
-        $('<div>', {class: 'col-lg-4 wow fadeIn'}).append(
-            $('<div>', {class: 'card'}).append(
-                $('<div>', {class: 'view overlay hm-white-slight'}).append(
-                    $('<img>', {class: 'img-fluid', src : photo})
-                )
-            )
-        )
-    $(document.getElementsByClassName('profile-cards')).append(cards[i]);
-}
-
-function createCards() {
+function displayProfilesCards() {
 
     var cards = [];
     for (var i = 0; i < profiles.length; i++) {
 
-        $.ajax({
-            url: "/user/photo-main?name=" + profiles[i].username,
-            type: "GET",
-            contentType: "application/json; charset=utf-8",
-            success: function (data, textStatus, jqXHR) {
+        var photo = profiles[i].mainPhoto;
+        if (photo === null) {
+            photo = "../photos/photo-avatar.png";
+        } else {
+            photo = "data:image/png;base64," + photo;
+        }
 
-                var photo = data.pictureData;
-                if (photo === undefined) {
-                    photo = "../photos/photo-avatar.png";
-                } else {
-                    photo = "data:image/png;base64," + photo;
-                }
-                displayProfilesCards(photo , cards, i);
-
-            },
-            error: function (data, textStatus, jqXHR) {
-                console.log("Cannot load main photo !!");
-            }
-        });
+        cards[i] =
+            $('<div>', {class: 'col-lg-4 wow fadeIn'}).append(
+                $('<div>', {class: 'card'}).append(
+                    $('<div>', {class: 'view overlay hm-white-slight'}).append(
+                        $('<img>', {class: 'img-fluid', src:  photo})
+                    )
+                ).append(
+                    $('<div>', {class: 'card-block'}).append(
+                        $('<h4>', {class: 'card-title', text: profiles[i].username})
+                    ).append(
+                        $('<p>', {class: 'card-text', text: profiles[i].address})
+                    ).append(
+                        $('<div>', {class: 'read-more'}).append(
+                            $('<a>', {class: 'btn btn-primary', text: 'Read more', href: '#'})
+                        )
+                    )
+                )
+            )
+        $(document.getElementsByClassName('row wow animated profile-cards')).append(cards[i]);
     }
 }
 

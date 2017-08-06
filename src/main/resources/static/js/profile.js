@@ -1,6 +1,5 @@
 var profile;
 var authUser;
-var mainPicture;
 
 window.onload = function () {
     $.get("navbar.html", function (data) {
@@ -332,18 +331,13 @@ function saveUserLocation(place_id, address) {
 
 function showMainProfilePhoto() {
 
-    $.ajax({
-        url: "/user/photo-main" + "?name=" + profile.username,
-        type: "GET",
-        contentType: "application/json; charset=utf-8",
-        success: function (data, textStatus, jqXHR) {
-            mainPicture = data;
-            document.getElementById("main-profile-photo").src = "data:image/png;base64," + mainPicture.pictureData;
-        },
-        error: function (data, textStatus, jqXHR) {
-            console.log("Cannot load main photo !!");
-        }
-    });
+    var mainPhoto = profile.mainPhoto;
+    if (mainPhoto === null) {
+        mainPhoto = "../photos/photo-avatar.png";
+    } else {
+        mainPhoto = "data:image/png;base64," + mainPhoto;
+    }
+    document.getElementById("main-profile-photo").src = mainPhoto;
 }
 
 function getAuthUser() {

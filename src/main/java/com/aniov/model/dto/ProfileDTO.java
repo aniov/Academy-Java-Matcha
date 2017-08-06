@@ -1,6 +1,7 @@
 package com.aniov.model.dto;
 
 import com.aniov.model.Profile;
+import com.aniov.service.PictureService;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -15,6 +16,8 @@ import java.util.Set;
 @Data
 @NoArgsConstructor
 public class ProfileDTO implements Serializable {
+
+    private PictureService pictureService = new PictureService();
 
     private String username;
     private String aboutMe;
@@ -52,6 +55,8 @@ public class ProfileDTO implements Serializable {
 
     private String sexualOrientation;
 
+    private byte[] mainPhoto;
+
     public ProfileDTO(Profile profile) {
         this.username = profile.getUser().getUsername();
         this.aboutMe = profile.getAboutMe();
@@ -85,6 +90,8 @@ public class ProfileDTO implements Serializable {
         if (profile.getEthnicity() != null) {
             this.ethnicity = profile.getEthnicity().getEthnicity();
         }
+
+        this.mainPhoto = pictureService.getMainPhoto(profile).getPictureData();
 
     }
 }
