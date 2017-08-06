@@ -36,7 +36,7 @@ function displayProfilesCards(photo, cards, i) {
         $('<div>', {class: 'col-lg-4 wow fadeIn'}).append(
             $('<div>', {class: 'card'}).append(
                 $('<div>', {class: 'view overlay hm-white-slight'}).append(
-                    $('<img>', {class: 'img-fluid'}).attr('src', photo)
+                    $('<img>', {class: 'img-fluid', src : photo})
                 )
             )
         )
