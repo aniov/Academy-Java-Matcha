@@ -185,7 +185,7 @@ public class UserController {
     }
 
     @GetMapping(path = "/profiles")
-    public ResponseEntity<?> getAllprofiles() {
+    public ResponseEntity<?> getMatchingProfiles() {
 
         List<ProfileDTO> profileDTOS = profileService.getAllProfiles();
 

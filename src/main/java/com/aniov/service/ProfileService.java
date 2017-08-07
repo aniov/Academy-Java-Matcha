@@ -5,6 +5,8 @@ import com.aniov.model.User;
 import com.aniov.model.dto.ProfileDTO;
 import com.aniov.repository.ProfileRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -47,5 +49,16 @@ public class ProfileService {
            profileDTOS.add(new ProfileDTO(profile));
        }
        return profileDTOS;
+   }
+
+   public List<ProfileDTO> getMatchingProfiles() {
+
+       Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+       String authUsername = auth.getName();
+       Profile authUserProfile = userService.findUserByUserName(authUsername).getProfile();
+
+
+
+       return new ArrayList<>();
    }
 }
