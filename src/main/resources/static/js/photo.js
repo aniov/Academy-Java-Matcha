@@ -9,7 +9,6 @@ window.onload = function () {
         $("#footer-placeholder").replaceWith(data);
     });
 
-
     $.ajax({
         url: "/user",
         type: "GET",
@@ -32,11 +31,12 @@ window.onload = function () {
 
 function getPictures() {
     $.ajax({
-        url: "/user/photos",
+        url: "/user/photos?name=" + getURLParameter('name'),
         type: "GET",
         contentType: "application/json; charset=utf-8",
         success: function (data, textStatus, jqXHR) {
             pictures = data;
+            document.getElementById('photo-album-of').innerHTML = getURLParameter('name') + "'s ";
             showPictures();
         },
         error: function (data, textStatus, jqXHR) {
@@ -63,7 +63,6 @@ function showPictures() {
             document.getElementById("img-small-" + (i + 1).toString()).src = "/photos/photo-avatar.png";
         }
     }
-
 }
 
 function deletePhoto(photoPosition) {
@@ -112,3 +111,4 @@ function showHiddenButtons() {
     }
 
 }
+

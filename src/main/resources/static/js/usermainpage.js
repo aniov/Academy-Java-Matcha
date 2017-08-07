@@ -51,18 +51,30 @@ function displayProfilesCards() {
                     )
                 ).append(
                     $('<div>', {class: 'card-block'}).append(
-                        $('<h4>', {class: 'card-title', text: profiles[i].username})
+                        $('<h4>', {class: 'card-title', text: profiles[i].username}).append(
+                            $('<a>', {class: 'fa fa-heart text-danger pull-right', onclick: "giveLike('" + profiles[i].username+ "')"})
+                        ).append(
+                            $('<a>', {class: 'fa fa-commenting-o text-primary pull-right', onclick: "sendMessage('" + profiles[i].username + "')"})
+                        )
                     ).append(
                         $('<p>', {class: 'card-text', text: profiles[i].address})
                     ).append(
                         $('<div>', {class: 'read-more'}).append(
-                            $('<a>', {class: 'btn btn-primary', text: 'Read more', href: '#'})
+                            $('<a>', {class: 'btn btn-primary', text: 'profile', href: '/profile?name=' + profiles[i].username})
                         )
                     )
                 )
             )
         $(document.getElementsByClassName('row wow animated profile-cards')).append(cards[i]);
     }
+}
+
+function giveLike(username) {
+    alert("Like: " + username);
+}
+
+function sendMessage(username) {
+    alert("Message to " + username);
 }
 
 function getAuthUserName() {
@@ -79,5 +91,5 @@ function getAuthUserName() {
             console.log("Cannot read username");
         }
     });
-    
+
 }
