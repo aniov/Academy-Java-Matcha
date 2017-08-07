@@ -86,6 +86,18 @@ public class Profile implements Serializable {
     @JsonManagedReference
     private Set<Interest> interests;
 
+    @ManyToMany
+    private Set<User> likesReceived = new HashSet<>();
+
+    @ManyToMany
+    private Set<User> likesGiven = new HashSet<>();
+
+    @OneToMany
+    private Set<Message> sentMessages = new HashSet<>();
+
+    @OneToMany
+    private Set<Message> receivedMessages = new HashSet<>();
+
     @NotNull
     @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     @PrimaryKeyJoinColumn
@@ -122,7 +134,25 @@ public class Profile implements Serializable {
         if (profileDTO.getEthnicity() != null) {
             this.ethnicity = Ethnicity.values()[Ethnicity.position(profileDTO.getEthnicity())];
         }
+        this.likesGiven = profileDTO.getLikesGiven();
+        this.likesReceived = profileDTO.getLikesReceived();
 
+    }
+
+    public void addLikeToUser(User user) {
+        likesGiven.add(user);
+    }
+
+    public void removeLike(User user) {
+        likesGiven.remove(user);
+    }
+
+    public void addLikesReceived(User user) {
+        likesReceived.add(user);
+    }
+
+    public void removeLikesReceived(User user) {
+        likesReceived.remove(user);
     }
 
     @Getter

@@ -1,9 +1,11 @@
 package com.aniov.model.dto;
 
 import com.aniov.model.Profile;
+import com.aniov.model.User;
 import com.aniov.service.PictureService;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 
 import java.io.Serializable;
 import java.util.Date;
@@ -17,6 +19,7 @@ import java.util.Set;
 @NoArgsConstructor
 public class ProfileDTO implements Serializable {
 
+    //@Autowired
     private PictureService pictureService = new PictureService();
 
     private String username;
@@ -55,6 +58,11 @@ public class ProfileDTO implements Serializable {
 
     private String sexualOrientation;
 
+
+    private Set<User> likesReceived;
+
+    private Set<User> likesGiven;
+
     private byte[] mainPhoto;
 
     public ProfileDTO(Profile profile) {
@@ -90,6 +98,8 @@ public class ProfileDTO implements Serializable {
         if (profile.getEthnicity() != null) {
             this.ethnicity = profile.getEthnicity().getEthnicity();
         }
+        this.likesGiven = profile.getLikesGiven();
+        this.likesReceived = profile.getLikesReceived();
 
         this.mainPhoto = pictureService.getMainPhoto(profile).getPictureData();
 

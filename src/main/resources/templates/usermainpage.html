@@ -2,6 +2,8 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="utf-8"/>
+    <meta name="_csrf" th:content="${_csrf.token}"/>
+    <meta name="_csrf_header" th:content="${_csrf.headerName}"/>
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no"/>
     <meta http-equiv="x-ua-compatible" content="ie=edge"/>
 
@@ -14,7 +16,6 @@
     <link href="../static/css/mdb.min.css" th:href="@{/css/mdb.min.css}" rel="stylesheet"/>
     <!-- Your custom styles (optional) -->
     <link href="../static/css/style.css" th:href="@{/css/style.css}" rel="stylesheet"/>
-
 </head>
 <body>
 <header>
@@ -108,6 +109,8 @@
 <script>
     new WOW().init();
 </script>
+
+
 
 </body>
 
