@@ -207,8 +207,10 @@ public class UserController {
 
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         String authUsername = auth.getName();
+        if (username.equals(authUsername)) {
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
         Profile authUserProfile = userService.findUserByUserName(authUsername).getProfile();
-
         User userToGiveLike = userService.findUserByUserName(username);
 
         if (authUserProfile.getLikesGiven().contains(userToGiveLike)) {
