@@ -3,9 +3,7 @@ package com.aniov.model;
 import com.aniov.model.dto.ProfileDTO;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.Getter;
+import lombok.*;
 import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.annotations.Parameter;
 
@@ -13,16 +11,15 @@ import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import java.io.Serializable;
-import java.util.Date;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
 /**
  * User Profile entity class
  */
 @Entity
-@Data
+@Getter
+@Setter
+@NoArgsConstructor
 public class Profile implements Serializable {
 
     @Id
@@ -87,16 +84,18 @@ public class Profile implements Serializable {
     private Set<Interest> interests;
 
     @ManyToMany
-    private Set<User> likesReceived = new HashSet<>();
+    @JoinTable(name = "likes", joinColumns = @JoinColumn(name = "toId"), inverseJoinColumns = @JoinColumn(name = "fromId"))
+    private List<Profile> likesGiven = new ArrayList<>();
 
     @ManyToMany
-    private Set<User> likesGiven = new HashSet<>();
+    @JoinTable(name = "likes", joinColumns = @JoinColumn(name = "fromId"), inverseJoinColumns = @JoinColumn(name = "toId"))
+    private List<Profile> likesReceived = new ArrayList<>();
 
-    @OneToMany
+/*    @OneToMany
     private Set<Message> sentMessages = new HashSet<>();
 
     @OneToMany
-    private Set<Message> receivedMessages = new HashSet<>();
+    private Set<Message> receivedMessages = new HashSet<>();*/
 
     @NotNull
     @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
@@ -134,25 +133,25 @@ public class Profile implements Serializable {
         if (profileDTO.getEthnicity() != null) {
             this.ethnicity = Ethnicity.values()[Ethnicity.position(profileDTO.getEthnicity())];
         }
-        this.likesGiven = profileDTO.getLikesGiven();
-        this.likesReceived = profileDTO.getLikesReceived();
+       // this.likesGiven = profileDTO.getLikesGiven();
+       // this.likesReceived = profileDTO.getLikesReceived();
 
     }
 
-    public void addLikeToUser(User user) {
-        likesGiven.add(user);
+    public void addLikeToUser(Profile profile) {
+        likesGiven.add(profile);
     }
 
-    public void removeLike(User user) {
-        likesGiven.remove(user);
+    public void removeLike(Profile profile) {
+        likesGiven.remove(profile);
     }
 
-    public void addLikesReceived(User user) {
-        likesReceived.add(user);
+    public void addLikesReceived(Profile profile) {
+        likesReceived.add(profile);
     }
 
-    public void removeLikesReceived(User user) {
-        likesReceived.remove(user);
+    public void removeLikesReceived(Profile profile) {
+        likesReceived.remove(profile);
     }
 
     @Getter

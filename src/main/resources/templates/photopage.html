@@ -19,6 +19,9 @@
     <link rel="stylesheet" id="compiled.css-css" href="../static/css/mdb.themes.min.css"
           th:href="@{/css/mdb.themes.min.css}" type="text/css"
           media="all"/>
+<!--    <link rel="stylesheet" id="compiled.css-css"
+          href="https://mdbootstrap.com/wp-content/themes/mdbootstrap4/css/compiled.min.css?ver=4.4.0" type="text/css"
+          media="all"/>-->
 
 </head>
 <header>
@@ -74,7 +77,7 @@
                     <a class="pull-right" id="uploadPhoto" style="display: none;">
                         <!--Drag and drop-->
                         <div class="drop-div">Drop!
-                            <button class="btn btn-primary btn-sm pull-right"
+                            <button class="btn btn-outline-primary btn-sm btn-rounded waves-effect btn-sm pull-right"
                                     onclick="document.querySelector('input').click()">Or click
                             </button>
                             <span style="font-size: xx-small">max size: 1Mb</span>
@@ -197,10 +200,10 @@
                                                  style="max-width: 100%; max-height: 100%;"/>
                                         </a>
                                         <div style="display: none;" class="myHiddenButtons">
-                                            <button type="button" class="btn btn-mdb btn-sm set-profile-picture" onclick="setMainPhoto(1)">set
+                                            <button type="button" class="btn btn-outline-primary btn-sm btn-rounded waves-effect set-profile-picture" onclick="setMainPhoto(1)">set
                                                 main
                                             </button>
-                                            <button type="button" class="btn btn-mdb btn-sm delete-picture" onclick="deletePhoto(1)">delete
+                                            <button type="button" class="btn btn-outline-danger btn-sm btn-rounded waves-effect delete-picture" onclick="deletePhoto(1)">delete
                                             </button>
                                         </div>
                                     </figure>

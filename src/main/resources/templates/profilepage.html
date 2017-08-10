@@ -16,6 +16,9 @@
     <link href="../static/css/mdb.min.css" th:href="@{/css/mdb.min.css}" rel="stylesheet"/>
     <!-- Your custom styles (optional) -->
     <link href="../static/css/style.css" th:href="@{/css/style.css}" rel="stylesheet"/>
+    <link rel="stylesheet" id="compiled.css-css" href="../static/css/mdb.themes.min.css"
+          th:href="@{/css/mdb.themes.min.css}" type="text/css"
+          media="all"/>
     <!-- Date Picker -->
     <link href="../static/css/bootstrap-datepicker.css" th:href="@{/css/bootstrap-datepicker.css}"
           rel="stylesheet"/>
@@ -57,8 +60,8 @@
                     </div>
                     <!--Footer-->
                     <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                        <button type="button" class="btn btn-primary" id="saveChanges">Save changes</button>
+                        <button type="button" class="btn btn-outline-primary btn-rounded" id="saveChanges">Save changes</button>
+                        <button type="button" class="btn btn-outline-secondary btn-rounded" data-dismiss="modal">Close</button>
                     </div>
                 </div>
                 <!--/.Content-->
@@ -81,18 +84,18 @@
                     <!--Body-->
                     <div class="modal-body">
 
-                        <div class=""><a style="font-size: larger">Gender</a>
+                        <div class=""><span style="font-size: larger">Gender</span>
                             <div class="btn-group pull-right" data-toggle="buttons">
-                                <label class="btn btn-primary" id="classGenderMale">
+                                <label class="" id="classGenderMale">
                                     <input type="radio" id="genderMale" name="myGender"/> Man
                                 </label>
-                                <label class="btn btn-primary" id="classGenderFemale">
+                                <label class="" id="classGenderFemale">
                                     <input type="radio" id="genderFemale" name="myGender"/> Woman
                                 </label>
                             </div>
                         </div>
                         <br/>
-                        <div class=""><a style="font-size: larger;">Looking for</a>
+                        <div class=""><span style="font-size: larger;">Looking for</span>
                             <div class="btn-group pull-right" data-toggle="buttons">
                                 <label class="btn btn-primary" id="classLookingForMan">
                                     <input type="checkbox" id="lookingForMan"/> Man
@@ -104,9 +107,10 @@
                         </div>
                         <br/>
                         <div class="row">
-                            <div class="col-md-3"><a style="font-size: larger;">Status</a></div>
-                            <select id="status" class="form-control col-md-5"
+                            <div class="col-md-6"><span style="font-size: larger;">Status</span></div>
+                            <select id="status" class="col-md-5 mdb-select colorful-select dropdown-primary ml-4"
                                     style="font-size: medium; margin-left: 150px">
+                                <option value="" th:disabled="disabled"></option>
                                 <option value="Single">Single</option>
                                 <option value="Married">Married</option>
                                 <option value="In a relation">In a relation</option>
@@ -114,34 +118,36 @@
                         </div>
 
                         <div class="row">
-                            <div class="col-md-3"><a style="font-size: larger;">Ethnicity</a></div>
-                            <select id="ethnicity" class="form-control col-md-5"
-                                    style="font-size: medium; margin-left: 150px">
+                            <div class="col-md-6"><span style="font-size: larger;">Ethnicity</span></div>
+                            <select id="ethnicity" class="col-md-5 mdb-select colorful-select dropdown-primary ml-4">
+                                <option value="" th:disabled="disabled"></option>
                                 <option value="Asian">Asian</option>
                                 <option value="Black/African">Black/African</option>
                                 <option value="Indian">Indian</option>
                                 <option value="Latino/Hispanic">Latino/Hispanic</option>
-                                <option value="Middle Eastern" selected="selected">Middle Eastern</option>
+                                <option value="Middle Eastern">Middle Eastern</option>
                                 <option value="White/Caucasian">White/Caucasian</option>
                                 <option value="Mixed/Other">Mixed/Other</option>
                             </select>
                         </div>
 
                         <div class="row">
-                            <div class="col-md-3"><a style="font-size: larger;">Body type</a></div>
-                            <select id="bodyType" class="form-control col-md-5"
+                            <div class="col-md-6"><span style="font-size: larger;">Body type</span></div>
+                            <select id="bodyType" class="col-md-5 mdb-select colorful-select dropdown-primary ml-4"
                                     style="font-size: medium; margin-left: 150px">
+                                <option value="" th:disabled="disabled"></option>
                                 <option value="Slim">Slim</option>
                                 <option value="Athletic">Athletic</option>
-                                <option value="Average" selected="selected">Average</option>
+                                <option value="Average">Average</option>
                                 <option value="Curvy">Curvy</option>
                             </select>
                         </div>
 
                         <div class="row">
-                            <div class="col-md-3"><a style="font-size: larger;">Height</a></div>
-                            <select id="height" class="form-control col-md-5"
+                            <div class="col-md-6"><span style="font-size: larger;">Height</span></div>
+                            <select id="height" class="col-md-5 mdb-select colorful-select dropdown-primary ml-4"
                                     style="font-size: medium; margin-left: 150px">
+                                <option value="" th:disabled="disabled"></option>
                             </select>
                         </div>
 
@@ -170,8 +176,8 @@
                     </div>
                     <!--Footer-->
                     <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                        <button type="button" class="btn btn-primary" id="saveInfo">Save changes</button>
+                        <button type="button" class="btn btn-outline-primary btn-rounded waves-effect" id="saveInfo">Save changes</button>
+                        <button type="button" class="btn btn-outline-secondary btn-rounded waves-effect" data-dismiss="modal">Close</button>
                     </div>
                 </div>
                 <!--/.Content-->
@@ -202,23 +208,24 @@
 
             <!--Post excerpt-->
             <div class="col-lg-5">
-                <div class="card card-block">
+                <div class="card card-block" style="background-color: #ffffff;">
                     <p class="card-text" id="card-one">Sexual orientation, Gender, ....</p>
                 </div>
                 <!--/.Panel-->
                 <!--Panel-->
-                <div class="card card-block">
+                <div class="card card-block" style="background-color: #ffffff;">
                     <p class="card-text" id="card-two">Ethnicity, Body Type, Height</p>
                 </div>
                 <!--/.Panel-->
                 <!--Panel-->
-                <div class="card card-block">
+                <div class="card card-block" style="background-color: #ffffff;">
                     <p class="card-text" id="card-three">Looking for people........</p>
                 </div>
                 <!--/.Panel-->
                 <div class="read-more">
-                    <a onclick="photoAlbum()" class="btn btn-primary waves-effect waves-light">photo album</a>
-                    <a onclick="editInfo()" id="editInfoButton" class="btn btn-primary waves-effect waves-light" style="display: none;">edit info</a>
+                    <a onclick="photoAlbum()" class="btn btn-primary btn-rounded waves-effect">photo album</a>
+                    <a onclick="editInfo()" id="editInfoButton" class="btn btn-outline-primary btn-rounded waves-effect"
+                       style="display: none;">edit info</a>
                 </div>
             </div>
             <!--/.Post excerpt-->
@@ -230,7 +237,7 @@
             <!--First column-->
             <div class="col-lg-6">
                 <!--Card-->
-                <div class="card">
+                <div class="card card-cascade regular">
 
                     <!--Card image-->
                     <div class="view overlay hm-white-slight">
@@ -248,7 +255,8 @@
                         <!--Text-->
                         <p class="card-text" id="self-summary"></p>
                         <div class="read-more">
-                            <a class="btn btn-primary" id="editSummaryButton" data-toggle="modal" onClick="editSummary()" style="display: none;">Edit</a>
+                            <a class="btn btn-outline-primary btn-rounded btn-sm waves-effect" id="editSummaryButton" data-toggle="modal"
+                               onclick="editSummary()" style="display: none;">Edit</a>
                         </div>
                     </div>
                     <!--/.Card content-->
@@ -261,7 +269,7 @@
             <!--Second column-->
             <div class="col-lg-6 wow fadeIn" data-wow-delay="0.2s">
                 <!--Card-->
-                <div class="card">
+                <div class="card card-cascade regular">
 
                     <!--Card image-->
                     <div class="view overlay hm-white-slight">
@@ -279,7 +287,8 @@
                         <!--Text-->
                         <p class="card-text" id="what-im-doing"></p>
                         <div class="read-more">
-                            <a href="#!" id="editWhatImDoingButton" class="btn btn-primary" onclick="editWhatImDoing()" style="display: none;">Edit</a>
+                            <a href="#!" id="editWhatImDoingButton" class="btn btn-outline-primary btn-rounded btn-sm waves-effect" onclick="editWhatImDoing()"
+                               style="display: none;">Edit</a>
                         </div>
                     </div>
                     <!--/.Card content-->
@@ -296,7 +305,7 @@
             <!--First column-->
             <div class="col-lg-6">
                 <!--Card-->
-                <div class="card">
+                <div class="card card-cascade regular">
 
                     <!--Card image-->
                     <div class="view overlay hm-white-slight">
@@ -314,7 +323,8 @@
                         <!--Text-->
                         <p class="card-text" id="good-at"></p>
                         <div class="read-more">
-                            <a href="#!" id="editGoodAtButton" class="btn btn-primary" onclick="editGoodAt()" style="display: none;">Edit</a>
+                            <a href="#!" id="editGoodAtButton" class="btn btn-outline-primary btn-rounded btn-sm waves-effect" onclick="editGoodAt()"
+                               style="display: none;">Edit</a>
                         </div>
                     </div>
                     <!--/.Card content-->
@@ -327,7 +337,7 @@
             <!--Second column-->
             <div class="col-lg-6">
                 <!--Card-->
-                <div class="card">
+                <div class="card card-cascade regular">
 
                     <!--Card image-->
                     <div class="view overlay hm-white-slight">
@@ -345,7 +355,8 @@
                         <!--Text-->
                         <p class="card-text" id="favorite-stuff"></p>
                         <div class="read-more">
-                            <a href="#!" id="editFavoritesButton" class="btn btn-primary" onclick="editFavorites()" style="display: none;">Edit</a>
+                            <a href="#!" id="editFavoritesButton" class="btn btn-outline-primary btn-rounded btn-sm waves-effect" onclick="editFavorites()"
+                               style="display: none;">Edit</a>
                         </div>
                     </div>
                     <!--/.Card content-->
@@ -365,7 +376,7 @@
             <div id="google-placeholder"></div>
         </div>
     </div>
-   <!-- /.Main layout-->
+    <!-- /.Main layout-->
 </main>
 <!--Footer-->
 <div id="footer-placeholder"></div>
@@ -378,7 +389,7 @@
 <!-- Bootstrap tooltips -->
 <script type="text/javascript" src="../static/js/tether.min.js" th:src="@{/js/tether.min.js}"></script>
 <!-- Bootstrap core JavaScript -->
-<script type="text/javascript" src="../static/js/bootstrap.min.js" th:src="@{/js/bootstrap.min.js}"></script>
+<!--<script type="text/javascript" src="../static/js/bootstrap.min.js" th:src="@{/js/bootstrap.min.js}"></script>-->
 <!-- MDB core JavaScript -->
 <script type="text/javascript" src="../static/js/mdb.min.js" th:src="@{/js/mdb.min.js}"></script>
 <!-- Main JavaScript -->
@@ -386,12 +397,16 @@
 <script type="text/javascript" src="../static/js/main.js" th:src="@{/js/main.js}"></script>
 
 <script type="text/javascript" src="../static/js/google-location.js" th:src="@{/js/google-location.js}"></script>
+<script type="text/javascript" src="../static/js/mdb.compiled.themes.js" th:src="@{/js/mdb.compiled.themes.js}"></script>
 
 <!-- Date Picker -->
 <script type="text/javascript" src="../static/js/bootstrap-datepicker.js"
         th:src="@{/js/bootstrap-datepicker.js}"></script>
 <script>
     new WOW().init();
+</script>
+<script>
+
 </script>
 
 </body>

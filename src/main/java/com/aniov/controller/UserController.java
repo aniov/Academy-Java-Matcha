@@ -62,17 +62,21 @@ public class UserController {
         } else {
             profile = userService.findUserByUserName(username).getProfile();
         }
-        return new ResponseEntity<Object>(new ProfileDTO(profile), HttpStatus.OK);
+        return new ResponseEntity<>(new ProfileDTO(profile), HttpStatus.OK);
     }
 
     @PostMapping(path = "/user/profile", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<?> changeProfile(@RequestBody @Valid ProfileDTO profileDTO, BindingResult result) {
+
+        System.out.println("PROFILE: " + profileDTO);
 
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         String authUsername = auth.getName();
 
         Profile savedProfile = profileService.saveProfile(profileDTO, authUsername);
         return new ResponseEntity<>(new ProfileDTO(savedProfile), HttpStatus.OK);
+
+       // return new ResponseEntity<>(HttpStatus.OK);
     }
 
     @GetMapping(path = "/user/photos")
@@ -187,7 +191,7 @@ public class UserController {
     @GetMapping(path = "/profiles")
     public ResponseEntity<?> getMatchingProfiles() {
 
-        List<ProfileDTO> profileDTOS = profileService.getAllProfiles();
+        List<ProfileDTO> profileDTOS = profileService.getMatchingProfiles();
 
         return new ResponseEntity<>(profileDTOS, HttpStatus.OK);
     }
@@ -210,18 +214,21 @@ public class UserController {
         if (username.equals(authUsername)) {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
+        String likeAdded = "false";
         Profile authUserProfile = userService.findUserByUserName(authUsername).getProfile();
         User userToGiveLike = userService.findUserByUserName(username);
 
-        if (authUserProfile.getLikesGiven().contains(userToGiveLike)) {
-            authUserProfile.removeLike(userToGiveLike);
-            userToGiveLike.getProfile().removeLikesReceived(authUserProfile.getUser());
+        //TODO
+        if (authUserProfile.getLikesGiven().contains(userToGiveLike.getProfile())) {
+            authUserProfile.removeLike(userToGiveLike.getProfile());
+            userToGiveLike.getProfile().removeLikesReceived(authUserProfile);
         } else {
-            authUserProfile.addLikeToUser(userToGiveLike);
-            userToGiveLike.getProfile().addLikesReceived(authUserProfile.getUser());
+            authUserProfile.addLikeToUser(userToGiveLike.getProfile());
+            userToGiveLike.getProfile().addLikesReceived(authUserProfile);
+            likeAdded = "true";
         }
         profileService.saveProfileEntity(authUserProfile);
-        return new ResponseEntity<>(new GenericResponseDTO("Like added/removed: " + username), HttpStatus.OK);
+        return new ResponseEntity<>(new GenericResponseDTO(likeAdded), HttpStatus.OK);
 
     }
 

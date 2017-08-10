@@ -56,21 +56,21 @@ function displayProfilesCards() {
 
         var like = '';
         var message = '';
-        console.log(likesGiven)
+        console.log(likesGiven);
         if (likesGiven.some(function (e) {
-                return e.username == profiles[i].username
+                return e == profiles[i].username
             })) {
             like = 'text-danger';
             if (likesReceived.some(function (e) {
-                return e.username == profiles[i].username
+                    return e == profiles[i].username
                 })) {
-                message = 'text-primary';
+                message = 'text-primary fa-commenting';
             }
         }
 
         cards[i] =
             $('<div>', {class: 'col-lg-4 wow fadeIn'}).append(
-                $('<div>', {class: 'card'}).append(
+                $('<div>', {class: 'card card-cascade regular'}).append(
                     $('<div>', {class: 'view overlay hm-white-slight'}).append(
                         $('<img>', {class: 'img-fluid', src: photo})
                     )
@@ -80,13 +80,13 @@ function displayProfilesCards() {
                             $('<a>', {
                                 class: like + ' fa fa-heart pull-right',
                                 onclick: "giveLike('" + profiles[i].username + "')",
-                                data_toggle:'tooltip',  title: 'Like/Unlike'
+                                data_toggle: 'tooltip', title: 'Like/Unlike'
                             })
                         ).append(
                             $('<a>', {
-                                class: message + ' fa fa-commenting-o pull-right',
-                                onclick: "sendMessage('" + profiles[i].username + "')",
-                                data_toggle:'tooltip',  title: 'Send message'
+                                class: message + ' fa fa-commenting pull-right',
+                                onclick: "tryToSendMessage('" + profiles[i].username + "')",
+                                data_toggle: 'tooltip', title: 'Send message'
                             })
                         )
                     ).append(
@@ -94,7 +94,7 @@ function displayProfilesCards() {
                     ).append(
                         $('<div>', {class: 'read-more'}).append(
                             $('<a>', {
-                                class: 'btn btn-primary',
+                                class: 'btn btn-outline-info btn-rounded waves-effect',
                                 text: 'profile',
                                 href: '/profile?name=' + profiles[i].username
                             })
@@ -116,7 +116,19 @@ function giveLike(username) {
             xhr.setRequestHeader('X-CSRF-Token', $('meta[name="_csrf"]').attr('content'));
         },
         success: function (data, textStatus, jqXHR) {
-            console.log("Like added to: " + username + data);
+            console.log("Like added to: " + username + data.messages[0]);
+
+            if (data.messages[0] === 'true') {
+                toastr["info"]("You Like " + username);
+                if (userLikesMe(username)) {
+                    toastr["success"]("You are now linked !");
+                }
+            } else {
+                toastr["error"]("You un-like " + username);
+                if (userLikesMe(username)) {
+                    toastr["error"]("You are now disconnected with " + username);
+                }
+            }
             getAuthProfile();
         },
         error: function (data, textStatus, jqXHR) {
@@ -125,17 +137,64 @@ function giveLike(username) {
     });
 }
 
-function getLikesGiven() {
+function userLikesMe(username) {
+    if (likesReceived.some(function (e) {
+            return e == username
+        })) {
+        return true;
+    }
+}
 
+function getLikesGiven() {
 }
 
 function getLikesReceived() {
-
 }
 
-function sendMessage(username) {
-    alert("Message to " + username);
+function tryToSendMessage(username) {
+
+    if (likesGiven.some(function (e) {
+            return e == username
+        }) && likesReceived.some(function (e) {
+            return e == username
+        })) {
+        $("#message-to").html(username);
+        document.getElementById("toUsername").value = username;
+        $("#messageModal").modal('show');
+
+    } else {
+        $("#cannotMessageModal").modal('show');
+    }
 }
+
+
+document.getElementById("sendMessage").onclick = function () {
+
+    var text = document.getElementById("message-text").value;
+    document.getElementById("message-text").value = '';
+    var username = document.getElementById("toUsername").value;
+
+            $.ajax({
+                url: "/user/send-message?name=" + username,
+                type: "POST",
+                data: JSON.stringify(profile),
+                contentType: "application/json; charset=utf-8",
+                dataType: "json",
+                beforeSend: function (xhr) {
+                    xhr.setRequestHeader('X-CSRF-Token', $('meta[name="_csrf"]').attr('content'));
+                },
+                success: function (data, textStatus, jqXHR) {
+                    console.log("Message sent ok");
+                    $("#messageModal").modal('hide');
+
+                },
+                error: function (data, textStatus, jqXHR) {
+                    console.log("Message send error");
+                    $("#messageModal").modal('hide');
+                }
+            });
+}
+
 
 function getAuthUserName() {
 

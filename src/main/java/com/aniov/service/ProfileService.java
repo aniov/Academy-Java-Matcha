@@ -34,11 +34,11 @@ public class ProfileService {
 
        Profile profile = findByUserName(username);
        profile.edit(profileDTO);
-       return profileRepository.save(profile);
+       return profileRepository.saveAndFlush(profile);
    }
 
    public Profile saveProfileEntity(Profile profile) {
-       return profileRepository.save(profile);
+       return profileRepository.saveAndFlush(profile);
    }
 
    public List<ProfileDTO> getAllProfiles() {
@@ -57,8 +57,16 @@ public class ProfileService {
        String authUsername = auth.getName();
        Profile authUserProfile = userService.findUserByUserName(authUsername).getProfile();
 
+       List<Profile> profiles = profileRepository.findAll();
+       List<ProfileDTO> profileDTOS = new ArrayList<>();
 
+       for (Profile profile : profiles) {
+           if (profile.getId() != authUserProfile.getId()) {
+               profileDTOS.add(new ProfileDTO(profile));
+           }
+       }
 
-       return new ArrayList<>();
+       return profileDTOS;
+
    }
 }

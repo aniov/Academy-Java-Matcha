@@ -8,6 +8,7 @@ import lombok.NoArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import java.io.Serializable;
+import java.util.Collections;
 import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
@@ -58,10 +59,9 @@ public class ProfileDTO implements Serializable {
 
     private String sexualOrientation;
 
+    private Set<String> likesReceived = new HashSet<>();
 
-    private Set<User> likesReceived;
-
-    private Set<User> likesGiven;
+    private Set<String> likesGiven = new HashSet<>();
 
     private byte[] mainPhoto;
 
@@ -98,10 +98,21 @@ public class ProfileDTO implements Serializable {
         if (profile.getEthnicity() != null) {
             this.ethnicity = profile.getEthnicity().getEthnicity();
         }
-        this.likesGiven = profile.getLikesGiven();
-        this.likesReceived = profile.getLikesReceived();
 
-        this.mainPhoto = pictureService.getMainPhoto(profile).getPictureData();
+        for (Profile prof : profile.getLikesGiven()) {
+            this.likesGiven.add(prof.getUser().getUsername());
+        }
+
+       // this.likesGiven = profile.getLikesGiven();
+        for (Profile prof : profile.getLikesReceived()) {
+            this.likesReceived.add(prof.getUser().getUsername());
+        }
+
+       // this.likesReceived = profile.getLikesReceived();
+
+        if (pictureService.getMainPhoto(profile) != null) {
+            this.mainPhoto = pictureService.getMainPhoto(profile).getPictureData();
+        }
 
     }
 }

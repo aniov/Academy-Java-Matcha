@@ -16,6 +16,10 @@
     <link href="../static/css/mdb.min.css" th:href="@{/css/mdb.min.css}" rel="stylesheet"/>
     <!-- Your custom styles (optional) -->
     <link href="../static/css/style.css" th:href="@{/css/style.css}" rel="stylesheet"/>
+    <link rel="stylesheet" id="compiled.css-css" href="../static/css/mdb.themes.min.css"
+          th:href="@{/css/mdb.themes.min.css}" type="text/css"
+          media="all"/>
+
 </head>
 <body>
 <header>
@@ -27,6 +31,77 @@
 <main>
     <!--Main layout-->
     <div class="container">
+
+        <!-- Central Modal Medium Danger -->
+        <div class="modal fade" id="cannotMessageModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+            <div class="modal-dialog modal-notify modal-danger" role="document">
+                <!--Content-->
+                <div class="modal-content">
+                    <!--Header-->
+                    <div class="modal-header">
+                        <p class="heading lead">You need to be linked to send message</p>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true" class="white-text">&times;</span>
+                        </button>
+                    </div>
+                    <!--Body-->
+                    <div class="modal-body">
+                        <div class="text-center">
+                            <i class="fa fa-check fa-4x mb-3 animated rotateIn"></i>
+                            <p>Sorry but both of you have to like your profile's</p>
+                            <p>Please try later and hope that this time your profile is liked</p>
+                        </div>
+                    </div>
+                    <!--Footer-->
+                    <div class="modal-footer justify-content-center">
+                        <a type="button" class="btn btn-outline-success btn-rounded waves-effect" data-dismiss="modal">Ok</a>
+                    </div>
+                </div>
+                <!--/.Content-->
+            </div>
+        </div>
+        <!-- Central Modal Medium Danger-->
+
+        <!--Message modal-->
+        <div class="modal fade right" id="messageModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
+             data-backdrop="false" aria-hidden="true">
+            <div class="modal-dialog modal-side modal-bottom-right modal-notify modal-info" role="document">
+                <!--Content-->
+                <div class="modal-content">
+                    <!--Header-->
+                    <div class="modal-header">
+                        <p class="heading">Send message to <span id="message-to">Name</span></p>
+
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true" class="white-text">×</span>
+                        </button>
+                    </div>
+                    <!--Body-->
+                    <div class="modal-body">
+                        <div class="row">
+                            <div class="col-3">
+                                <p></p>
+                                <p class="text-center"><i class="fa fa-comments fa-4x"></i></p>
+                            </div>
+                            <div class="col-9">
+                        <textarea type="text" id="message-text" class="md-textarea"
+                                  style="height: 100px;"></textarea>
+                                <input type="hidden" id="toUsername" value=""/>
+                            </div>
+                        </div>
+                    </div>
+                    <!--Footer-->
+                    <div class="modal-footer justify-content-center">
+                        <a type="button" class="btn btn-outline-primary btn-rounded waves-effect waves-light" id="sendMessage">Send <i
+                                class="fa fa-location-arrow ml-1"></i></a>
+                        <a type="button" class="btn btn-outline-secondary btn-rounded waves-effect" data-dismiss="modal">Cancel</a>
+                    </div>
+                </div>
+                <!--/.Content-->
+            </div>
+        </div>
+        <!--/ Message modal-->
+
 
         <!--Page heading-->
         <div class="row">
@@ -40,22 +115,7 @@
         <hr/>
         <div class="row wow animated profile-cards">
             <!--<div class="col-lg-4 wow fadeIn" data-wow-delay="0.2s" style="height: 300px; width: 400px;">
-                <div class="card">
-                    <div class="view overlay hm-white-slight">
-                        <img src="http://mdbootstrap.com/img/Photos/Horizontal/Food/4-col/img%20(43).jpg"
-                             class="img-fluid" style="max-width: 100%; max-height: 100%;"/>
-                        <a href="#!">
-                            <div class="mask"></div>
-                        </a>
-                    </div>
-                    <div class="card-block">
-                        <h4 class="card-title">Classic spaghetti bolognese</h4>
-                        <p class="card-text">Some quick example text.</p>
-                        <div class="read-more">
-                            <a href="#!" class="btn btn-primary">Read more</a>
-                        </div>
-                    </div>
-                </div>
+
             </div>-->
 
         </div>
@@ -106,9 +166,12 @@
 <!-- Main JavaScript -->
 <script type="text/javascript" src="../static/js/usermainpage.js" th:src="@{/js/usermainpage.js}"></script>
 
-<script>
+<script type="text/javascript"
+        src="https://mdbootstrap.com/wp-content/themes/mdbootstrap4/js/compiled.min.js?ver=4.4.0"></script>
+
+<!--<script>
     new WOW().init();
-</script>
+</script>-->
 
 
 
