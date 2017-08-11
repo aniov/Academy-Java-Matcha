@@ -218,18 +218,14 @@ public class UserController {
         Profile authUserProfile = userService.findUserByUserName(authUsername).getProfile();
         User userToGiveLike = userService.findUserByUserName(username);
 
-        //TODO
         if (authUserProfile.getLikesGiven().contains(userToGiveLike.getProfile())) {
             authUserProfile.removeLike(userToGiveLike.getProfile());
-            userToGiveLike.getProfile().removeLikesReceived(authUserProfile);
         } else {
             authUserProfile.addLikeToUser(userToGiveLike.getProfile());
-            userToGiveLike.getProfile().addLikesReceived(authUserProfile);
             likeAdded = "true";
         }
         profileService.saveProfileEntity(authUserProfile);
         return new ResponseEntity<>(new GenericResponseDTO(likeAdded), HttpStatus.OK);
-
     }
 
     /**

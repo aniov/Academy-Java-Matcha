@@ -20,8 +20,8 @@
           th:href="@{/css/mdb.themes.min.css}" type="text/css"
           media="all"/>
     <!-- Date Picker -->
-    <link href="../static/css/bootstrap-datepicker.css" th:href="@{/css/bootstrap-datepicker.css}"
-          rel="stylesheet"/>
+    <!--    <link href="../static/css/bootstrap-datepicker.css" th:href="@{/css/bootstrap-datepicker.css}"
+              rel="stylesheet"/>-->
 
 </head>
 <body>
@@ -60,8 +60,11 @@
                     </div>
                     <!--Footer-->
                     <div class="modal-footer">
-                        <button type="button" class="btn btn-outline-primary btn-rounded" id="saveChanges">Save changes</button>
-                        <button type="button" class="btn btn-outline-secondary btn-rounded" data-dismiss="modal">Close</button>
+                        <button type="button" class="btn btn-outline-primary btn-rounded" id="saveChanges">Save
+                            changes
+                        </button>
+                        <button type="button" class="btn btn-outline-secondary btn-rounded" data-dismiss="modal">Close
+                        </button>
                     </div>
                 </div>
                 <!--/.Content-->
@@ -165,19 +168,23 @@
                                 <label for="lastName">last name</label>
                             </div>
                         </div>
-
+                        <!--Date picker-->
                         <div class="form-group row">
                             <label for="datepicker" class="col-2 col-form-label">Born date</label>
-                            <div class="col-10">
-                                <p><input type="text" id="datepicker"/></p>
+                            <div class="md-form col-10">
+                                <input placeholder="Selected date" type="text" id="datepicker"
+                                       class="form-control datepicker"/>
                             </div>
                         </div>
-
                     </div>
                     <!--Footer-->
                     <div class="modal-footer">
-                        <button type="button" class="btn btn-outline-primary btn-rounded waves-effect" id="saveInfo">Save changes</button>
-                        <button type="button" class="btn btn-outline-secondary btn-rounded waves-effect" data-dismiss="modal">Close</button>
+                        <button type="button" class="btn btn-outline-primary btn-rounded waves-effect" id="saveInfo">
+                            Save changes
+                        </button>
+                        <button type="button" class="btn btn-outline-secondary btn-rounded waves-effect"
+                                data-dismiss="modal">Close
+                        </button>
                     </div>
                 </div>
                 <!--/.Content-->
@@ -255,7 +262,8 @@
                         <!--Text-->
                         <p class="card-text" id="self-summary"></p>
                         <div class="read-more">
-                            <a class="btn btn-outline-primary btn-rounded btn-sm waves-effect" id="editSummaryButton" data-toggle="modal"
+                            <a class="btn btn-outline-primary btn-rounded btn-sm waves-effect" id="editSummaryButton"
+                               data-toggle="modal"
                                onclick="editSummary()" style="display: none;">Edit</a>
                         </div>
                     </div>
@@ -287,7 +295,9 @@
                         <!--Text-->
                         <p class="card-text" id="what-im-doing"></p>
                         <div class="read-more">
-                            <a href="#!" id="editWhatImDoingButton" class="btn btn-outline-primary btn-rounded btn-sm waves-effect" onclick="editWhatImDoing()"
+                            <a href="#!" id="editWhatImDoingButton"
+                               class="btn btn-outline-primary btn-rounded btn-sm waves-effect"
+                               onclick="editWhatImDoing()"
                                style="display: none;">Edit</a>
                         </div>
                     </div>
@@ -323,7 +333,8 @@
                         <!--Text-->
                         <p class="card-text" id="good-at"></p>
                         <div class="read-more">
-                            <a href="#!" id="editGoodAtButton" class="btn btn-outline-primary btn-rounded btn-sm waves-effect" onclick="editGoodAt()"
+                            <a href="#!" id="editGoodAtButton"
+                               class="btn btn-outline-primary btn-rounded btn-sm waves-effect" onclick="editGoodAt()"
                                style="display: none;">Edit</a>
                         </div>
                     </div>
@@ -355,7 +366,8 @@
                         <!--Text-->
                         <p class="card-text" id="favorite-stuff"></p>
                         <div class="read-more">
-                            <a href="#!" id="editFavoritesButton" class="btn btn-outline-primary btn-rounded btn-sm waves-effect" onclick="editFavorites()"
+                            <a href="#!" id="editFavoritesButton"
+                               class="btn btn-outline-primary btn-rounded btn-sm waves-effect" onclick="editFavorites()"
                                style="display: none;">Edit</a>
                         </div>
                     </div>
@@ -397,11 +409,12 @@
 <script type="text/javascript" src="../static/js/main.js" th:src="@{/js/main.js}"></script>
 
 <script type="text/javascript" src="../static/js/google-location.js" th:src="@{/js/google-location.js}"></script>
-<script type="text/javascript" src="../static/js/mdb.compiled.themes.js" th:src="@{/js/mdb.compiled.themes.js}"></script>
+<script type="text/javascript" src="../static/js/mdb.compiled.themes.js"
+        th:src="@{/js/mdb.compiled.themes.js}"></script>
 
 <!-- Date Picker -->
-<script type="text/javascript" src="../static/js/bootstrap-datepicker.js"
-        th:src="@{/js/bootstrap-datepicker.js}"></script>
+<!--<script type="text/javascript" src="../static/js/bootstrap-datepicker.js"
+        th:src="@{/js/bootstrap-datepicker.js}"></script>-->
 <script>
     new WOW().init();
 </script>

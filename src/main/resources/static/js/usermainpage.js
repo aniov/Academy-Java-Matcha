@@ -69,7 +69,10 @@ function displayProfilesCards() {
         }
 
         cards[i] =
-            $('<div>', {class: 'col-lg-4 wow fadeIn'}).append(
+            $('<div>', {
+                class: 'col-lg-4 wow fadeIn',
+                'data-wow-delay': '0.' + (2 + i % 3) + 's'
+            }).append(
                 $('<div>', {class: 'card card-cascade regular'}).append(
                     $('<div>', {class: 'view overlay hm-white-slight'}).append(
                         $('<img>', {class: 'img-fluid', src: photo})
@@ -80,13 +83,13 @@ function displayProfilesCards() {
                             $('<a>', {
                                 class: like + ' fa fa-heart pull-right',
                                 onclick: "giveLike('" + profiles[i].username + "')",
-                                data_toggle: 'tooltip', title: 'Like/Unlike'
+                                'data-toggle': 'tooltip', title: 'Like/Unlike'
                             })
                         ).append(
                             $('<a>', {
                                 class: message + ' fa fa-commenting pull-right',
                                 onclick: "tryToSendMessage('" + profiles[i].username + "')",
-                                data_toggle: 'tooltip', title: 'Send message'
+                                'data-toggle': 'tooltip', title: 'Send message'
                             })
                         )
                     ).append(
@@ -124,7 +127,7 @@ function giveLike(username) {
                     toastr["success"]("You are now linked !");
                 }
             } else {
-                toastr["error"]("You un-like " + username);
+                toastr["info"]("You un-like " + username);
                 if (userLikesMe(username)) {
                     toastr["error"]("You are now disconnected with " + username);
                 }
@@ -174,25 +177,25 @@ document.getElementById("sendMessage").onclick = function () {
     document.getElementById("message-text").value = '';
     var username = document.getElementById("toUsername").value;
 
-            $.ajax({
-                url: "/user/send-message?name=" + username,
-                type: "POST",
-                data: JSON.stringify(profile),
-                contentType: "application/json; charset=utf-8",
-                dataType: "json",
-                beforeSend: function (xhr) {
-                    xhr.setRequestHeader('X-CSRF-Token', $('meta[name="_csrf"]').attr('content'));
-                },
-                success: function (data, textStatus, jqXHR) {
-                    console.log("Message sent ok");
-                    $("#messageModal").modal('hide');
+    $.ajax({
+        url: "/user/send-message?name=" + username,
+        type: "POST",
+        data: JSON.stringify(profile),
+        contentType: "application/json; charset=utf-8",
+        dataType: "json",
+        beforeSend: function (xhr) {
+            xhr.setRequestHeader('X-CSRF-Token', $('meta[name="_csrf"]').attr('content'));
+        },
+        success: function (data, textStatus, jqXHR) {
+            console.log("Message sent ok");
+            $("#messageModal").modal('hide');
 
-                },
-                error: function (data, textStatus, jqXHR) {
-                    console.log("Message send error");
-                    $("#messageModal").modal('hide');
-                }
-            });
+        },
+        error: function (data, textStatus, jqXHR) {
+            console.log("Message send error");
+            $("#messageModal").modal('hide');
+        }
+    });
 }
 
 

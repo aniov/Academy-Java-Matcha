@@ -141,11 +141,11 @@ function setInputDataInFields() {
     /*Name*/
     document.getElementById("firstName").value = profile.firstName;
     document.getElementById("lastName").value = profile.lastName;
-
+    initializeDatePicker();
     /*Born date*/
     if (profile.bornDate > 0) {
         var d = new Date(profile.bornDate);
-        var date = (d.getMonth() + 1) + "/" + d.getDate() + "/" + d.getYear();
+        var date = (d.getMonth() + 1) + "/" + d.getDate() + "/" + d.getFullYear();
         document.getElementById("datepicker").value = date;
     }
 }
@@ -274,18 +274,29 @@ $('#message-text').keyup(function () {
     $('#count_message').html(text_remaining + ' remaining');
 });
 
-$(function () {
-    var date = new Date();
-    date.setFullYear(date.getFullYear() - 18);
+function initializeDatePicker() {
 
-    $("#datepicker").datepicker({
+    var maxDate = new Date();
+    var minDate = new Date();
+    maxDate.setFullYear(maxDate.getFullYear() - 18);
+    minDate.setFullYear(minDate.getFullYear() - 80);
+
+   /* $("#datepicker").datepicker({
         format: "mm/dd/yyyy",
         startDate: "01/01/1900",
         endDate: date,
         clearBtn: true,
         autoclose: true,
-    })
-});
+    })*/
+    $('.datepicker').pickadate({
+        min: minDate,
+        max: maxDate,
+        today: '',
+        selectYears: true,
+        selectMonths: true,
+        format: 'mm/dd/yyyy',
+    });
+};
 
 /*Calculate Age*/
 function calculateAge(birthDate) {
