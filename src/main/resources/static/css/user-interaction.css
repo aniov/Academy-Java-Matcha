@@ -1,0 +1,37 @@
+#register-form {
+    margin-top: 150px;
+}
+
+#created-message {
+    margin-top: 150px;
+    display: none;
+}
+
+.login-page {
+    margin-top: 150px;
+!important;
+}
+
+#activated-message {
+    margin-top: 150px;
+}
+
+.view {
+    height: 100%;
+}
+
+
+/*Background image*/
+.full-height,
+.full-height body,
+.full-height header,
+.full-height header .view {
+    height: 100%;
+}
+
+
+/*Intro*/
+.view-bk {
+    background: url("https://static.pexels.com/photos/121848/pexels-photo-121848.jpeg") no-repeat center center;
+    background-size: cover;
+}

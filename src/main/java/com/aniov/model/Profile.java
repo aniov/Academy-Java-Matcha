@@ -92,9 +92,11 @@ public class Profile implements Serializable {
     private List<Profile> likesReceived = new ArrayList<>();
 
     @OneToMany(mappedBy = "sentToProfile")
+    @JsonManagedReference
     private List<Message> receivedMessages = new ArrayList<>();
 
     @OneToMany(mappedBy = "sentFromProfile")
+    @JsonManagedReference
     private List<Message> sentMessages = new ArrayList<>();
 
     @NotNull

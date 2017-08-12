@@ -43,10 +43,9 @@ function getUserMessages() {
 
 function unreadMessages(messages) {
 
-    var unread = 0;
+    var unread = '';
     for (var i = 0; i < messages.length; i++) {
         if (! messages[i].isRead) {
-          //  alert("oh");
             unread++;
         }
     }

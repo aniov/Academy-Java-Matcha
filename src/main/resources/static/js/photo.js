@@ -160,3 +160,7 @@ function createPhotoButtons(i) {
             })
         );
 }
+
+function goToProfile() {
+    window.location.replace('/profile?name=' + getURLParameter('name'));
+}

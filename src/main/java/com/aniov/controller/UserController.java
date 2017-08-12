@@ -126,7 +126,7 @@ public class UserController {
      * @param id id of Picture
      * @return HttpStatus.OK if deleted successful, HttpStatus.FORBIDDEN if picture id doesn't belong to auth user
      */
-    @DeleteMapping(path = "user/delete-photo")
+    @DeleteMapping(path = "/user/delete-photo")
     public ResponseEntity<?> deletePhoto(@RequestParam("id") Long id) {
 
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();

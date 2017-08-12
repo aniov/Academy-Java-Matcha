@@ -19,9 +19,9 @@
     <link rel="stylesheet" id="compiled.css-css" href="../static/css/mdb.themes.min.css"
           th:href="@{/css/mdb.themes.min.css}" type="text/css"
           media="all"/>
-    <!--    <link rel="stylesheet" id="compiled.css-css"
-              href="https://mdbootstrap.com/wp-content/themes/mdbootstrap4/css/compiled.min.css?ver=4.4.0" type="text/css"
-              media="all"/>-->
+<!--        <link rel="stylesheet" href="../static/css/mdb.themes.440.css"
+          th:href="@{/css/mdb.themes.440.css}" type="text/css"
+          media="all"/>-->
 
 </head>
 <header>
@@ -72,6 +72,7 @@
         <!--Page heading-->
         <div class="row">
             <div class="col-md-12">
+                <button onclick="goToProfile()" type="button" class="btn btn-outline-primary btn-sm btn-rounded waves-effect"><i class="fa fa-arrow-left" aria-hidden="true"></i> back</button>
                 <h1 class="h1-responsive">
                     <span id="photo-album-of"></span>
                     <small class="text-muted">photo album</small>

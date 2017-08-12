@@ -58,7 +58,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                             .permitAll()
                 .and()
                     .authorizeRequests()
-                        .antMatchers("/main", "/logout", "/user**", "/user/**", "/user/profile**", "/profile**", "/settings**", "/photo**")
+                        .antMatchers("/main", "/logout", "/user**", "/user/**", "/user/profile**", "/profile**", "/settings**", "/photo**", "/message**")
                     .authenticated()
                 /* Configure so we have 1 session used in SessionRegistry*/
                 .and()

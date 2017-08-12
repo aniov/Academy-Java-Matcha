@@ -1,16 +1,14 @@
 package com.aniov.model.dto;
 
+import com.aniov.model.Picture;
 import com.aniov.model.Profile;
-import com.aniov.model.User;
-import com.aniov.service.PictureService;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 
 import java.io.Serializable;
-import java.util.Collections;
 import java.util.Date;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 /**
@@ -19,9 +17,6 @@ import java.util.Set;
 @Data
 @NoArgsConstructor
 public class ProfileDTO implements Serializable {
-
-    //@Autowired
-    private PictureService pictureService = new PictureService();
 
     private String username;
     private String aboutMe;
@@ -103,16 +98,22 @@ public class ProfileDTO implements Serializable {
             this.likesGiven.add(prof.getUser().getUsername());
         }
 
-       // this.likesGiven = profile.getLikesGiven();
         for (Profile prof : profile.getLikesReceived()) {
             this.likesReceived.add(prof.getUser().getUsername());
         }
 
-       // this.likesReceived = profile.getLikesReceived();
-
-        if (pictureService.getMainPhoto(profile) != null) {
-            this.mainPhoto = pictureService.getMainPhoto(profile).getPictureData();
+        if (profile.getPictures() != null) {
+            this.mainPhoto = getMainPhoto(profile);
         }
+    }
 
+    private byte[] getMainPhoto(Profile profile) {
+        List<Picture> pictures = profile.getPictures();
+        for (Picture picture : pictures) {
+            if (picture.isProfilePicture()) {
+                return picture.getPictureData();
+            }
+        }
+        return null;
     }
 }
