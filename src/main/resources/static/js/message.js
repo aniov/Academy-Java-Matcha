@@ -22,7 +22,7 @@ function userMessages() {
         },
         success: function (data, textStatus, jqXHR) {
             console.log(data);
-            allMessages = data;
+            allMessages = data.content;
             createMessageCards();
         },
         error: function (data, textStatus, jqXHR) {

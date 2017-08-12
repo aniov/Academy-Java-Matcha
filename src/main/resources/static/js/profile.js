@@ -20,6 +20,7 @@ window.onload = function () {
         contentType: "application/json; charset=utf-8",
         success: function (data, textStatus, jqXHR) {
             profile = data;
+            console.log(data);
             getAuthUser();
             loadProfileData();
             loadCards();
