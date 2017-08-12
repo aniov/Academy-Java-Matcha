@@ -11,7 +11,7 @@ window.onload = function () {
     $.get("footer.html", function (data) {
         $("#footer-placeholder").replaceWith(data);
     });
-
+    navBar();
     getAuthUserName();
 
     $.ajax({
@@ -56,14 +56,17 @@ function displayProfilesCards() {
 
         var like = '';
         var message = '';
-        console.log(likesGiven);
+        var likesMe = '';
+        var toogleTitle = " doesn't like you";
+        if (userLikesMe(profiles[i].username)) {
+            likesMe = 'text-danger';
+            toogleTitle = " like's you";
+        }
         if (likesGiven.some(function (e) {
                 return e == profiles[i].username
             })) {
             like = 'text-danger';
-            if (likesReceived.some(function (e) {
-                    return e == profiles[i].username
-                })) {
+            if (userLikesMe(profiles[i].username)) {
                 message = 'text-primary fa-commenting';
             }
         }
@@ -96,6 +99,12 @@ function displayProfilesCards() {
                         $('<p>', {class: 'card-text', text: profiles[i].address})
                     ).append(
                         $('<div>', {class: 'read-more'}).append(
+                            $('<span>', {
+                                class: likesMe + ' fa fa-heartbeat pull-right',
+                                'data-toggle': 'tooltip', title: profiles[i].username + toogleTitle
+                            })
+                        )
+                            .append(
                             $('<a>', {
                                 class: 'btn btn-outline-info btn-rounded waves-effect',
                                 text: 'profile',
@@ -170,17 +179,18 @@ function tryToSendMessage(username) {
     }
 }
 
-
+//Send message
 document.getElementById("sendMessage").onclick = function () {
 
     var text = document.getElementById("message-text").value;
     document.getElementById("message-text").value = '';
     var username = document.getElementById("toUsername").value;
 
+    var message = {message : text};
     $.ajax({
         url: "/user/send-message?name=" + username,
         type: "POST",
-        data: JSON.stringify(profile),
+        data: JSON.stringify(message),
         contentType: "application/json; charset=utf-8",
         dataType: "json",
         beforeSend: function (xhr) {
@@ -189,7 +199,6 @@ document.getElementById("sendMessage").onclick = function () {
         success: function (data, textStatus, jqXHR) {
             console.log("Message sent ok");
             $("#messageModal").modal('hide');
-
         },
         error: function (data, textStatus, jqXHR) {
             console.log("Message send error");
@@ -209,9 +218,7 @@ function getAuthUserName() {
             xhr.setRequestHeader('X-CSRF-Token', $('meta[name="_csrf"]').attr('content'));
         },
         success: function (data, textStatus, jqXHR) {
-            console.log("User ata: " + data.username);
             authUsername = data.username;
-            $("#userName").html(data.username);
         },
         error: function (data, textStatus, jqXHR) {
             console.log("Cannot read username");

@@ -18,7 +18,7 @@
         position: absolute;
         background-color: #f9f9f9;
         min-width: 160px;
-        box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+        box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
         z-index: 1;
     }
 
@@ -31,7 +31,9 @@
     }
 
     /* Change color of dropdown links on hover */
-    .my-dropdown-content a:hover {background-color: #3F729B}
+    .my-dropdown-content a:hover {
+        background-color: #3F729B
+    }
 
     /* Show the dropdown menu on hover */
     .dropdown:hover .my-dropdown-content {
@@ -41,7 +43,7 @@
 </style>
 
 <script>
-    $(document).ready(function(){
+    $(document).ready(function () {
         $('[data-toggle="tooltip"]').tooltip();
     });
 </script>
@@ -75,19 +77,15 @@
             <ul class="navbar-nav nav-flex-icons">
                 <li class="nav-item" data-toggle="tooltip" data-placement="bottom" title="Visitors">
                     <a href="#" class="nav-link waves-effect waves-light"><i class="fa fa-bolt fa-2x"><span
-                            style="font-size: 18px">2</span></i></a>
+                            style="font-size: 18px"></span></i></a>
                 </li>
                 <li class="nav-item" data-toggle="tooltip" data-placement="bottom" title="Messages">
                     <a href="#" class="nav-link waves-effect waves-light"><i class="fa fa-comments fa-2x"><span
-                            style="font-size: 18px">5</span></i></a>
+                            style="font-size: 18px; margin-left: 3px" id="new-messages"></span></i></a>
                 </li>
                 <li class="nav-item" data-toggle="tooltip" data-placement="bottom" title="Likes">
                     <a href="#" class="nav-link waves-effect waves-light"><i class="fa fa-heart-o fa-2x"><span
-                            style="font-size: 18px">3</span></i></a>
-                </li>
-                <li class="nav-item" data-toggle="tooltip" data-placement="bottom" title="Profile">
-                    <a href="/profile" class="nav-link waves-effect waves-light"><i
-                            class="fa fa-user fa-2x"></i><a id="userName" style="font-size: small"></a></a>
+                            style="font-size: 18px"></span></i></a>
                 </li>
                 <li class="nav-item btn-group">
 
@@ -100,9 +98,19 @@
                         <div class="my-dropdown-content">
                             <a href="/settings" style="color: black">Settings</a>
                             <a href="/logout" style="color: black">Logout</a>
+                            <div class="chip">
+                                <img src="https://mdbootstrap.com/img/Photos/Avatars/avatar-6.jpg" alt="Contact Person"> Jane Doe
+                            </div>
                         </div>
                     </div>
+                </li>
+                <li class="nav-item" data-toggle="tooltip" data-placement="bottom" title="Profile">
+                    <a href="/profile" class="nav-link waves-effect waves-light">
+                        <img src="" id="nav-user-photo" class="img-fluid rounded-circle z-depth-1" style="height: 40px; width: 40px">
+                        <span id="userName" class="ml-1" style="font-size: small"></span></a>
+                </li>
 
+                <li>
                 </li>
             </ul>
         </div>

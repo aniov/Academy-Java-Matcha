@@ -91,11 +91,11 @@ public class Profile implements Serializable {
     @JoinTable(name = "likes", joinColumns = @JoinColumn(name = "fromId"), inverseJoinColumns = @JoinColumn(name = "toId"))
     private List<Profile> likesReceived = new ArrayList<>();
 
-/*    @OneToMany
-    private Set<Message> sentMessages = new HashSet<>();
+    @OneToMany(mappedBy = "sentToProfile")
+    private List<Message> receivedMessages = new ArrayList<>();
 
-    @OneToMany
-    private Set<Message> receivedMessages = new HashSet<>();*/
+    @OneToMany(mappedBy = "sentFromProfile")
+    private List<Message> sentMessages = new ArrayList<>();
 
     @NotNull
     @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
@@ -133,8 +133,6 @@ public class Profile implements Serializable {
         if (profileDTO.getEthnicity() != null) {
             this.ethnicity = Ethnicity.values()[Ethnicity.position(profileDTO.getEthnicity())];
         }
-       // this.likesGiven = profileDTO.getLikesGiven();
-       // this.likesReceived = profileDTO.getLikesReceived();
 
     }
 

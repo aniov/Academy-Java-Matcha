@@ -102,6 +102,9 @@
         </div>
         <!--/ Message modal-->
 
+        <!--Tags-->
+        <div class="chips chips-placeholder"></div>
+
         <!--Page heading-->
         <div class="row">
             <div class="col-md-12">
@@ -162,13 +165,19 @@
 <script type="text/javascript" src="../static/js/mdb.min.js" th:src="@{/js/mdb.min.js}"></script>
 <!-- Main JavaScript -->
 <script type="text/javascript" src="../static/js/usermainpage.js" th:src="@{/js/usermainpage.js}"></script>
+<script type="text/javascript" src="../static/js/navbar.js" th:src="@{/js/navbar.js}"></script>
 
 <script type="text/javascript"
         src="https://mdbootstrap.com/wp-content/themes/mdbootstrap4/js/compiled.min.js?ver=4.4.0"></script>
 
-<!--<script>
-    new WOW().init();
-</script>-->
+<script>
+/*    new WOW().init();*/
+$('.chips-placeholder').material_chip({
+    placeholder: 'Enter a tag',
+    secondaryPlaceholder: '+Tag',
+});
+
+</script>
 
 
 

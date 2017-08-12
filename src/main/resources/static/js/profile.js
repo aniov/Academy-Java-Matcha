@@ -12,6 +12,8 @@ window.onload = function () {
         $("#google-placeholder").replaceWith(data);
     });
 
+    navBar();
+
     $.ajax({
         url: "/user/profile?name=" + getURLParameter('name'),
         type: "GET",
@@ -358,11 +360,9 @@ function getAuthUser() {
         success: function (data, textStatus, jqXHR) {
             console.log("Auth user is here: " + data.username);
             authUser = data.username;
-            $("#userName").html(authUser);
             if (authUser === profile.username) {
                 showEditButtons();
             }
-
         },
         error: function (data, textStatus, jqXHR) {
             console.log("Cannot see current logged user");

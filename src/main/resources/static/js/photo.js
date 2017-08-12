@@ -9,13 +9,13 @@ window.onload = function () {
     $.get("footer.html", function (data) {
         $("#footer-placeholder").replaceWith(data);
     });
+    navBar();
 
     $.ajax({
         url: "/user",
         type: "GET",
         contentType: "application/json; charset=utf-8",
         success: function (data, textStatus, jqXHR) {
-            $("#userName").html(data.username);
             username = data.username;
             if (username === getURLParameter('name')) {
                 showUploadPhoto();
