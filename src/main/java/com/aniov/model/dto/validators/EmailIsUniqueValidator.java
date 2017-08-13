@@ -7,10 +7,6 @@ import javax.validation.ConstraintValidator;
 import javax.validation.ConstraintValidatorContext;
 
 /**
- * Created by Marius on 12/10/2016.
- */
-
-/**
  * Create a Validator to check if the email String field provided is unique
  */
 public class EmailIsUniqueValidator implements ConstraintValidator<EmailIsUnique, String> {

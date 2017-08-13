@@ -1,4 +1,7 @@
 var allMessages = [];
+var totalPages = 0;
+var pageNumber = 0;
+
 window.onload = function () {
 
     $.get("navbar.html", function (data) {
@@ -9,21 +12,37 @@ window.onload = function () {
     });
     navBar();
     userMessages();
+
 }
+
+$(document).ready(function () {
+
+    var win = $(window);
+
+    win.scroll(function () {
+        if (win.scrollTop() + win.height() > $(document).height() - 100) {
+            pageNumber++;
+            if (pageNumber < totalPages) {
+                userMessages();
+            }
+        }
+    })
+});
 
 function userMessages() {
 
     $.ajax({
-        url: "/user/all-messages",
+        url: "/user/all-messages?page=" + pageNumber,
         type: "GET",
         contentType: "application/json; charset=utf-8",
         beforeSend: function (xhr) {
             xhr.setRequestHeader('X-CSRF-Token', $('meta[name="_csrf"]').attr('content'));
         },
         success: function (data, textStatus, jqXHR) {
-            console.log(data);
             allMessages = data.content;
+            totalPages = data.totalPages;
             createMessageCards();
+            getUserMessages();
         },
         error: function (data, textStatus, jqXHR) {
             console.log("Cannot read received messages");
@@ -35,13 +54,14 @@ function createMessageCards() {
 
     var elements = [];
 
-    for (var i = allMessages.length - 1; i >= 0; i--) {
+    for (var i = 0; i < allMessages.length; i++) {
 
         var colorCardReceive = 'aqua-gradient';
         var from_to = 'from';
         var sent_received = 'received: ';
         var toRight = '';
         var to_text = '';
+        var received_pos = '';
 
         if (allMessages[i].sentMessage === true) {
             colorCardReceive = 'purple-gradient';
@@ -49,11 +69,12 @@ function createMessageCards() {
             sent_received = 'sent: ';
             toRight = ' justify-content-end mr-4';
             to_text = ' text-right';
+            received_pos = 'pull-right';
         }
 
         var card =
             $('<div>', {
-                class: 'card testimonial-card col-lg-3 ml-4 view overlay hm-white-light'
+                class: 'card testimonial-card col-lg-3 ml-4 view overlay hm-white-light',
             }).append(
                 $('<a>', {
                     href: '/profile?name=' + allMessages[i].username
@@ -83,9 +104,11 @@ function createMessageCards() {
             ).append(
                 $('<hr>', {class: 'extra-margin my-0'})
             ).append(
-                $('<span>', {text: sent_received + allMessages[i].created})
+                $('<span>', {
+                    text: sent_received + allMessages[i].created,
+                    class: received_pos
+                })
             );
-
 
         if (allMessages[i].sentMessage === true) {
             var tmp = card;
@@ -96,7 +119,7 @@ function createMessageCards() {
         elements[i] =
             $('<div>', {
                 class: 'row mt-3 wow fadeIn' + toRight,
-                'data-wow-delay': '0.2s',
+                'data-wow-delay': '0.3s'
             }).append(card).append(text);
 
 

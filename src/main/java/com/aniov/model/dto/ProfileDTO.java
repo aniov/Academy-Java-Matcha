@@ -2,6 +2,7 @@ package com.aniov.model.dto;
 
 import com.aniov.model.Picture;
 import com.aniov.model.Profile;
+import com.aniov.model.dto.validators.BornDate;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -36,6 +37,7 @@ public class ProfileDTO implements Serializable {
 
     private String address;
 
+    @BornDate
     private Date bornDate;
 
     private String gender;

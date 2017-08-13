@@ -32,9 +32,9 @@ window.onload = function () {
             console.log("Cannot get the profiles");
         }
     });
-
-    $('[data-toggle="tooltip"]').tooltip();
 }
+
+
 
 function displayProfilesCards() {
 
@@ -58,6 +58,7 @@ function displayProfilesCards() {
         var message = '';
         var likesMe = '';
         var toogleTitle = " doesn't like you";
+        var like_unlike = 'Like';
         if (userLikesMe(profiles[i].username)) {
             likesMe = 'text-danger';
             toogleTitle = " like's you";
@@ -68,6 +69,7 @@ function displayProfilesCards() {
             like = 'text-danger';
             if (userLikesMe(profiles[i].username)) {
                 message = 'text-primary fa-commenting';
+                like_unlike = 'Unlike';
             }
         }
 
@@ -86,13 +88,17 @@ function displayProfilesCards() {
                             $('<a>', {
                                 class: like + ' fa fa-heart pull-right',
                                 onclick: "giveLike('" + profiles[i].username + "')",
-                                'data-toggle': 'tooltip', title: 'Like/Unlike'
+                                'data-toggle': 'tooltip',
+                                title: like_unlike,
+                                'data-placement':'bottom'
                             })
                         ).append(
                             $('<a>', {
                                 class: message + ' fa fa-commenting pull-right',
                                 onclick: "tryToSendMessage('" + profiles[i].username + "')",
-                                'data-toggle': 'tooltip', title: 'Send message'
+                                'data-toggle': 'tooltip',
+                                title: 'Send message',
+                                'data-placement':'bottom'
                             })
                         )
                     ).append(
@@ -101,7 +107,9 @@ function displayProfilesCards() {
                         $('<div>', {class: 'read-more'}).append(
                             $('<span>', {
                                 class: likesMe + ' fa fa-heartbeat pull-right',
-                                'data-toggle': 'tooltip', title: profiles[i].username + toogleTitle
+                                'data-toggle': 'tooltip',
+                                title: profiles[i].username + toogleTitle,
+                                'data-placement':'bottom'
                             })
                         )
                             .append(
@@ -116,9 +124,13 @@ function displayProfilesCards() {
             )
         $(document.getElementsByClassName('row wow animated profile-cards')).append(cards[i]);
     }
+    //Initialize the tooltip
+    $('[data-toggle="tooltip"]').tooltip();
 }
 
 function giveLike(username) {
+    //we reset the tooltips
+    $('[data-toggle="tooltip"]').tooltip('dispose');
 
     $.ajax({
         url: "/user/like?name=" + username,
@@ -155,12 +167,6 @@ function userLikesMe(username) {
         })) {
         return true;
     }
-}
-
-function getLikesGiven() {
-}
-
-function getLikesReceived() {
 }
 
 function tryToSendMessage(username) {
@@ -237,6 +243,7 @@ function getAuthProfile() {
             likesGiven = profile.likesGiven;
             likesReceived = profile.likesReceived;
             displayProfilesCards();
+
         },
         error: function (data, textStatus, jqXHR) {
             console.log("Cannot read username");

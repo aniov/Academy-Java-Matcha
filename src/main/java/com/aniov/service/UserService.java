@@ -48,6 +48,10 @@ public class UserService implements UserDetailsService {
         return userRepository.findByUsername(username);
     }
 
+    public User findUserByUserNameIgnoreCase(String username) {
+        return userRepository.findByUsernameIgnoreCase(username);
+    }
+
     public User saveUser(User user) {
         return userRepository.save(user);
     }

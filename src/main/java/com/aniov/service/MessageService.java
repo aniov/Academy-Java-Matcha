@@ -17,6 +17,8 @@ import java.util.List;
 @Service
 public class MessageService {
 
+    private final int RESULTS_PER_PAGE = 2;
+
     @Autowired
     private MessageRepository messageRepository;
 
@@ -32,12 +34,15 @@ public class MessageService {
      * @param profile auth user profile
      * @return Page<Message> containing all sent and received messages
      */
-    public Page<MessageDTO> getAllMessages(Profile profile) {
+    public Page<MessageDTO> getAllMessages(Profile profile, int pageNumber) {
         //We request our page result to be ordered by created date descending
-        Pageable request = new PageRequest(0, 20, Sort.Direction.DESC, "createDate");
+        Pageable request = new PageRequest(pageNumber, RESULTS_PER_PAGE, Sort.Direction.DESC, "createDate");
 
         Page<Message> messages = messageRepository.findBySentFromProfileOrSentToProfile(profile, profile, request);
         List<MessageDTO> messageDTOS = new ArrayList<>();
+
+        //We set the messages we gave to front-end as read
+        setReceivedMessagesAsRead(messages, profile);
 
         for (Message message : messages) {
             messageDTOS.add(new MessageDTO(message, profile.getUser().getUsername()));
@@ -56,4 +61,14 @@ public class MessageService {
     public boolean canMessageBeSent(Profile from, Profile to) {
         return (from.getLikesReceived().contains(to) && to.getLikesReceived().contains(from));
     }
+
+    private void setReceivedMessagesAsRead(Page<Message> messages, Profile profile) {
+        for (Message message : messages) {
+            if (message.getSentToProfile().equals(profile)) {
+                message.setRead(true);
+                messageRepository.save(message);
+            }
+        }
+    }
+
 }

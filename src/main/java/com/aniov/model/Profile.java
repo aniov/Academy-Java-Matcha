@@ -1,9 +1,13 @@
 package com.aniov.model;
 
 import com.aniov.model.dto.ProfileDTO;
+import com.aniov.model.dto.validators.BornDate;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.annotations.Parameter;
 
@@ -45,6 +49,7 @@ public class Profile implements Serializable {
 
     private String address;
 
+    @BornDate
     @Temporal(TemporalType.TIMESTAMP)
     private Date bornDate;
 

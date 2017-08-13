@@ -233,8 +233,7 @@ document.getElementById("saveInfo").onclick = function () {
         }
     });
 
-
-}
+};
 
 document.getElementById("saveChanges").onclick = function () {
 
@@ -284,28 +283,24 @@ function initializeDatePicker() {
     maxDate.setFullYear(maxDate.getFullYear() - 18);
     minDate.setFullYear(minDate.getFullYear() - 80);
 
-   /* $("#datepicker").datepicker({
-        format: "mm/dd/yyyy",
-        startDate: "01/01/1900",
-        endDate: date,
-        clearBtn: true,
-        autoclose: true,
-    })*/
     $('.datepicker').pickadate({
+        selectYears: true,
+        selectMonths: true,
         min: minDate,
         max: maxDate,
         today: '',
-        selectYears: true,
-        selectMonths: true,
+        close: 'Save',
         format: 'mm/dd/yyyy',
+        closeOnSelect: false,
+        closeOnClear: false
     });
-};
+}
 
 /*Calculate Age*/
 function calculateAge(birthDate) {
 
     birthDate = new Date(birthDate);
-    todayDate = new Date();
+    var todayDate = new Date();
 
     var years = todayDate.getFullYear() - birthDate.getFullYear();
     if (todayDate.getMonth() < birthDate.getMonth() ||

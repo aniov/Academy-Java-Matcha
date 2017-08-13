@@ -68,15 +68,11 @@ public class UserController {
     @PostMapping(path = "/user/profile", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<?> changeProfile(@RequestBody @Valid ProfileDTO profileDTO, BindingResult result) {
 
-        System.out.println("PROFILE: " + profileDTO);
-
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         String authUsername = auth.getName();
 
         Profile savedProfile = profileService.saveProfile(profileDTO, authUsername);
         return new ResponseEntity<>(new ProfileDTO(savedProfile), HttpStatus.OK);
-
-       // return new ResponseEntity<>(HttpStatus.OK);
     }
 
     @GetMapping(path = "/user/photos")

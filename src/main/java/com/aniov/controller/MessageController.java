@@ -72,24 +72,22 @@ public class MessageController {
         Profile authProfile = userService.findUserByUserName(authUsername).getProfile();
 
         List<Message> messages = authProfile.getReceivedMessages();
-
         return new ResponseEntity<>(messages, HttpStatus.OK);
     }
 
     /**
-     * Get all messages from auth user
+     * Get all messages from auth user using pagination
      *
-     * @return all received and send messages
+     * @return received and send messages by page
      */
     @GetMapping(path = "/user/all-messages")
-    public ResponseEntity<?> getAllUserMessages() {
+    public ResponseEntity<?> getAllUserMessages(@RequestParam(name = "page") int pageNumber) {
 
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         String authUsername = auth.getName();
         Profile authProfile = userService.findUserByUserName(authUsername).getProfile();
 
-        Page<MessageDTO> messageDTOS = messageService.getAllMessages(authProfile);
-
+        Page<MessageDTO> messageDTOS = messageService.getAllMessages(authProfile, pageNumber);
 
         return new ResponseEntity<Object>(messageDTOS, HttpStatus.OK);
     }

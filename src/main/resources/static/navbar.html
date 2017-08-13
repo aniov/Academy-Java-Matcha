@@ -1,46 +1,4 @@
 <!--Navbar-->
-<style>
-
-    /* Style The Dropdown Button */
-    .dropbtn {
-        cursor: pointer;
-    }
-
-    /* The container <div> - needed to position the dropdown content */
-    .dropdown {
-        position: relative;
-        display: inline-block;
-    }
-
-    /* Dropdown Content (Hidden by Default) */
-    .my-dropdown-content {
-        display: none;
-        position: absolute;
-        background-color: #f9f9f9;
-        min-width: 160px;
-        box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
-        z-index: 1;
-    }
-
-    /* Links inside the dropdown */
-    .my-dropdown-content a {
-        color: black;
-        padding: 12px 16px;
-        text-decoration: none;
-        display: block;
-    }
-
-    /* Change color of dropdown links on hover */
-    .my-dropdown-content a:hover {
-        background-color: #3F729B
-    }
-
-    /* Show the dropdown menu on hover */
-    .dropdown:hover .my-dropdown-content {
-        display: block;
-    }
-
-</style>
 
 <script>
     $(document).ready(function () {
@@ -48,66 +6,64 @@
     });
 </script>
 
-<nav class="navbar navbar-toggleable-md navbar-dark">
+<nav class="navbar navbar-expand-lg fixed-top scrolling-navbar navbar-dark unique-color">
     <div class="container">
         <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse"
                 data-target="#navbarNav1" aria-controls="navbarNav1" aria-expanded="false"
                 aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
         </button>
-       <!-- <a class="navbar-brand" href="#">
-            <img src="photos/logo-min-col.png"
-                 class="d-inline-block align-top" alt="MDBootstrap">
-        </a>-->
+        <!-- <a class="navbar-brand" href="#">
+             <img src="photos/logo-min-col.png"
+                  class="d-inline-block align-top" alt="MDBootstrap">
+         </a>-->
         <div class="collapse navbar-collapse" id="navbarNav1">
             <ul class="navbar-nav mr-auto">
-                <li class="nav-item active">
-                    <a class="nav-link" href="/">Home <span class="sr-only">(current)</span></a>
+                <li class="nav-item">
+                    <a class="nav-link" href="/">Matcha</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link">Launches</a>
+                    <a class="nav-link">Something</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link">Desserts</a>
+                    <a class="nav-link">Something else</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link">Pricing</a>
+                    <a class="nav-link disabled">Another</a>
                 </li>
             </ul>
             <ul class="navbar-nav nav-flex-icons">
-                <li class="nav-item" data-toggle="tooltip" data-placement="bottom" title="Visitors">
-                    <a href="#" class="nav-link waves-effect waves-light"><i class="fa fa-bolt fa-2x"><span
-                            style="font-size: 18px"></span></i></a>
+                <li class="nav-item" data-toggle="tooltip" data-placement="bottom" title="Who view your profile">
+                    <a href="#" class="nav-link waves-effect waves-light"><i class="fa fa-bolt fa-lg"></i> visitors</a>
                 </li>
-                <li class="nav-item" data-toggle="tooltip" data-placement="bottom" title="Messages">
-                    <a href="/message" class="nav-link waves-effect waves-light"><i class="fa fa-comments fa-2x"><span
-                            style="font-size: 18px; margin-left: 3px" id="new-messages"></span></i></a>
+                <li class="nav-item" data-toggle="tooltip" data-placement="bottom" title="Sent/Received messages">
+                    <a href="/message" class="nav-link waves-effect waves-light"><i
+                            class="fa fa-comments fa-lg"></i><span id="settings"></span> messages</a>
                 </li>
-                <li class="nav-item" data-toggle="tooltip" data-placement="bottom" title="Likes">
-                    <a href="#" class="nav-link waves-effect waves-light"><i class="fa fa-heart-o fa-2x"><span
-                            style="font-size: 18px"></span></i></a>
+                <li class="nav-item" data-toggle="tooltip" data-placement="bottom" title="Who liked your profile">
+                    <a href="#" class="nav-link waves-effect waves-light"><i class="fa fa-heart-o fa-lg"></i> likes</a>
                 </li>
-                <li class="nav-item btn-group">
+                <li class="nav-item" data-toggle="tooltip" data-placement="bottom" title="account settings">
+                    <a href="/settings" class="nav-link waves-effect waves-light"><i class="fa fa-gear fa-lg"></i>
+                        settings</a>
+                </li>
 
-                    <div class="dropdown">
-                        <a class="dropbtn">
-                            <a class="nav-link dropdown-toggle" data-toggle="dropdown"
-                               aria-haspopup="true" aria-expanded="false"><i
-                                    class="fa fa-gear fa-2x"></i></a>
-                        </a>
-                        <div class="my-dropdown-content">
-                            <a href="/settings" style="color: black">Settings</a>
-                            <a href="/logout" style="color: black">Logout</a>
-                            <div class="chip">
-                                <img src="https://mdbootstrap.com/img/Photos/Avatars/avatar-6.jpg" alt="Contact Person"> Jane Doe
-                            </div>
-                        </div>
-                    </div>
-                </li>
                 <li class="nav-item" data-toggle="tooltip" data-placement="bottom" title="Profile">
                     <a href="/profile" class="nav-link waves-effect waves-light">
-                        <img src="" id="nav-user-photo" class="img-fluid rounded-circle z-depth-1" style="height: 40px; width: 40px">
-                        <span id="userName" class="ml-1" style="font-size: small"></span></a>
+                        <img src="" id="nav-user-photo" class="img-fluid rounded-circle z-depth-1"
+                             style="height: 40px; width: 40px">
+                    </a>
+                </li>
+
+                <li class="nav-item dropdown" data-toggle="tooltip" data-placement="right" title="User actions">
+
+                    <a class="nav-link dropdown-toggle" data-toggle="dropdown" aria-haspopup="true"
+                       aria-expanded="false"><span id="userName" class="small"></span>
+                    </a>
+                    <div class="dropdown-menu dropdown-ins" aria-labelledby="navbarDropdownMenuLink unique-color">
+                        <a class="dropdown-item" href="/logout"><i class="fa fa-sign-out" aria-hidden="true"></i> Logout</a>
+                        <a class="dropdown-item" href="#">Another action</a>
+                    </div>
                 </li>
 
                 <li>

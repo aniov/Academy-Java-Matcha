@@ -33,7 +33,7 @@ function getUserMessages() {
             xhr.setRequestHeader('X-CSRF-Token', $('meta[name="_csrf"]').attr('content'));
         },
         success: function (data, textStatus, jqXHR) {
-           $("#new-messages").html(unreadMessages(data));
+           $("#settings").html(unreadMessages(data));
         },
         error: function (data, textStatus, jqXHR) {
             console.log("Cannot read received messages");
@@ -45,7 +45,7 @@ function unreadMessages(messages) {
 
     var unread = '';
     for (var i = 0; i < messages.length; i++) {
-        if (! messages[i].isRead) {
+        if (! messages[i].read) {
             unread++;
         }
     }

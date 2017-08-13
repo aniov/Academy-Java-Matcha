@@ -105,10 +105,15 @@ function displayPhotoCards() {
     var cardButtons;
     var pictureData;
     var pictureSize;
+
     //We have maximum 9 photos
     for (var i = 0; i < 9; i++) {
 
-        if (username === getURLParameter('name')) {
+        cardButtons = '';
+        pictureData = '';
+        pictureSize = '';
+
+        if (username === getURLParameter('name') && pictures.length > i) {
             cardButtons = createPhotoButtons(i);
         }
         if (i < pictures.length) {
@@ -138,27 +143,34 @@ function displayPhotoCards() {
             ).append(cardButtons);
     }
     $(document.getElementById('photo-cards')).append(cards);
+    $('[data-toggle="tooltip"]').tooltip();
 }
 
 function createPhotoButtons(i) {
 
-    return photoButtons =
+    return (
 
         $('<div>').append(
             $('<button>', {
                 class: 'btn btn-outline-primary btn-sm btn-rounded waves-effect set-profile-picture',
                 type: 'button',
                 onclick: "setMainPhoto('" + i + "')",
-                text: 'Set main'
+                text: 'Set main',
+                'data-toggle': 'tooltip',
+                title: 'Set as main profile photo',
+                'data-placement': 'bottom'
             })
         ).append(
             $('<button>', {
                 class: 'btn btn-outline-danger btn-sm btn-rounded waves-effect delete-picture',
                 type: 'button',
                 onclick: "deletePhoto('" + i + "')",
-                text: 'delete'
+                text: 'delete',
+                'data-toggle': 'tooltip',
+                title: 'Delete photo',
+                'data-placement': 'bottom'
             })
-        );
+        ))
 }
 
 function goToProfile() {
