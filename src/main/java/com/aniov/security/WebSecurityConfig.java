@@ -63,7 +63,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 /* Configure so we have 1 session used in SessionRegistry*/
                 .and()
                     .sessionManagement()
-                        .maximumSessions(10)
+                        .maximumSessions(1)
                         .maxSessionsPreventsLogin(true)
                         .sessionRegistry(sessionRegistry());
                 // @formatter:on

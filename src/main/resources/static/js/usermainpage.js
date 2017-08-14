@@ -25,15 +25,12 @@ window.onload = function () {
             console.log("Got the profiles here");
             profiles = data;
             getAuthProfile();
-            console.log(profiles.likesGiven);
-
         },
         error: function (data, textStatus, jqXHR) {
             console.log("Cannot get the profiles");
         }
     });
 }
-
 
 
 function displayProfilesCards() {
@@ -83,25 +80,37 @@ function displayProfilesCards() {
                         $('<img>', {class: 'img-fluid', src: photo})
                     )
                 ).append(
-                    $('<div>', {class: 'card-block'}).append(
-                        $('<h4>', {class: 'card-title', text: profiles[i].username}).append(
-                            $('<a>', {
-                                class: like + ' fa fa-heart pull-right',
-                                onclick: "giveLike('" + profiles[i].username + "')",
-                                'data-toggle': 'tooltip',
-                                title: like_unlike,
-                                'data-placement':'bottom'
-                            })
-                        ).append(
-                            $('<a>', {
-                                class: message + ' fa fa-commenting pull-right',
-                                onclick: "tryToSendMessage('" + profiles[i].username + "')",
-                                'data-toggle': 'tooltip',
-                                title: 'Send message',
-                                'data-placement':'bottom'
-                            })
-                        )
-                    ).append(
+                    $('<div>', {class: 'card-block'})
+                        .append(
+                            $('<h4>', {
+                                class: 'card-title',
+                                text: profiles[i].username
+                            }).append(
+                                $('<a>', {
+                                    class: like + ' fa fa-heart pull-right',
+                                    onclick: "giveLike('" + profiles[i].username + "')",
+                                    'data-toggle': 'tooltip',
+                                    title: like_unlike,
+                                    'data-placement': 'bottom'
+                                })
+                            ).append(
+                                $('<a>', {
+                                    class: message + ' fa fa-commenting pull-right',
+                                    onclick: "tryToSendMessage('" + profiles[i].username + "')",
+                                    'data-toggle': 'tooltip',
+                                    title: 'Send message',
+                                    'data-placement': 'bottom'
+                                })
+                            )
+                        ).append($('<span>', {
+                        class: 'fa fa-circle text-muted pull-left',
+                        'aria-hidden': true,
+                        'data-toggle': 'tooltip',
+                        title: 'Off line',
+                        'data-placement': 'bottom'
+                    }))
+
+                        .append(
                         $('<p>', {class: 'card-text', text: profiles[i].address})
                     ).append(
                         $('<div>', {class: 'read-more'}).append(
@@ -109,16 +118,16 @@ function displayProfilesCards() {
                                 class: likesMe + ' fa fa-heartbeat pull-right',
                                 'data-toggle': 'tooltip',
                                 title: profiles[i].username + toogleTitle,
-                                'data-placement':'bottom'
+                                'data-placement': 'bottom'
                             })
                         )
                             .append(
-                            $('<a>', {
-                                class: 'btn btn-outline-info btn-rounded waves-effect',
-                                text: 'profile',
-                                href: '/profile?name=' + profiles[i].username
-                            })
-                        )
+                                $('<a>', {
+                                    class: 'btn btn-outline-info btn-rounded waves-effect',
+                                    text: 'profile',
+                                    href: '/profile?name=' + profiles[i].username
+                                })
+                            )
                     )
                 )
             )
@@ -192,7 +201,7 @@ document.getElementById("sendMessage").onclick = function () {
     document.getElementById("message-text").value = '';
     var username = document.getElementById("toUsername").value;
 
-    var message = {message : text};
+    var message = {message: text};
     $.ajax({
         url: "/user/send-message?name=" + username,
         type: "POST",

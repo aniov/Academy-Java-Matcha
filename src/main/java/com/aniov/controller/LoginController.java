@@ -1,5 +1,6 @@
 package com.aniov.controller;
 
+import com.aniov.model.SiteUserDetails;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.session.SessionInformation;
@@ -10,7 +11,6 @@ import org.springframework.web.bind.annotation.GetMapping;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import java.util.List;
-import java.util.stream.Collectors;
 
 /**
  * Login page Controller
@@ -24,12 +24,6 @@ public class LoginController {
 
     @GetMapping(path = "/login")
     public String login() {
-
-        System.out.println(sessionRegistry.getAllPrincipals().stream()
-                .filter(u -> !sessionRegistry.getAllSessions(u, false).isEmpty())
-                .map(Object::toString)
-                .collect(Collectors.toList()));
-
         return "loginpage";
     }
 
@@ -40,7 +34,7 @@ public class LoginController {
         if (authentication != null) {
             Object principal = authentication.getPrincipal();
 
-            if (principal instanceof org.springframework.security.core.userdetails.User) {
+            if (principal instanceof SiteUserDetails) {
                 List<SessionInformation> userSessions = sessionRegistry.getAllSessions(principal, true);
 
                 for (SessionInformation session : userSessions) {

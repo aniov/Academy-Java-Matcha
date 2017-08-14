@@ -2,6 +2,7 @@ package com.aniov.controller;
 
 import com.aniov.model.Picture;
 import com.aniov.model.Profile;
+import com.aniov.model.SiteUserDetails;
 import com.aniov.model.User;
 import com.aniov.model.dto.GenericResponseDTO;
 import com.aniov.model.dto.ProfileDTO;
@@ -9,6 +10,7 @@ import com.aniov.service.PictureService;
 import com.aniov.service.ProfileService;
 import com.aniov.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.web.servlet.MultipartConfigFactory;
 import org.springframework.context.annotation.Bean;
@@ -17,6 +19,7 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.session.SessionRegistry;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
@@ -25,7 +28,9 @@ import javax.servlet.MultipartConfigElement;
 import javax.validation.Valid;
 import java.io.IOException;
 import java.text.DecimalFormat;
+import java.util.LinkedHashSet;
 import java.util.List;
+import java.util.Set;
 
 /**
  * User controller
@@ -41,6 +46,10 @@ public class UserController {
     private double PHOTO_SIZE;
 
     private final double MEGABYTE = 1024L * 1024L;
+
+    @Autowired
+    @Qualifier("sessionRegistry")
+    private SessionRegistry sessionRegistry;
 
     @Autowired
     private UserService userService;
@@ -242,6 +251,25 @@ public class UserController {
         }
         profileService.saveProfileEntity(authUserProfile);
         return new ResponseEntity<>(new GenericResponseDTO(likeAdded), HttpStatus.OK);
+    }
+
+    /**
+     * Search all online users
+     *
+     * @return online users
+     */
+    @GetMapping(path = "/user/online")
+    public ResponseEntity<?> getLoggedUsers() {
+
+        List<Object> principals = sessionRegistry.getAllPrincipals();
+        Set<String> loggedUsers = new LinkedHashSet<>();
+
+        for (Object principal : principals) {
+            if (principal instanceof SiteUserDetails) {
+                loggedUsers.add(((SiteUserDetails) principal).getUsername());
+            }
+        }
+        return new ResponseEntity<>(loggedUsers, HttpStatus.OK);
     }
 
     /**
