@@ -38,7 +38,7 @@
 <main>
 
     <!-- Central Modal Medium Danger -->
-    <div class="modal fade" id="tooManyPhotosModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
+    <div class="modal fade" id="errorPhotosModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
          aria-hidden="true">
         <div class="modal-dialog modal-notify modal-danger" role="document">
             <!--Content-->
@@ -55,13 +55,12 @@
                 <div class="modal-body">
                     <div class="text-center">
                         <i class="fa fa-check fa-4x mb-3 animated rotateIn"></i>
-                        <p>Max number of pictures is exceeded.</p>
-                        <p>Please DELETE at least one photo from your gallery</p>
+                        <p id="modal-response"></p>
                     </div>
                 </div>
                 <!--Footer-->
                 <div class="modal-footer justify-content-center">
-                    <a type="button" class="btn btn-outline-secondary-modal waves-effect" data-dismiss="modal">Got
+                    <a type="button" class="btn btn-outline-info btn-rounded waves-effect" data-dismiss="modal">Got
                         it</a>
                 </div>
             </div>
@@ -86,7 +85,7 @@
                             <button class="btn btn-outline-primary btn-sm btn-rounded waves-effect btn-sm pull-right"
                                     onclick="document.querySelector('input').click()">Or click
                             </button>
-                            <span style="font-size: xx-small">max size: 1Mb</span>
+                            <span style="font-size: xx-small">max size: 10Mb</span>
                         </div>
                         <div class="pull-right">
                             <a id="uploading-photo">upload error</a>

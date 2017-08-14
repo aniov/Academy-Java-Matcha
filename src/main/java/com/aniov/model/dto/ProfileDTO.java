@@ -6,6 +6,10 @@ import com.aniov.model.dto.validators.BornDate;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import javax.validation.Valid;
+import javax.validation.constraints.Min;
+import javax.validation.constraints.Null;
+import javax.validation.constraints.Size;
 import java.io.Serializable;
 import java.util.Date;
 import java.util.HashSet;
@@ -25,11 +29,11 @@ public class ProfileDTO implements Serializable {
     private String goodAt;
     private String favorites;
 
-    /* @Null
-     @Size(min = 3, max = 50)*/
+/*    @Valid
+    @Size(min = 3, max = 50)*/
     private String firstName;
 
-    /*@Null
+/*    @Valid
     @Size(min = 3, max = 50)*/
     private String lastName;
 

@@ -37,12 +37,12 @@ public class Profile implements Serializable {
     private String goodAt;
     private String favorites;
 
-    /* @Null
-     @Size(min = 3, max = 50)*/
+
+  //  @Size(min = 3, max = 50)
     private String firstName;
 
-    /*@Null
-    @Size(min = 3, max = 50)*/
+
+   // @Size(min = 3, max = 50)
     private String lastName;
 
     private String googleLocationID;
@@ -79,7 +79,7 @@ public class Profile implements Serializable {
 
     @OneToMany(mappedBy = "profile", cascade = CascadeType.ALL)
     @Size(max = 9)
-    private List<Picture> pictures;
+    private List<Picture> pictures = new ArrayList<>();
 
     @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     @JoinTable(name = "profile_interest",

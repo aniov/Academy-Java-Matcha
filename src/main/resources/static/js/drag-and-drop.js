@@ -30,11 +30,13 @@ function dragAndDrop() {
                 addUploadedPicture(data);
                 //document.getElementById("circle-spinner").className = "preloader-wrapper";
             },
-            error: function (xhr, status, error) {
+            error: function (xhr, status) {
                 console.log("Upload photo error" + xhr.responseText);
                 document.body.className = "error-upload";
                 if (xhr.status === 507) {
-                    $("#tooManyPhotosModal").modal('show');
+                   // console.log(parseListMessages(data.responseJSON.messages));
+                    document.getElementById('modal-response').innerHTML = parseListMessages(xhr.responseJSON.messages);
+                    $("#errorPhotosModal").modal('show');
                 }
                 //setTimeout(document.body.className = "error-upload", 3000);
             }

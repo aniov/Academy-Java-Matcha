@@ -205,10 +205,12 @@ document.getElementById("sendMessage").onclick = function () {
         success: function (data, textStatus, jqXHR) {
             console.log("Message sent ok");
             $("#messageModal").modal('hide');
+            toastr["success"]("Message sent to " + username);
         },
         error: function (data, textStatus, jqXHR) {
             console.log("Message send error");
             $("#messageModal").modal('hide');
+            toastr["error"]("Error sending message to " + username);
         }
     });
 }

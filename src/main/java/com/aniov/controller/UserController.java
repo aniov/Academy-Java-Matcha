@@ -9,6 +9,7 @@ import com.aniov.service.PictureService;
 import com.aniov.service.ProfileService;
 import com.aniov.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.web.servlet.MultipartConfigFactory;
 import org.springframework.context.annotation.Bean;
 import org.springframework.http.HttpStatus;
@@ -22,6 +23,8 @@ import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.MultipartConfigElement;
 import javax.validation.Valid;
+import java.io.IOException;
+import java.text.DecimalFormat;
 import java.util.List;
 
 /**
@@ -30,6 +33,14 @@ import java.util.List;
 
 @RestController
 public class UserController {
+
+    @Value("${photo.how-many}")
+    private int MAX_NR_OF_PHOTOS;
+
+    @Value("${photo.size}")
+    private double PHOTO_SIZE;
+
+    private final double MEGABYTE = 1024L * 1024L;
 
     @Autowired
     private UserService userService;
@@ -101,15 +112,24 @@ public class UserController {
      * @return saved Picture
      */
     @PostMapping(path = "/user/upload-photo")
-    public ResponseEntity<?> savePhoto(@RequestParam("image") MultipartFile image) {
+    public ResponseEntity<?> savePhoto(@RequestParam("image") MultipartFile image) throws IOException {
 
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         String authUsername = auth.getName();
 
         Profile profile = profileService.findByUserName(authUsername);
+
+        System.out.println(" size: " + (image.getSize() / MEGABYTE) + " " + " " + image.getSize());
+
+        double imageSizeMB = image.getSize() / MEGABYTE;
+
         //We set a max number of pictures a user can have
-        if (profile.getPictures().size() >= 9) {
-            return new ResponseEntity<>(new GenericResponseDTO("Max size exceeded. Delete one photo."), HttpStatus.INSUFFICIENT_STORAGE);
+        if (profile.getPictures() != null && profile.getPictures().size() >= MAX_NR_OF_PHOTOS) {
+            return new ResponseEntity<>(new GenericResponseDTO("Max numbers(" + MAX_NR_OF_PHOTOS +
+                    ") of photo exceeded. Please delete one photo."), HttpStatus.INSUFFICIENT_STORAGE);
+        } else if (imageSizeMB > PHOTO_SIZE) {
+            return new ResponseEntity<>(new GenericResponseDTO("Max image size is " + PHOTO_SIZE + "MB. Your's is " +
+                    new DecimalFormat("##.##").format(imageSizeMB) + "MB"), HttpStatus.INSUFFICIENT_STORAGE);
         }
         Picture savedPicture = pictureService.savePicture(image, profile);
 
@@ -230,8 +250,8 @@ public class UserController {
     @Bean
     MultipartConfigElement multipartConfigElement() {
         MultipartConfigFactory factory = new MultipartConfigFactory();
-        factory.setMaxFileSize("5120MB");
-        factory.setMaxRequestSize("5120MB");
+        factory.setMaxFileSize("10MB");
+        factory.setMaxRequestSize("10MB");
         return factory.createMultipartConfig();
     }
 
