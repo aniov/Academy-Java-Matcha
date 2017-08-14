@@ -54,8 +54,8 @@ function displayProfilesCards() {
             photo = "data:image/png;base64," + photo;
         }
 
-        var like = '';
-        var message = '';
+        var like = 'text-muted';
+        var message = 'text-muted';
         var likesMe = '';
         var toogleTitle = " doesn't like you";
         var like_unlike = 'Like';
@@ -123,9 +123,9 @@ function displayProfilesCards() {
                 )
             )
         $(document.getElementsByClassName('row wow animated profile-cards')).append(cards[i]);
+        //Initialize the tooltip
+        $('[data-toggle="tooltip"]').tooltip();
     }
-    //Initialize the tooltip
-    $('[data-toggle="tooltip"]').tooltip();
 }
 
 function giveLike(username) {

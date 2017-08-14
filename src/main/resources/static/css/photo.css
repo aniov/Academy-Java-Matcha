@@ -1,0 +1,33 @@
+/*Put buttons over the photos*/
+
+.img-wr {
+    position: relative;
+}
+
+.img-ov {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    text-align: center;
+}
+
+.img-ov:before {
+    content: ' ';
+    display: block;
+    /* adjust 'height' to position overlay content vertically */
+    height: 70%;
+}
+
+.fadeIn {
+    cursor: -webkit-zoom-in;
+    cursor: zoom-in;
+    -webkit-transition: opacity .4s;
+    transition: opacity .4s;
+    border-radius: 0;
+}
+
+figure:hover {
+    opacity: 0.8;
+}
