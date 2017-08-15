@@ -27,7 +27,8 @@ public class MyAuthenticationSuccessHandler extends SimpleUrlAuthenticationSucce
         this.logger.warn("Authentication success: " + response + "; authentication: " + authentication);
 
         SiteUserDetails siteUserDetails = (SiteUserDetails) authentication.getPrincipal();
-        webSocketTransmit.userHasLoggedIn(siteUserDetails.getUsername());
+        webSocketTransmit.linkedUserHasLoggedIn(siteUserDetails.getUsername());
+        webSocketTransmit.userHasLogged(siteUserDetails.getUsername(), true);
 
         super.onAuthenticationSuccess(request, response, authentication);
     }

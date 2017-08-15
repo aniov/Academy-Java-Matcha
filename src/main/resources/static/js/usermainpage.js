@@ -72,7 +72,7 @@ function displayProfilesCards() {
         }
         if (userLikesMe(profiles[i].username)) {
             likesMe = 'text-danger';
-            toogleTitle = " like's you";
+            toogleTitle = " likes you";
         }
         if (likesGiven.some(function (e) {
                 return e == profiles[i].username
@@ -118,6 +118,7 @@ function displayProfilesCards() {
                             )
                         ).append($('<i>', {
                         class: 'fa fa-circle pull-left' + online,
+                        id : 'online-circle-' + profiles[i].username,
                         'aria-hidden': true,
                         'data-toggle': 'tooltip',
                         title: online_toogle,

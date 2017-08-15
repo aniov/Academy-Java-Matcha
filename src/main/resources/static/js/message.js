@@ -1,6 +1,7 @@
 var allMessages = [];
 var totalPages = 0;
 var pageNumber = 0;
+var processing;
 
 window.onload = function () {
 
@@ -22,13 +23,18 @@ $(document).ready(function () {
     var win = $(window);
 
     win.scroll(function () {
-        if (win.scrollTop() + win.height() > $(document).height() - 400) {
+        //We make sure that only 1 page will be requested
+        if (processing) {
+            return false;
+        }
+        if (win.scrollTop() + win.height() >= $(document).height() - 400) {
+            processing = true;
             pageNumber++;
             if (pageNumber < totalPages) {
                 userMessages();
             }
         }
-    })
+    });
 });
 
 function userMessages() {
@@ -129,4 +135,6 @@ function createMessageCards() {
             $('<hr>', {class: 'extra-margin my-0'})
         );
     }
+
+    processing = false;
 }

@@ -32,6 +32,6 @@
 
 /*Intro*/
 .view-bk {
-    background: url("https://static.pexels.com/photos/121848/pexels-photo-121848.jpeg") no-repeat center center;
+    background: url('/photos/background.jpg') no-repeat center center;
     background-size: cover;
 }

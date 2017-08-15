@@ -6,10 +6,10 @@ import com.aniov.model.SiteUserDetails;
 import com.aniov.model.User;
 import com.aniov.model.dto.GenericResponseDTO;
 import com.aniov.model.dto.ProfileDTO;
-import com.aniov.model.dto.ProfileLikeSocketDTO;
 import com.aniov.service.PictureService;
 import com.aniov.service.ProfileService;
 import com.aniov.service.UserService;
+import com.aniov.utils.WebSocketTransmit;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
@@ -18,7 +18,6 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.session.SessionRegistry;
@@ -63,7 +62,7 @@ public class UserController {
     private PictureService pictureService;
 
     @Autowired
-    private SimpMessagingTemplate simpMessagingTemplate;
+    private WebSocketTransmit webSocketTransmit;
 
     @GetMapping(path = "/user")
     public ResponseEntity<?> getCurrentUser() {
@@ -250,11 +249,11 @@ public class UserController {
 
         if (authUserProfile.getLikesGiven().contains(userToGiveLike.getProfile())) {
             authUserProfile.removeLike(userToGiveLike.getProfile());
-            sendLikeOverSocket(authUsername, username, false);
+            webSocketTransmit.sendLikeOverSocket(authUsername, username, false);
         } else {
             authUserProfile.addLikeToUser(userToGiveLike.getProfile());
             likeAdded = "true";
-            sendLikeOverSocket(authUsername, username, true);
+            webSocketTransmit.sendLikeOverSocket(authUsername, username, true);
         }
 
         profileService.saveProfileEntity(authUserProfile);
@@ -278,17 +277,6 @@ public class UserController {
             }
         }
         return new ResponseEntity<>(loggedUsers, HttpStatus.OK);
-    }
-
-    /**
-     * Sends message over WebSocket to the Like / Unliked user
-     *
-     * @param from auth username
-     * @param to   username of notify user
-     * @param like true / false
-     */
-    private void sendLikeOverSocket(String from, String to, boolean like) {
-        simpMessagingTemplate.convertAndSendToUser(to, "/queue/like", new ProfileLikeSocketDTO(from, like));
     }
 
     /**
