@@ -50,7 +50,6 @@ function userMessages() {
             allMessages = data.content;
             totalPages = data.totalPages;
             createMessageCards();
-            getUserMessages();
         },
         error: function (data, textStatus, jqXHR) {
             console.log("Cannot read received messages");

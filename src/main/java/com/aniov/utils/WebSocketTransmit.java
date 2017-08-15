@@ -75,6 +75,7 @@ public class WebSocketTransmit {
         for (User user : loggedUsers) {
             simpMessagingTemplate.convertAndSendToUser(user.getUsername(), "/queue/online-all", new IsOnlineSocketDTO(username, isLogged));
         }
+
     }
 
     /**

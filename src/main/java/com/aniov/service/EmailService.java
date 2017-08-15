@@ -74,6 +74,8 @@ public class EmailService {
         if (send) {
             sendEmail(user.getEmail(), subject, sw.toString());
         }
+
+        System.out.println("EMAIL: " + user.getEmail());
     }
 
     public void resetPasswordToken(User user) throws MessagingException {

@@ -9,7 +9,6 @@ $(function () {
 
 function login() {
 
-   // event.preventDefault();
     var username = document.getElementById("username").value;
     var password = document.getElementById("password").value;
     clearLoginForm();
@@ -37,7 +36,6 @@ function login() {
 
 function register() {
 
-    event.preventDefault();
     var registerData = {
         username: document.getElementById("registerUsername").value,
         email: document.getElementById("registerEmail").value,

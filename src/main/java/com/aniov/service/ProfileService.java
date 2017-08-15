@@ -1,9 +1,11 @@
 package com.aniov.service;
 
+import com.aniov.model.Account;
 import com.aniov.model.Profile;
 import com.aniov.model.SiteUserDetails;
 import com.aniov.model.User;
 import com.aniov.model.dto.ProfileDTO;
+import com.aniov.repository.AccountRepository;
 import com.aniov.repository.ProfileRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -28,6 +30,9 @@ public class ProfileService {
 
     @Autowired
     private UserService userService;
+
+    @Autowired
+    private AccountService accountService;
 
     @Autowired
     @Qualifier("sessionRegistry")
@@ -66,7 +71,13 @@ public class ProfileService {
        String authUsername = auth.getName();
        Profile authUserProfile = userService.findUserByUserName(authUsername).getProfile();
 
-       List<Profile> profiles = profileRepository.findAll();
+       List<Account> accounts = accountService.findAllAccountOk();
+       List<Profile> profiles = new ArrayList<>();
+
+       for (Account account :accounts) {
+           profiles.add(account.getUser().getProfile());
+       }
+
        profiles = setOnlineProfiles(profiles);
 
        List<ProfileDTO> profileDTOS = new ArrayList<>();
