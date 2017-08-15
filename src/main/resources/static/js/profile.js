@@ -33,7 +33,9 @@ window.onload = function () {
         }
     });
 
-}
+    /*Web Socket Connect*/
+    connect();
+};
 
 function loadProfileData() {
     $("#self-summary").html(profile.aboutMe);

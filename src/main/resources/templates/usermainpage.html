@@ -11,17 +11,17 @@
     <!-- Font Awesome -->
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.0/css/font-awesome.min.css"/>
     <!-- Bootstrap core CSS -->
-   <!-- <link href="../static/css/bootstrap.min.css" th:href="@{/css/bootstrap.min.css}" rel="stylesheet"/>-->
+    <!-- <link href="../static/css/bootstrap.min.css" th:href="@{/css/bootstrap.min.css}" rel="stylesheet"/>-->
     <!-- Material Design Bootstrap -->
     <link href="../static/css/mdb.min.css" th:href="@{/css/mdb.min.css}" rel="stylesheet"/>
-    <!-- Your custom styles (optional) -->
-    <link href="../static/css/style.css" th:href="@{/css/style.css}" rel="stylesheet"/>
     <link rel="stylesheet" id="compiled.css-css" href="../static/css/mdb.themes.min.css"
           th:href="@{/css/mdb.themes.min.css}" type="text/css"
           media="all"/>
-        <link rel="stylesheet" href="../static/css/mdb.themes.440.css"
+    <link rel="stylesheet" href="../static/css/mdb.themes.440.css"
           th:href="@{/css/mdb.themes.440.css}" type="text/css"
           media="all"/>
+    <!-- Your custom styles (optional) -->
+    <link href="../static/css/style.css" th:href="@{/css/style.css}" rel="stylesheet"/>
 
 </head>
 <body>
@@ -35,9 +35,11 @@
 <main>
     <!--Main layout-->
     <div class="container">
+        <button class="btn btn-success" onclick="sendName()">Send</button>
 
         <!-- Central Modal Medium Danger -->
-        <div class="modal fade" id="cannotMessageModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+        <div class="modal fade" id="cannotMessageModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
+             aria-hidden="true">
             <div class="modal-dialog modal-notify modal-danger" role="document">
                 <!--Content-->
                 <div class="modal-content">
@@ -58,7 +60,8 @@
                     </div>
                     <!--Footer-->
                     <div class="modal-footer justify-content-center">
-                        <a type="button" class="btn btn-outline-info btn-rounded waves-effect" data-dismiss="modal">Ok</a>
+                        <a type="button" class="btn btn-outline-info btn-rounded waves-effect"
+                           data-dismiss="modal">Ok</a>
                     </div>
                 </div>
                 <!--/.Content-->
@@ -96,9 +99,11 @@
                     </div>
                     <!--Footer-->
                     <div class="modal-footer justify-content-center">
-                        <a type="button" class="btn btn-outline-primary btn-rounded waves-effect waves-light" id="sendMessage">Send <i
+                        <a type="button" class="btn btn-outline-primary btn-rounded waves-effect waves-light"
+                           id="sendMessage">Send <i
                                 class="fa fa-location-arrow ml-1"></i></a>
-                        <a type="button" class="btn btn-outline-secondary btn-rounded waves-effect" data-dismiss="modal">Cancel</a>
+                        <a type="button" class="btn btn-outline-secondary btn-rounded waves-effect"
+                           data-dismiss="modal">Cancel</a>
                     </div>
                 </div>
                 <!--/.Content-->
@@ -171,16 +176,15 @@
 <!-- MDB core JavaScript -->
 <script type="text/javascript" src="../static/js/mdb.min.js" th:src="@{/js/mdb.min.js}"></script>
 <!-- Main JavaScript -->
+<script type="text/javascript" src="../static/js/main.js" th:src="@{/js/main.js}"></script>
 <script type="text/javascript" src="../static/js/usermainpage.js" th:src="@{/js/usermainpage.js}"></script>
 <script type="text/javascript" src="../static/js/navbar.js" th:src="@{/js/navbar.js}"></script>
-
-
+<script type="text/javascript" src="../static/js/web-sockets.js" th:src="@{/js/web-sockets.js}"></script>
+<script type="text/javascript" src="../static/js/sockjs.js" th:src="@{/js/sockjs.js}"></script>
+<script type="text/javascript" src="../static/js/stomp.js" th:src="@{/js/stomp.js}"></script>
 <script>
-   /* new WOW().init();*/
-$('.chips-placeholder').material_chip({
-    placeholder: 'Enter a tag',
-    secondaryPlaceholder: '+Tag',
-});
+    /* new WOW().init();*/
+
 
 </script>
 

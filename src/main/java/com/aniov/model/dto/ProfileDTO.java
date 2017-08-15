@@ -29,12 +29,8 @@ public class ProfileDTO implements Serializable {
     private String goodAt;
     private String favorites;
 
-/*    @Valid
-    @Size(min = 3, max = 50)*/
     private String firstName;
 
-/*    @Valid
-    @Size(min = 3, max = 50)*/
     private String lastName;
 
     private String googleLocationID;
@@ -66,6 +62,8 @@ public class ProfileDTO implements Serializable {
 
     private byte[] mainPhoto;
 
+    private boolean online;
+
     public ProfileDTO(Profile profile) {
         this.username = profile.getUser().getUsername();
         this.aboutMe = profile.getAboutMe();
@@ -78,6 +76,7 @@ public class ProfileDTO implements Serializable {
         this.address = profile.getAddress();
         this.bornDate = profile.getBornDate();
         this.height = profile.getHeight();
+        this.online = profile.isOnline();
         if (profile.getGender() != null) {
             this.gender = profile.getGender().getGenderType();
         }

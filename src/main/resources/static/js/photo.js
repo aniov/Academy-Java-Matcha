@@ -28,7 +28,9 @@ window.onload = function () {
     });
 
     getPictures();
-}
+    /*Web Socket Connect*/
+    connect();
+};
 
 function getPictures() {
     $.ajax({

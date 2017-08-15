@@ -30,7 +30,15 @@ window.onload = function () {
             console.log("Cannot get the profiles");
         }
     });
-}
+
+    $('.chips-placeholder').material_chip({
+        placeholder: 'Enter a tag',
+        secondaryPlaceholder: '+Tag',
+    });
+
+    /*Web Socket Connect*/
+    connect();
+};
 
 
 function displayProfilesCards() {
@@ -56,6 +64,12 @@ function displayProfilesCards() {
         var likesMe = '';
         var toogleTitle = " doesn't like you";
         var like_unlike = 'Like';
+        var online = ' text-muted';
+        var online_toogle = 'Offline';
+        if (profiles[i].online === true) {
+            online = ' text-success';
+            online_toogle = 'Online';
+        }
         if (userLikesMe(profiles[i].username)) {
             likesMe = 'text-danger';
             toogleTitle = " like's you";
@@ -102,11 +116,11 @@ function displayProfilesCards() {
                                     'data-placement': 'bottom'
                                 })
                             )
-                        ).append($('<span>', {
-                        class: 'fa fa-circle text-muted pull-left',
+                        ).append($('<i>', {
+                        class: 'fa fa-circle pull-left' + online,
                         'aria-hidden': true,
                         'data-toggle': 'tooltip',
-                        title: 'Off line',
+                        title: online_toogle,
                         'data-placement': 'bottom'
                     }))
 
@@ -152,12 +166,12 @@ function giveLike(username) {
             console.log("Like added to: " + username + data.messages[0]);
 
             if (data.messages[0] === 'true') {
-                toastr["info"]("You Like " + username);
+                toastr["success"]("You Like " + username);
                 if (userLikesMe(username)) {
-                    toastr["success"]("You are now linked !");
+                    toastr["info"]("You are now linked !");
                 }
             } else {
-                toastr["info"]("You un-like " + username);
+                toastr["warning"]("You un-like " + username);
                 if (userLikesMe(username)) {
                     toastr["error"]("You are now disconnected with " + username);
                 }

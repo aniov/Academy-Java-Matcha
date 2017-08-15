@@ -10,6 +10,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.annotations.Parameter;
+import org.springframework.data.repository.cdi.Eager;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
@@ -88,11 +89,11 @@ public class Profile implements Serializable {
     @JsonManagedReference
     private Set<Interest> interests;
 
-    @ManyToMany
+    @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(name = "likes", joinColumns = @JoinColumn(name = "toId"), inverseJoinColumns = @JoinColumn(name = "fromId"))
     private List<Profile> likesGiven = new ArrayList<>();
 
-    @ManyToMany
+    @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(name = "likes", joinColumns = @JoinColumn(name = "fromId"), inverseJoinColumns = @JoinColumn(name = "toId"))
     private List<Profile> likesReceived = new ArrayList<>();
 
@@ -109,6 +110,9 @@ public class Profile implements Serializable {
     @PrimaryKeyJoinColumn
     @JsonIgnore
     private User user;
+
+    @Transient
+    private boolean online;
 
     public void edit(ProfileDTO profileDTO) {
         this.aboutMe = profileDTO.getAboutMe();
@@ -244,4 +248,18 @@ public class Profile implements Serializable {
         }
     }
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        Profile profile = (Profile) o;
+
+        return id != null ? id.equals(profile.id) : profile.id == null;
+    }
+
+    @Override
+    public int hashCode() {
+        return id != null ? id.hashCode() : 0;
+    }
 }

@@ -72,5 +72,18 @@ footer.page-footer {
 /*    display: table-cell;
     text-align: center;*/
 }
+/*Navbar problems resolved*/
+@media (min-width: 300px) {
+    .navbar.scrolling-navbar {
+        padding-bottom: 34px;
+    }
+}
+
+@media (min-width: 300px) {
+    .navbar.scrolling-navbar.top-nav-collapse {
+        padding-top: 0px;
+        padding-bottom: 30px;
+    }
+}
 
 

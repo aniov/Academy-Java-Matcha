@@ -15,14 +15,14 @@
     <!-- Material Design Bootstrap -->
     <link href="../static/css/mdb.min.css" th:href="@{/css/mdb.min.css}" rel="stylesheet"/>
     <!-- Your custom styles (optional) -->
-    <link href="../static/css/style.css" th:href="@{/css/style.css}" rel="stylesheet"/>
     <link href="../static/css/photo.css" th:href="@{/css/photo.css}" rel="stylesheet"/>
     <link rel="stylesheet" id="compiled.css-css" href="../static/css/mdb.themes.min.css"
           th:href="@{/css/mdb.themes.min.css}" type="text/css"
           media="all"/>
-        <link rel="stylesheet" href="../static/css/mdb.themes.440.css"
+    <link rel="stylesheet" href="../static/css/mdb.themes.440.css"
           th:href="@{/css/mdb.themes.440.css}" type="text/css"
           media="all"/>
+    <link href="../static/css/style.css" th:href="@{/css/style.css}" rel="stylesheet"/>
 
 </head>
 <header>
@@ -74,7 +74,10 @@
         <!--Page heading-->
         <div class="row">
             <div class="col-md-12">
-                <button onclick="goToProfile()" type="button" class="btn btn-outline-primary btn-sm btn-rounded waves-effect"><i class="fa fa-arrow-left" aria-hidden="true"></i> back</button>
+                <button onclick="goToProfile()" type="button"
+                        class="btn btn-outline-primary btn-sm btn-rounded waves-effect"><i class="fa fa-arrow-left"
+                                                                                           aria-hidden="true"></i> back
+                </button>
                 <h1 class="h1-responsive">
                     <span id="photo-album-of"></span>
                     <small class="text-muted">photo album</small>
@@ -85,7 +88,7 @@
                             <button class="btn btn-outline-primary btn-sm btn-rounded waves-effect btn-sm pull-right"
                                     onclick="document.querySelector('input').click()">Or click
                             </button>
-                            <span style="font-size: xx-small">max size: 10Mb</span>
+                            <span style="font-size: xx-small">max size: 8.5Mb</span>
                         </div>
                         <div class="pull-right">
                             <a id="uploading-photo">upload error</a>
@@ -224,6 +227,9 @@
 <script type="text/javascript" src="../static/js/drag-and-drop.js" th:src="@{/js/drag-and-drop.js}"></script>
 <script type="text/javascript" src="../static/js/main.js" th:src="@{/js/main.js}"></script>
 <script type="text/javascript" src="../static/js/navbar.js" th:src="@{/js/navbar.js}"></script>
+<script type="text/javascript" src="../static/js/web-sockets.js" th:src="@{/js/web-sockets.js}"></script>
+<script type="text/javascript" src="../static/js/sockjs.js" th:src="@{/js/sockjs.js}"></script>
+<script type="text/javascript" src="../static/js/stomp.js" th:src="@{/js/stomp.js}"></script>
 
 
 <script>

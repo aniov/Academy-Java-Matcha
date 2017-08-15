@@ -12,15 +12,17 @@ window.onload = function () {
     });
     navBar();
     userMessages();
+    /*Web Socket Connect*/
+    connect();
 
-}
+};
 
 $(document).ready(function () {
 
     var win = $(window);
 
     win.scroll(function () {
-        if (win.scrollTop() + win.height() > $(document).height() - 100) {
+        if (win.scrollTop() + win.height() > $(document).height() - 400) {
             pageNumber++;
             if (pageNumber < totalPages) {
                 userMessages();

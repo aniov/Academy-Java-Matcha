@@ -12,6 +12,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
@@ -30,6 +31,9 @@ public class MessageController {
 
     @Autowired
     private MessageService messageService;
+
+    @Autowired
+    private SimpMessagingTemplate simpMessagingTemplate;
 
     /**
      * Records a message send by authProfile to another Profile
@@ -56,6 +60,8 @@ public class MessageController {
         }
 
         messageService.saveMessage(message.getMessage(), toProfile, fromProfile);
+        sendMessageInfoOverSocket(authUsername, username, message.getMessage());
+
         return new ResponseEntity<>(new GenericResponseDTO("Message added"), HttpStatus.OK);
     }
 
@@ -90,5 +96,16 @@ public class MessageController {
         Page<MessageDTO> messageDTOS = messageService.getAllMessages(authProfile, pageNumber);
 
         return new ResponseEntity<Object>(messageDTOS, HttpStatus.OK);
+    }
+
+    /**
+     * Sends message over WebSocket to user receiving new message
+     *
+     * @param from    auth username
+     * @param to      username of notify user
+     * @param message body of the message
+     */
+    private void sendMessageInfoOverSocket(String from, String to, String message) {
+        simpMessagingTemplate.convertAndSendToUser(to, "/queue/message", new ReceivedMessageDTO(from, message));
     }
 }

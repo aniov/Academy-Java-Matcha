@@ -33,6 +33,11 @@ public class NavigationController {
         return "redirect:/main";
     }
 
+    @GetMapping(path = "/login")
+    public String login() {
+        return "loginpage";
+    }
+
     @GetMapping(path = "/register")
     public String register() {
         return "registerpage";

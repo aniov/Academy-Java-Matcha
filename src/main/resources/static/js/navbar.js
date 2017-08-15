@@ -62,3 +62,21 @@ function getMainPhoto() {
     }
     return mainPhoto;
 }
+
+function logout() {
+
+    $.ajax({
+        url: "/logout",
+        type: "POST",
+        contentType: "application/json; charset=utf-8",
+        beforeSend: function (xhr) {
+            xhr.setRequestHeader('X-CSRF-Token', $('meta[name="_csrf"]').attr('content'));
+        },
+        success: function () {
+            window.location.replace("/login");
+        },
+        error: function () {
+            console.log("Cannot logout");
+        }
+    });
+}
