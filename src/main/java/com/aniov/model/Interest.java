@@ -1,6 +1,7 @@
 package com.aniov.model;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.*;
 
 import javax.persistence.*;
@@ -19,10 +20,10 @@ public class Interest implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
+    @JsonIgnore
     private Long id;
 
     @NonNull
-    @Column(unique = true)
     private String interest;
 
     @ManyToMany(mappedBy = "interests", fetch = FetchType.LAZY)

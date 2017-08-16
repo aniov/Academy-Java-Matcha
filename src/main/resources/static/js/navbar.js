@@ -1,5 +1,5 @@
-var currentUser;
-var currentUserProfile;
+let currentUser;
+let currentUserProfile;
 function navBar() {
 
     $.ajax({
@@ -43,8 +43,8 @@ function getUserMessages() {
 
 function unreadMessages(messages) {
 
-    var unread = '';
-    for (var i = 0; i < messages.length; i++) {
+    let unread = '';
+    for (let i = 0; i < messages.length; i++) {
         if (! messages[i].read) {
             unread++;
         }
@@ -54,7 +54,7 @@ function unreadMessages(messages) {
 
 function getMainPhoto() {
 
-    var mainPhoto = currentUserProfile.mainPhoto;
+    let mainPhoto = currentUserProfile.mainPhoto;
     if (mainPhoto === null) {
         mainPhoto = "../photos/photo-avatar.png";
     } else {

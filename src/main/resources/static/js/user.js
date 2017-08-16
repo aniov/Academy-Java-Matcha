@@ -18,4 +18,4 @@ window.onload = function(){
             console.log("Cannot read username");
         }
     });
-}
+};

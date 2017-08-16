@@ -1,5 +1,5 @@
-var profile;
-var authUser;
+let profile;
+let authUser;
 
 window.onload = function () {
     $.get("navbar.html", function (data) {
@@ -15,7 +15,7 @@ window.onload = function () {
     navBar();
 
     $.ajax({
-        url: "/user/profile?name=" + getURLParameter('name'),
+        url: "/user/profile?username=" + getURLParameter('name'),
         type: "GET",
         contentType: "application/json; charset=utf-8",
         success: function (data, textStatus, jqXHR) {
@@ -33,8 +33,6 @@ window.onload = function () {
         }
     });
 
-    tags();
-
     /*Web Socket Connect*/
     connect();
 };
@@ -45,8 +43,8 @@ function loadProfileData() {
     $("#good-at").html(profile.goodAt);
     $("#favorite-stuff").html(profile.favorites);
     $("#profile-username").html("Profile of " + profile.username);
-    var firstName = profile.firstName === null ? "" : profile.firstName;
-    var lastName = profile.lastName === null ? "" : profile.lastName;
+    let firstName = profile.firstName === null ? "" : profile.firstName;
+    let lastName = profile.lastName === null ? "" : profile.lastName;
     $("#profile-realName").html(firstName + " " + lastName);
     if (profile.address !== null) {
         document.getElementById("pac-input").value = profile.address;
@@ -58,18 +56,18 @@ function loadProfileData() {
 
 function loadCards() {
 
-    var sexOrientation = profile.sexualOrientation === null ? "" : profile.sexualOrientation + ", ";
-    var gender = profile.gender === null ? "" : profile.gender + ", ";
-    var status = profile.status === null ? "" : profile.status + ", ";
-    var date = profile.bornDate === null ? "" : calculateAge(profile.bornDate) + " years old";
-    var address = profile.address === null ? "" : "<p>From: " + profile.address + "</p>";
+    let sexOrientation = profile.sexualOrientation === null ? "" : profile.sexualOrientation + ", ";
+    let gender = profile.gender === null ? "" : profile.gender + ", ";
+    let status = profile.status === null ? "" : profile.status + ", ";
+    let date = profile.bornDate === null ? "" : calculateAge(profile.bornDate) + " years old";
+    let address = profile.address === null ? "" : "<p>From: " + profile.address + "</p>";
     if (profile.sexualOrientation || profile.gender || profile.status || profile.bornDate > 0) {
         $("#card-one").html(gender + sexOrientation + status + date + address);
     }
 
-    var ethnicity = profile.ethnicity === null ? "" : profile.ethnicity + ", ";
-    var bodyType = profile.bodyType === null ? "" : "Body: " + profile.bodyType + ", ";
-    var height = profile.height === null ? "" : "Height: " + profile.height + " cm";
+    let ethnicity = profile.ethnicity === null ? "" : profile.ethnicity + ", ";
+    let bodyType = profile.bodyType === null ? "" : "Body: " + profile.bodyType + ", ";
+    let height = profile.height === null ? "" : "Height: " + profile.height + " cm";
     if (profile.ethnicity || profile.bodyType || profile.height) {
         $("#card-two").html(ethnicity + bodyType + height);
     }
@@ -119,7 +117,7 @@ function setInputDataInFields() {
         document.getElementById("classGenderFemale").className += " active";
     }
     /*Looking for buttons*/
-    var looking = profile.lookingFor;
+    let looking = profile.lookingFor;
     document.getElementById("classLookingForWoman").className = "btn btn-primary btn-rounded";
     document.getElementById("classLookingForMan").className = "btn btn-primary btn-rounded";
     for (i = 0; i < looking.length; i++) {
@@ -150,8 +148,8 @@ function setInputDataInFields() {
     initializeDatePicker();
     /*Born date*/
     if (profile.bornDate > 0) {
-        var d = new Date(profile.bornDate);
-        var date = (d.getMonth() + 1) + "/" + d.getDate() + "/" + d.getFullYear();
+        let d = new Date(profile.bornDate);
+        let date = (d.getMonth() + 1) + "/" + d.getDate() + "/" + d.getFullYear();
         document.getElementById("datepicker").value = date;
     }
 }
@@ -159,8 +157,8 @@ function setInputDataInFields() {
 /*Save Basic info*/
 document.getElementById("saveInfo").onclick = function () {
     /*My Gender*/
-    var man = document.getElementById("genderMale").checked;
-    var woman = document.getElementById("genderFemale").checked;
+    let man = document.getElementById("genderMale").checked;
+    let woman = document.getElementById("genderFemale").checked;
     if (man) {
         profile.gender = "Man";
     } else if (woman) {
@@ -168,7 +166,7 @@ document.getElementById("saveInfo").onclick = function () {
     }
 
     /*Looking for*/
-    var looking = [];
+    let looking = [];
     man = document.getElementById("lookingForMan").checked;
     woman = document.getElementById("lookingForWoman").checked;
     if (man) {
@@ -180,7 +178,7 @@ document.getElementById("saveInfo").onclick = function () {
     profile.lookingFor = looking;
 
     /*Marital status*/
-    var e = document.getElementById("status");
+    let e = document.getElementById("status");
     if (e.selectedIndex !== -1) {
         profile.status = e.options[e.selectedIndex].text;
     }
@@ -204,14 +202,14 @@ document.getElementById("saveInfo").onclick = function () {
     }
 
     /*Name*/
-    var firstName = document.getElementById("firstName").value;
-    var lastName = document.getElementById("lastName").value;
+    let firstName = document.getElementById("firstName").value;
+    let lastName = document.getElementById("lastName").value;
 
     profile.firstName = firstName;
     profile.lastName = lastName;
 
     /*Born date*/
-    var date = document.getElementById("datepicker").value;
+    let date = document.getElementById("datepicker").value;
     profile.bornDate = new Date(date);
 
     $.ajax({
@@ -235,13 +233,12 @@ document.getElementById("saveInfo").onclick = function () {
             $("#editInfo").modal('hide');
         }
     });
-
 };
 
 document.getElementById("saveChanges").onclick = function () {
 
-    var text = document.getElementById("message-text").value;
-    var field = document.getElementById("fieldVariable").value;
+    let text = document.getElementById("message-text").value;
+    let field = document.getElementById("fieldVariable").value;
 
     profile[field] = text;
     $.ajax({
@@ -265,24 +262,24 @@ document.getElementById("saveChanges").onclick = function () {
     });
 };
 
-var text_max = 200;
+let text_max = 200;
 
 function charsToWrite() {
-    var text_length = $('#message-text').val().length;
+    let text_length = $('#message-text').val().length;
     $('#count_message').html((text_max - text_length) + ' remaining');
 }
 
 $('#message-text').keyup(function () {
-    var text_length = $('#message-text').val().length;
-    var text_remaining = text_max - text_length;
+    let text_length = $('#message-text').val().length;
+    let text_remaining = text_max - text_length;
 
     $('#count_message').html(text_remaining + ' remaining');
 });
 
 function initializeDatePicker() {
 
-    var maxDate = new Date();
-    var minDate = new Date();
+    let maxDate = new Date();
+    let minDate = new Date();
     maxDate.setFullYear(maxDate.getFullYear() - 18);
     minDate.setFullYear(minDate.getFullYear() - 80);
 
@@ -303,9 +300,9 @@ function initializeDatePicker() {
 function calculateAge(birthDate) {
 
     birthDate = new Date(birthDate);
-    var todayDate = new Date();
+    let todayDate = new Date();
 
-    var years = todayDate.getFullYear() - birthDate.getFullYear();
+    let years = todayDate.getFullYear() - birthDate.getFullYear();
     if (todayDate.getMonth() < birthDate.getMonth() ||
         todayDate.getMonth() === birthDate.getMonth() && todayDate.getDate() < birthDate.getDate()) {
         years--;
@@ -340,7 +337,7 @@ function saveUserLocation(place_id, address) {
 
 function showMainProfilePhoto() {
 
-    var mainPhoto = profile.mainPhoto;
+    let mainPhoto = profile.mainPhoto;
     if (mainPhoto === null) {
         mainPhoto = "../photos/photo-avatar.png";
     } else {
@@ -359,6 +356,7 @@ function getAuthUser() {
         success: function (data, textStatus, jqXHR) {
             console.log("Auth user is here: " + data.username);
             authUser = data.username;
+            getUserInterest();
             if (authUser === profile.username) {
                 showEditButtons();
             }
@@ -386,28 +384,15 @@ function photoAlbum() {
 //Create height modal dropdown
 function populateHeightDropDown() {
 
-    var min = 120;
-    var max = 220;
-    var select = document.getElementById('height');
-    for (var i = min; i <= max; i++) {
-        var opt = document.createElement('option');
+    let min = 120;
+    let max = 220;
+    let select = document.getElementById('height');
+    for (let i = min; i <= max; i++) {
+        let opt = document.createElement('option');
         opt.value = i;
         opt.innerHTML = i + " cm";
         select.appendChild(opt);
     }
-}
-
-function tags() {
-
-    $('.chips-placeholder').material_chip({
-        placeholder: 'Enter a tag',
-        secondaryPlaceholder: '+Interest'
-    });
-
-    $('.chips').on('chip.add', function(e, chip){
-       addInterest(chip.tag);
-    });
-    
 }
 
 function addInterest(newInterest) {
@@ -428,18 +413,39 @@ function addInterest(newInterest) {
     });
 }
 
+function deleteInterest(InterestToDelete) {
+
+    $.ajax({
+        url: '/user/interest?i=' + InterestToDelete.toString(),
+        type: "DELETE",
+        contentType: "application/json; charset=utf-8",
+        beforeSend: function (xhr) {
+            xhr.setRequestHeader('X-CSRF-Token', $('meta[name="_csrf"]').attr('content'));
+        },
+        success: function (data, textStatus, jqXHR) {
+            console.log("Interest deleted");
+        },
+        error: function (data, textStatus, jqXHR) {
+            console.log("Interest deleted error");
+        }
+    });
+}
+
 function getUserInterest() {
     $.ajax({
-        url: "/user",
+        url: "/user/interest?username=" + getURLParameter('name'),
         type: "GET",
         beforeSend: function (xhr) {
             xhr.setRequestHeader('X-CSRF-Token', $('meta[name="_csrf"]').attr('content'));
         },
         success: function (data, textStatus, jqXHR) {
-            console.log("Auth user is here: " + data.username);
-            authUser = data.username;
+            console.log("User interest: " + data);
             if (authUser === profile.username) {
-                showEditButtons();
+                createInterestTags(data);
+                document.getElementById("tags").style.display = "inline";
+            } else if (data.length !== 0) {
+                createShowInterest(data);
+                document.getElementById("tags-display").style.display = "visible";
             }
         },
         error: function (data, textStatus, jqXHR) {
@@ -447,4 +453,54 @@ function getUserInterest() {
         }
     });
 
+}
+
+class Tag {
+    constructor(tag) {
+        this.tag = tag;
+    }
+}
+
+function createInterestTags(interests) {
+    let tags = [];
+    let chips_tag = $('#tags');
+
+    for (let i = 0; i < interests.length; i++) {
+        let interest = new Tag(interests[i].interest);
+        tags.push(interest);
+    }
+    chips_tag.material_chip({
+        data: tags,
+        placeholder: 'Enter a tag',
+        secondaryPlaceholder: '+Interest'
+    });
+
+    chips_tag.on('chip.add', function (e, chip) {
+        addInterest(chip.tag);
+    });
+
+    chips_tag.on('chip.delete', function (e, chip) {
+        deleteInterest(chip.tag);
+    });
+}
+
+function createShowInterest(interests) {
+
+    let tags = [];
+    for (let i = 0; i < interests.length; i++){
+        tags[i] = $('<a>', {
+            class: 'chip pull-right' ,
+            onclick: "searchProfilesByTag('" + interests[i].interest + "')",
+            text: interests[i].interest,
+            'data-toggle': 'tooltip',
+            title: 'Search',
+            'data-placement': 'bottom'
+        });
+    }
+
+    $(document.getElementById('tags-display')).append(tags.reverse());
+}
+
+function searchProfilesByTag(interest) {
+    window.location.replace('/main?interest=' + interest);
 }

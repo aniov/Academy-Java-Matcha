@@ -87,15 +87,15 @@ public class Profile implements Serializable {
             joinColumns = @JoinColumn(name = "profile_id", referencedColumnName = "id"),
             inverseJoinColumns = @JoinColumn(name = "interest_id", referencedColumnName = "id"))
     @JsonManagedReference
-    private Set<Interest> interests;
+    private Set<Interest> interests = new LinkedHashSet<>();
 
     @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(name = "likes", joinColumns = @JoinColumn(name = "toId"), inverseJoinColumns = @JoinColumn(name = "fromId"))
-    private List<Profile> likesGiven = new ArrayList<>();
+    private Set<Profile> likesGiven = new HashSet<>();
 
     @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(name = "likes", joinColumns = @JoinColumn(name = "fromId"), inverseJoinColumns = @JoinColumn(name = "toId"))
-    private List<Profile> likesReceived = new ArrayList<>();
+    private Set<Profile> likesReceived = new HashSet<>();
 
     @OneToMany(mappedBy = "sentToProfile")
     @JsonManagedReference

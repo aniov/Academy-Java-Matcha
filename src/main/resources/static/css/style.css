@@ -65,15 +65,8 @@ footer.page-footer {
     display: inline
 }
 
-/*Photo size and align */
-.photo-align-size {
-/*    width: 400px;
-    height: 400px;*/
-/*    display: table-cell;
-    text-align: center;*/
-}
 /*Navbar problems resolved*/
-@media (min-width: 300px) {
+@media screen and (min-width: 300px) {
     .navbar.scrolling-navbar {
         padding-bottom: 34px;
     }
@@ -86,4 +79,16 @@ footer.page-footer {
     }
 }
 
+@media screen and (min-width: 996px) {
+    .navbar.scrolling-navbar {
+        padding-bottom: 12px;
+    }
+}
+
+@media (min-width: 996px) {
+    .navbar.scrolling-navbar.top-nav-collapse {
+        padding-top: 0px;
+        padding-bottom: 0px;
+    }
+}
 

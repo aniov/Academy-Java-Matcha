@@ -9,8 +9,8 @@ $(function () {
 
 function login() {
 
-    var username = document.getElementById("username").value;
-    var password = document.getElementById("password").value;
+    let username = document.getElementById("username").value;
+    let password = document.getElementById("password").value;
     clearLoginForm();
 
     $.ajax({
@@ -36,7 +36,7 @@ function login() {
 
 function register() {
 
-    var registerData = {
+    let registerData = {
         username: document.getElementById("registerUsername").value,
         email: document.getElementById("registerEmail").value,
         plainPassword: document.getElementById("registerPassword").value,
@@ -76,7 +76,7 @@ function register() {
 function resetPassword() {
 
     event.preventDefault();
-    var emailData = {
+    let emailData = {
         email: document.getElementById("email").value,
     };
     clearResetPasswordForm();
@@ -110,13 +110,13 @@ function resetPassword() {
 function changePassword() {
 
     event.preventDefault();
-    var passwordData = {
+    let passwordData = {
         plainPassword: document.getElementById("plainPassword").value,
         repeatPlainPassword: document.getElementById("repeatPlainPassword").value,
     };
     clearChangePasswordForm();
 
-    var token = getURLParameter('token');
+    let token = getURLParameter('token');
 
     $.ajax({
         url: "/changepassword?token=" + token,
@@ -149,8 +149,8 @@ function getURLParameter(name) {
 }
 
 function parseListMessages(list) {
-    var text = "<ul>";
-    for (var i = 0; i < list.length; i++) {
+    let text = "<ul>";
+    for (let i = 0; i < list.length; i++) {
         text += "<li>" + list[i] + "</li>";
     }
     return text + "</ul>";

@@ -1,6 +1,6 @@
-var pictures = [];
-var profile;
-var username;
+let pictures = [];
+let profile;
+let username;
 
 window.onload = function () {
     $.get("navbar.html", function (data) {
@@ -57,7 +57,7 @@ function addUploadedPicture(newPicture) {
 
 function deletePhoto(photoPosition) {
 
-    var toDelete = "?id=" + pictures[photoPosition].id;
+    let toDelete = "?id=" + pictures[photoPosition].id;
     $.ajax({
         url: "/user/delete-photo" + toDelete,
         type: "DELETE",
@@ -75,7 +75,7 @@ function deletePhoto(photoPosition) {
 }
 
 function setMainPhoto(photoPosition) {
-    var toBeMain = "?id=" + pictures[photoPosition].id;
+    let toBeMain = "?id=" + pictures[photoPosition].id;
     $.ajax({
         url: "/user/set-main-photo" + toBeMain,
         type: "PUT",
@@ -101,19 +101,19 @@ function showUploadPhoto() {
 
 function displayPhotoCards() {
     //clear cards before re-making them
-    var elements = document.getElementsByClassName('all-cards');
+    let elements = document.getElementsByClassName('all-cards');
     while (elements.length > 0) {
         elements[0].parentNode.removeChild(elements[0]);
     }
 
-    var cards = [];
-    var cardButtons;
-    var pictureData;
-    var pictureSize;
-    var set_main;
+    let cards = [];
+    let cardButtons;
+    let pictureData;
+    let pictureSize;
+    let set_main;
 
     //We have maximum 9 photos
-    for (var i = 0; i < 9; i++) {
+    for (let i = 0; i < 9; i++) {
 
         cardButtons = '';
         pictureData = '';
@@ -164,7 +164,6 @@ function displayPhotoCards() {
 function createPhotoButtons(i, set_main) {
 
     return (
-
         $('<div>').append(
             $('<a>', {
                 class: 'fa fa-check-circle fa-3x set-profile-picture mr-5' + set_main,

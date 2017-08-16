@@ -1,7 +1,7 @@
-var allMessages = [];
-var totalPages = 0;
-var pageNumber = 0;
-var processing;
+let allMessages = [];
+let totalPages = 0;
+let pageNumber = 0;
+let processing;
 
 window.onload = function () {
 
@@ -20,7 +20,7 @@ window.onload = function () {
 
 $(document).ready(function () {
 
-    var win = $(window);
+    let win = $(window);
 
     win.scroll(function () {
         //We make sure that only 1 page will be requested
@@ -60,16 +60,16 @@ function userMessages() {
 
 function createMessageCards() {
 
-    var elements = [];
+    let elements = [];
 
-    for (var i = 0; i < allMessages.length; i++) {
+    for (let i = 0; i < allMessages.length; i++) {
 
-        var colorCardReceive = 'aqua-gradient';
-        var from_to = 'from';
-        var sent_received = 'received: ';
-        var toRight = '';
-        var to_text = '';
-        var received_pos = '';
+        let colorCardReceive = 'aqua-gradient';
+        let from_to = 'from';
+        let sent_received = 'received: ';
+        let toRight = '';
+        let to_text = '';
+        let received_pos = '';
 
         if (allMessages[i].sentMessage === true) {
             colorCardReceive = 'purple-gradient';
@@ -80,7 +80,7 @@ function createMessageCards() {
             received_pos = 'pull-right';
         }
 
-        var card =
+        let card =
             $('<div>', {
                 class: 'card testimonial-card col-lg-3 ml-4 view overlay hm-white-light',
             }).append(
@@ -104,7 +104,7 @@ function createMessageCards() {
                 )
             );
 
-        var text =
+        let text =
             $('<div>', {class: 'col-lg-5'}).append(
                 $('<h3>', {class: 'post-title font-bold blue-text' + to_text, text: from_to})
             ).append(
@@ -119,7 +119,7 @@ function createMessageCards() {
             );
 
         if (allMessages[i].sentMessage === true) {
-            var tmp = card;
+            let tmp = card;
             card = text;
             text = tmp;
         }

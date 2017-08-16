@@ -2,7 +2,6 @@ package com.aniov.service;
 
 import com.aniov.model.*;
 import com.aniov.model.dto.ProfileDTO;
-import com.aniov.repository.AccountRepository;
 import com.aniov.repository.InterestRepository;
 import com.aniov.repository.ProfileRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,10 +11,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.session.SessionRegistry;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
-import java.util.LinkedHashSet;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
 /**
  * Profile service for user
@@ -101,12 +97,62 @@ public class ProfileService {
         } else {
             profile.addInterest(retrievedInterest);
         }
-        profileRepository.save(profile);
+        profileRepository.saveAndFlush(profile);
     }
 
     public Set<Interest> getAllInterest(String username) {
         Profile profile = findByUserName(username);
         return profile.getInterests();
+    }
+
+    public void deleteInterest(String interest, String username) {
+
+        Profile profile = findByUserName(username);
+        Interest retrievedInterest = interestRepository.findByInterest(interest);
+
+        if (profile.getInterests().contains(retrievedInterest)) {
+            profile.removeInterest(retrievedInterest);
+            profileRepository.saveAndFlush(profile);
+        }
+    }
+
+    /**
+     * Find profiles containing a common interest
+     *
+     * @param interest name of interest to be searched after
+     * @return list of Profiles DTO's
+     */
+    public List<ProfileDTO> findProfilesByInterest(String interest) {
+
+        Interest foundInterest = interestRepository.findByInterest(interest);
+        if (foundInterest == null) {
+            return Collections.emptyList();
+        }
+
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        String authUsername = auth.getName();
+        Profile authUserProfile = userService.findUserByUserName(authUsername).getProfile();
+
+        List<Account> accounts = accountService.findAllAccountOk();
+        List<Profile> profiles = new ArrayList<>();
+
+        for (Account account : accounts) {
+            profiles.add(account.getUser().getProfile());
+        }
+
+        List<Profile> profilesContainingInterest = profileRepository.findAllByInterestsEquals(foundInterest);
+
+        profilesContainingInterest.retainAll(profiles);
+
+        profilesContainingInterest = setOnlineProfiles(profilesContainingInterest);
+        List<ProfileDTO> profileDTOS = new ArrayList<>();
+
+        for (Profile profile : profilesContainingInterest) {
+            if (!profile.getId().equals(authUserProfile.getId())) {
+                profileDTOS.add(new ProfileDTO(profile));
+            }
+        }
+        return profileDTOS;
     }
 
     private List<Profile> setOnlineProfiles(List<Profile> profiles) {

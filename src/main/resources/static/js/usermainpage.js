@@ -1,7 +1,8 @@
-var profiles = [];
-var likesGiven = [];
-var likesReceived = [];
-var authUsername;
+let profiles = [];
+let likesGiven = [];
+let likesReceived = [];
+let authUsername;
+let tag_results = false;
 
 window.onload = function () {
 
@@ -14,8 +15,15 @@ window.onload = function () {
     navBar();
     getAuthUserName();
 
+    let url = '/profiles';
+    let param = getURLParameter('interest');
+    if (param !== null) {
+        url += '?interest=' + param;
+        document.getElementById('profiles-result-title').innerHTML = 'Results found by interest';
+    }
+
     $.ajax({
-        url: "/profiles",
+        url: url,
         type: "GET",
         contentType: "application/json; charset=utf-8",
         beforeSend: function (xhr) {
@@ -33,7 +41,7 @@ window.onload = function () {
 
     $('.chips-placeholder').material_chip({
         placeholder: 'Enter a tag',
-        secondaryPlaceholder: '+Tag',
+        secondaryPlaceholder: '+search by tags',
     });
 
     /*Web Socket Connect*/
@@ -44,28 +52,28 @@ window.onload = function () {
 function displayProfilesCards() {
 
     //clear cards before re-making them
-    var elements = document.getElementsByClassName('col-lg-4 wow fadeIn');
+    let elements = document.getElementsByClassName('col-lg-4 wow fadeIn');
     while (elements.length > 0) {
         elements[0].parentNode.removeChild(elements[0]);
     }
 
-    var cards = [];
-    for (var i = 0; i < profiles.length; i++) {
+    let cards = [];
+    for (let i = 0; i < profiles.length; i++) {
 
-        var photo = profiles[i].mainPhoto;
+        let photo = profiles[i].mainPhoto;
         if (photo === null) {
             photo = "../photos/photo-avatar.png";
         } else {
             photo = "data:image/png;base64," + photo;
         }
 
-        var like = 'text-muted';
-        var message = 'text-muted';
-        var likesMe = '';
-        var toogleTitle = " doesn't like you";
-        var like_unlike = 'Like';
-        var online = ' text-muted';
-        var online_toogle = 'Offline';
+        let like = 'text-muted';
+        let message = 'text-muted';
+        let likesMe = '';
+        let toogleTitle = " doesn't like you";
+        let like_unlike = 'Like';
+        let online = ' text-muted';
+        let online_toogle = 'Offline';
         if (profiles[i].online === true) {
             online = ' text-success';
             online_toogle = 'Online';
@@ -212,11 +220,11 @@ function tryToSendMessage(username) {
 //Send message
 document.getElementById("sendMessage").onclick = function () {
 
-    var text = document.getElementById("message-text").value;
+    let text = document.getElementById("message-text").value;
     document.getElementById("message-text").value = '';
-    var username = document.getElementById("toUsername").value;
+    let username = document.getElementById("toUsername").value;
 
-    var message = {message: text};
+    let message = {message: text};
     $.ajax({
         url: "/user/send-message?name=" + username,
         type: "POST",

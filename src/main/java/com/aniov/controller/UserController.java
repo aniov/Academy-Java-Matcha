@@ -75,7 +75,7 @@ public class UserController {
     }
 
     @GetMapping(path = "/user/profile", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<?> getProfile(@RequestParam(name = "name", required = false) String username) {
+    public ResponseEntity<?> getProfile(@RequestParam(name = "username", required = false) String username) {
 
         Profile profile;
 
@@ -218,9 +218,15 @@ public class UserController {
     }
 
     @GetMapping(path = "/profiles")
-    public ResponseEntity<?> getMatchingProfiles() {
+    public ResponseEntity<?> getMatchingProfiles(@RequestParam(name = "interest", required = false) String interest) {
 
-        List<ProfileDTO> profileDTOS = profileService.getMatchingProfiles();
+        List<ProfileDTO> profileDTOS;
+
+        if (interest != null) {
+            profileDTOS = profileService.findProfilesByInterest(interest);
+        } else {
+            profileDTOS = profileService.getMatchingProfiles();
+        }
 
         return new ResponseEntity<>(profileDTOS, HttpStatus.OK);
     }

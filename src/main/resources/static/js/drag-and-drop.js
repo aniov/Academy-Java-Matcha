@@ -10,7 +10,7 @@ function dragAndDrop() {
     function upload(file) {
         if (!file || !file.type.match(/image.*/))
             return;
-        var fileData = new FormData();
+        let fileData = new FormData();
         fileData.append("image", file);
 
         $.ajax({

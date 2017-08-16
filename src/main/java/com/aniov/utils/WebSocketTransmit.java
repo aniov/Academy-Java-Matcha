@@ -43,8 +43,8 @@ public class WebSocketTransmit {
 
         Profile profile = profileService.findByUserName(username);
 
-        List<Profile> likesGiven = profile.getLikesGiven();
-        List<Profile> likesReceived = profile.getLikesReceived();
+        Set<Profile> likesGiven = profile.getLikesGiven();
+        Set<Profile> likesReceived = profile.getLikesReceived();
 
         // -> Only linkedProfiles
         likesGiven.retainAll(likesReceived);
@@ -52,7 +52,6 @@ public class WebSocketTransmit {
         for (Profile userProfile : likesGiven) {
             simpMessagingTemplate.convertAndSendToUser(userProfile.getUser().getUsername(), "/queue/online", new IsOnlineSocketDTO(username, isLogged));
         }
-
     }
 
     /**

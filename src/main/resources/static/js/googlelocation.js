@@ -4,7 +4,7 @@
 // failed.", it means you probably did not give permission for the browser to
 // locate you.
 
-var map, infoWindow;
+let map, infoWindow;
 function initMap() {
     map = new google.maps.Map(document.getElementById('map-container'), {
         center: {lat: -34.397, lng: 150.644},
@@ -16,7 +16,7 @@ function initMap() {
     // Try HTML5 geolocation.
     if (navigator.geolocation) {
         navigator.geolocation.getCurrentPosition(function(position) {
-            var pos = {
+            let pos = {
                 lat: position.coords.latitude,
                 lng: position.coords.longitude
             };
