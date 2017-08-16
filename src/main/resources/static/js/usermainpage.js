@@ -19,7 +19,7 @@ window.onload = function () {
     let param = getURLParameter('interest');
     if (param !== null) {
         url += '?interest=' + param;
-        document.getElementById('profiles-result-title').innerHTML = 'Results found by interest';
+        document.getElementById('profiles-result-title').innerHTML = 'Results found by interest: ' + param;
     }
 
     $.ajax({
