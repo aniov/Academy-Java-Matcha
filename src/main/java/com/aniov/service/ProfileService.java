@@ -1,11 +1,9 @@
 package com.aniov.service;
 
-import com.aniov.model.Account;
-import com.aniov.model.Profile;
-import com.aniov.model.SiteUserDetails;
-import com.aniov.model.User;
+import com.aniov.model.*;
 import com.aniov.model.dto.ProfileDTO;
 import com.aniov.repository.AccountRepository;
+import com.aniov.repository.InterestRepository;
 import com.aniov.repository.ProfileRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -29,6 +27,9 @@ public class ProfileService {
     private ProfileRepository profileRepository;
 
     @Autowired
+    private InterestRepository interestRepository;
+
+    @Autowired
     private UserService userService;
 
     @Autowired
@@ -44,74 +45,87 @@ public class ProfileService {
         return profileRepository.findByUserId(user.getId());
     }
 
-   public Profile saveProfile(ProfileDTO profileDTO, String username){
+    public Profile saveProfile(ProfileDTO profileDTO, String username) {
 
-       Profile profile = findByUserName(username);
-       profile.edit(profileDTO);
-       return profileRepository.saveAndFlush(profile);
-   }
+        Profile profile = findByUserName(username);
+        profile.edit(profileDTO);
+        return profileRepository.saveAndFlush(profile);
+    }
 
-   public Profile saveProfileEntity(Profile profile) {
-       return profileRepository.saveAndFlush(profile);
-   }
+    public Profile saveProfileEntity(Profile profile) {
+        return profileRepository.saveAndFlush(profile);
+    }
 
-   public List<ProfileDTO> getAllProfiles() {
-       List<Profile> profiles = profileRepository.findAll();
-       List<ProfileDTO> profileDTOS = new ArrayList<>();
+    public List<ProfileDTO> getAllProfiles() {
+        List<Profile> profiles = profileRepository.findAll();
+        List<ProfileDTO> profileDTOS = new ArrayList<>();
 
-       for (Profile profile : profiles) {
-           profileDTOS.add(new ProfileDTO(profile));
-       }
-       return profileDTOS;
-   }
+        for (Profile profile : profiles) {
+            profileDTOS.add(new ProfileDTO(profile));
+        }
+        return profileDTOS;
+    }
 
-   public List<ProfileDTO> getMatchingProfiles() {
+    public List<ProfileDTO> getMatchingProfiles() {
 
-       Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-       String authUsername = auth.getName();
-       Profile authUserProfile = userService.findUserByUserName(authUsername).getProfile();
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        String authUsername = auth.getName();
+        Profile authUserProfile = userService.findUserByUserName(authUsername).getProfile();
 
-       List<Account> accounts = accountService.findAllAccountOk();
-       List<Profile> profiles = new ArrayList<>();
+        List<Account> accounts = accountService.findAllAccountOk();
+        List<Profile> profiles = new ArrayList<>();
 
-       for (Account account :accounts) {
-           profiles.add(account.getUser().getProfile());
-       }
+        for (Account account : accounts) {
+            profiles.add(account.getUser().getProfile());
+        }
 
-       profiles = setOnlineProfiles(profiles);
+        profiles = setOnlineProfiles(profiles);
 
-       List<ProfileDTO> profileDTOS = new ArrayList<>();
+        List<ProfileDTO> profileDTOS = new ArrayList<>();
 
-       for (Profile profile : profiles) {
-           if (!profile.getId().equals(authUserProfile.getId())) {
-               profileDTOS.add(new ProfileDTO(profile));
-           }
-       }
-       return profileDTOS;
+        for (Profile profile : profiles) {
+            if (!profile.getId().equals(authUserProfile.getId())) {
+                profileDTOS.add(new ProfileDTO(profile));
+            }
+        }
+        return profileDTOS;
+    }
 
-   }
+    public void addInterest(String interest, String username) {
 
-   private List<Profile> setOnlineProfiles(List<Profile> profiles) {
+        Profile profile = findByUserName(username);
+        Interest retrievedInterest = interestRepository.findByInterest(interest);
 
-       List<Object> principals = sessionRegistry.getAllPrincipals();
-       Set<Profile> loggedProfiles = new LinkedHashSet<>();
+        if (retrievedInterest == null) {
+            profile.addInterest(new Interest(interest));
+        } else {
+            profile.addInterest(retrievedInterest);
+        }
+        profileRepository.save(profile);
+    }
 
-       for (Object principal : principals) {
-           if (principal instanceof SiteUserDetails) {
-               loggedProfiles.add(((SiteUserDetails) principal).getUser().getProfile());
-           }
-       }
+    public Set<Interest> getAllInterest(String username) {
+        Profile profile = findByUserName(username);
+        return profile.getInterests();
+    }
 
-       System.out.println("SIZEEEE: " + loggedProfiles.size() + " " + profiles.size());
-       for (Profile profile : profiles) {
-           if (loggedProfiles.contains(profile)) {
+    private List<Profile> setOnlineProfiles(List<Profile> profiles) {
 
-               System.out.println("CONTANES: " );
+        List<Object> principals = sessionRegistry.getAllPrincipals();
+        Set<Profile> loggedProfiles = new LinkedHashSet<>();
 
-               profile.setOnline(true);
-           }
-       }
-       return profiles;
-   }
+        for (Object principal : principals) {
+            if (principal instanceof SiteUserDetails) {
+                loggedProfiles.add(((SiteUserDetails) principal).getUser().getProfile());
+            }
+        }
+
+        for (Profile profile : profiles) {
+            if (loggedProfiles.contains(profile)) {
+                profile.setOnline(true);
+            }
+        }
+        return profiles;
+    }
 
 }

@@ -144,7 +144,6 @@ public class Profile implements Serializable {
         if (profileDTO.getEthnicity() != null) {
             this.ethnicity = Ethnicity.values()[Ethnicity.position(profileDTO.getEthnicity())];
         }
-
     }
 
     public void addLikeToUser(Profile profile) {
@@ -161,6 +160,14 @@ public class Profile implements Serializable {
 
     public void removeLikesReceived(Profile profile) {
         likesReceived.remove(profile);
+    }
+
+    public void addInterest(Interest interest) {
+        interests.add(interest);
+    }
+
+    public void removeInterest(Interest interest) {
+        interests.remove(interest);
     }
 
     @Getter

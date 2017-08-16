@@ -33,6 +33,8 @@ window.onload = function () {
         }
     });
 
+    tags();
+
     /*Web Socket Connect*/
     connect();
 };
@@ -261,7 +263,7 @@ document.getElementById("saveChanges").onclick = function () {
             $("#editStatus").modal('hide');
         }
     });
-}
+};
 
 var text_max = 200;
 
@@ -393,4 +395,56 @@ function populateHeightDropDown() {
         opt.innerHTML = i + " cm";
         select.appendChild(opt);
     }
+}
+
+function tags() {
+
+    $('.chips-placeholder').material_chip({
+        placeholder: 'Enter a tag',
+        secondaryPlaceholder: '+Interest'
+    });
+
+    $('.chips').on('chip.add', function(e, chip){
+       addInterest(chip.tag);
+    });
+    
+}
+
+function addInterest(newInterest) {
+
+    $.ajax({
+        url: '/user/interest?i=' + newInterest.toString(),
+        type: "POST",
+        contentType: "application/json; charset=utf-8",
+        beforeSend: function (xhr) {
+            xhr.setRequestHeader('X-CSRF-Token', $('meta[name="_csrf"]').attr('content'));
+        },
+        success: function (data, textStatus, jqXHR) {
+            console.log("Interest added");
+        },
+        error: function (data, textStatus, jqXHR) {
+            console.log("Add interest error");
+        }
+    });
+}
+
+function getUserInterest() {
+    $.ajax({
+        url: "/user",
+        type: "GET",
+        beforeSend: function (xhr) {
+            xhr.setRequestHeader('X-CSRF-Token', $('meta[name="_csrf"]').attr('content'));
+        },
+        success: function (data, textStatus, jqXHR) {
+            console.log("Auth user is here: " + data.username);
+            authUser = data.username;
+            if (authUser === profile.username) {
+                showEditButtons();
+            }
+        },
+        error: function (data, textStatus, jqXHR) {
+            console.log("Cannot see current logged user");
+        }
+    });
+
 }
