@@ -35,7 +35,7 @@
 <main>
     <!--Main layout-->
     <div class="container">
-       <!-- <button class="btn btn-success" onclick="sendName()">Send</button>-->
+        <!-- <button class="btn btn-success" onclick="sendName()">Send</button>-->
 
         <!-- Central Modal Medium Danger -->
         <div class="modal fade" id="cannotMessageModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
@@ -111,22 +111,42 @@
         </div>
         <!--/ Message modal-->
 
-        <!--Tags-->
-        <div class="chips chips-placeholder"></div>
+        <!--Search-->
+        <div class="row">
+            <div class="col-lg-5">
+                <div class="md-form">
+                    <input type="text" id="search" class="form-control"/>
+                    <label for="search" class="">search by</label>
+                </div>
+            </div>
+            <form class="form-inline col-lg-7">
+                <div class="form-group">
+                    <input name="group1" type="radio" id="name-like" checked="checked"/>
+                    <label for="name-like">user name</label>
+                </div>
+
+                <div class="form-group">
+                    <input name="group1" type="radio" id="location-like"/>
+                    <label for="location-like">location</label>
+                </div>
+            </form>
+        </div>
 
         <!--Page heading-->
         <div class="row">
             <div class="col-md-12">
-                <h1 class="h1-responsive" id="profiles-result-title">Your best match's
+                <h1 class="h1-responsive" id="profiles-result-title">
                     <!--<small class="text-muted">recipes for launches and desserts</small>-->
                 </h1>
             </div>
         </div>
         <!--/.Page heading-->
         <hr/>
+
         <div class="row wow animated profile-cards">
             <!--<div class="col-lg-4 wow fadeIn" data-wow-delay="0.2s" style="height: 300px; width: 400px;">
             </div>-->
+
         </div>
         <hr/>
         <!--Pagination-->
@@ -179,11 +199,13 @@
 <script type="text/javascript" src="../static/js/main.js" th:src="@{/js/main.js}"></script>
 <script type="text/javascript" src="../static/js/usermainpage.js" th:src="@{/js/usermainpage.js}"></script>
 <script type="text/javascript" src="../static/js/navbar.js" th:src="@{/js/navbar.js}"></script>
+<!--Web Socket-->
 <script type="text/javascript" src="../static/js/web-sockets.js" th:src="@{/js/web-sockets.js}"></script>
 <script type="text/javascript" src="../static/js/sockjs.js" th:src="@{/js/sockjs.js}"></script>
 <script type="text/javascript" src="../static/js/stomp.js" th:src="@{/js/stomp.js}"></script>
+
 <script>
-    /* new WOW().init();*/
+    new WOW().init();
 </script>
 
 </body>

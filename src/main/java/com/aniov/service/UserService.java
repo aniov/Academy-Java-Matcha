@@ -12,6 +12,7 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -23,6 +24,9 @@ public class UserService implements UserDetailsService {
 
     @Autowired
     private UserRepository userRepository;
+
+    @Autowired
+    private AccountService accountService;
 
     @Autowired
     private VerificationTokenService verificationTokenService;
@@ -114,7 +118,7 @@ public class UserService implements UserDetailsService {
     }
 
     /**
-     * Run every 1h, and clean up data base from expired un-activated accounts
+     * Run every 1h, and clean up data base from expired && un-activated accounts
      */
     @Scheduled(cron = "0 0 * * * *")
     public void deleteExpiredAccounts() {
@@ -124,6 +128,27 @@ public class UserService implements UserDetailsService {
         for (VerificationToken token : allTokens) {
             deleteExpiredAccountsAndTokens(token);
         }
+    }
+
+    /**
+     * Search for Users with username containing string
+     *
+     * @param str string to be searched after
+     * @return List<User>
+     */
+    public List<User> findByUserNameContaining(String str) {
+
+        List<User> users = userRepository.findByUsernameIgnoreCaseContaining(str);
+
+        List<Account> accounts = accountService.findAllAccountOk();
+        List<User> usersAccountsOk = new ArrayList<>();
+
+        for (Account account : accounts) {
+            usersAccountsOk.add(account.getUser());
+        }
+        users.retainAll(usersAccountsOk);
+        return users;
+
     }
 
     private void deleteExpiredAccountsAndTokens(VerificationToken token) {

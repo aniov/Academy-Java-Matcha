@@ -2,7 +2,6 @@ let profiles = [];
 let likesGiven = [];
 let likesReceived = [];
 let authUsername;
-let tag_results = false;
 
 window.onload = function () {
 
@@ -14,12 +13,21 @@ window.onload = function () {
     });
     navBar();
     getAuthUserName();
+    getProfiles();
+
+    /*Web Socket Connect*/
+    connect();
+};
+
+function getProfiles() {
 
     let url = '/profiles';
     let param = getURLParameter('interest');
     if (param !== null) {
         url += '?interest=' + param;
         document.getElementById('profiles-result-title').innerHTML = 'Results found by interest: ' + param;
+    } else {
+        document.getElementById('profiles-result-title').innerHTML = "Your best match's";
     }
 
     $.ajax({
@@ -38,15 +46,7 @@ window.onload = function () {
             console.log("Cannot get the profiles");
         }
     });
-
-    $('.chips-placeholder').material_chip({
-        placeholder: 'Enter a tag',
-        secondaryPlaceholder: '+search by tags',
-    });
-
-    /*Web Socket Connect*/
-    connect();
-};
+}
 
 
 function displayProfilesCards() {
@@ -96,64 +96,88 @@ function displayProfilesCards() {
             $('<div>', {
                 class: 'col-lg-4 wow fadeIn',
                 'data-wow-delay': '0.' + (2 + i % 3) + 's'
-            }).append(
-                $('<div>', {class: 'card card-cascade regular'}).append(
-                    $('<div>', {class: 'view overlay hm-white-slight'}).append(
-                        $('<img>', {class: 'img-fluid', src: photo})
-                    )
-                ).append(
-                    $('<div>', {class: 'card-block'})
-                        .append(
-                            $('<h4>', {
-                                class: 'card-title',
-                                text: profiles[i].username
-                            }).append(
-                                $('<a>', {
-                                    class: like + ' fa fa-heart pull-right',
-                                    onclick: "giveLike('" + profiles[i].username + "')",
-                                    'data-toggle': 'tooltip',
-                                    title: like_unlike,
-                                    'data-placement': 'bottom'
-                                })
-                            ).append(
-                                $('<a>', {
-                                    class: message + ' fa fa-commenting pull-right',
-                                    onclick: "tryToSendMessage('" + profiles[i].username + "')",
-                                    'data-toggle': 'tooltip',
-                                    title: 'Send message',
-                                    'data-placement': 'bottom'
-                                })
-                            )
-                        ).append($('<i>', {
-                        class: 'fa fa-circle pull-left' + online,
-                        id : 'online-circle-' + profiles[i].username,
-                        'aria-hidden': true,
+            }).append($('<div>', {
+                    class: 'card card-cascade regular ovf-hidden'
+                }).append($('<div>', {
+                    class: 'view overlay hm-white-slight'
+                }).append($('<img>', {
+                    class: 'img-fluid',
+                    src: photo
+                }))
+                ).append($('<div>', {
+                    class: 'card-block'
+                }).append(
+                $('<h4>', {
+                    class: 'card-title',
+                    text: profiles[i].username
+                }).append(
+                    $('<a>', {
+                        class: like + ' fa fa-heart pull-right',
+                        onclick: "giveLike('" + profiles[i].username + "')",
                         'data-toggle': 'tooltip',
-                        title: online_toogle,
+                        title: like_unlike,
                         'data-placement': 'bottom'
-                    }))
-
-                        .append(
-                        $('<p>', {class: 'card-text', text: profiles[i].address})
-                    ).append(
-                        $('<div>', {class: 'read-more'}).append(
-                            $('<span>', {
-                                class: likesMe + ' fa fa-heartbeat pull-right',
-                                'data-toggle': 'tooltip',
-                                title: profiles[i].username + toogleTitle,
-                                'data-placement': 'bottom'
-                            })
-                        )
-                            .append(
-                                $('<a>', {
-                                    class: 'btn btn-outline-info btn-rounded waves-effect',
-                                    text: 'profile',
-                                    href: '/profile?name=' + profiles[i].username
-                                })
-                            )
-                    )
+                    })
+                ).append(
+                    $('<a>', {
+                        class: message + ' fa fa-commenting pull-right ',
+                        onclick: "tryToSendMessage('" + profiles[i].username + "')",
+                        'data-toggle': 'tooltip',
+                        title: 'Send message',
+                        'data-placement': 'bottom'
+                    })
                 )
-            )
+                ).append($('<i>', {
+                    class: 'fa fa-circle pull-left' + online,
+                    id: 'online-circle-' + profiles[i].username,
+                    'aria-hidden': true,
+                    'data-toggle': 'tooltip',
+                    title: online_toogle,
+                    'data-placement': 'bottom'
+                })).append(
+                $('<p>', {class: 'card-text', text: profiles[i].address})
+                ).append(
+                $('<div>', {class: 'read-more'}).append(
+                    $('<span>', {
+                        class: likesMe + ' fa fa-heartbeat pull-right',
+                        'data-toggle': 'tooltip',
+                        title: profiles[i].username + toogleTitle,
+                        'data-placement': 'bottom'
+                    })
+                ).append(
+                    $('<a>', {
+                        class: 'btn btn-outline-info btn-rounded waves-effect',
+                        text: 'profile',
+                        href: '/profile?name=' + profiles[i].username
+                    })
+                )
+                ).append($('<a>', {
+                    class: 'activator btn-floating btn-myaction btn-sm transparent',
+                    onclick: "getUserInterest('" + profiles[i].username + "','" + i + "')",
+                }).append($('<i>', {
+                    class: 'fa fa-angle-double-up',
+                    style: 'text-shadow: -1px 0 grey, 0 0px grey, 1px 0 grey, 0 -1px grey;'
+                }))
+                )
+                ).append($('<div>', {
+                    class: 'card-reveal aqua-gradient'
+                }).append($('<div>', {
+                    class: 'content text-center'
+                }).append($('<h5>', {
+                    class: 'card-title pull-left',
+                    text: profiles[i].username + "'s interests"
+                }).append($('<i>', {
+                    class: 'fa fa-close'
+                })).append($('<hr>', {
+                    class: 'extra-margin my-2'
+                }))).append($('<div>', {
+                    id: 'tags-display-' + i,
+                    class: 'pull-left'
+                }))
+                )
+                )
+            );
+
         $(document.getElementsByClassName('row wow animated profile-cards')).append(cards[i]);
         //Initialize the tooltip
         $('[data-toggle="tooltip"]').tooltip();
@@ -245,7 +269,7 @@ document.getElementById("sendMessage").onclick = function () {
             toastr["error"]("Error sending message to " + username);
         }
     });
-}
+};
 
 
 function getAuthUserName() {
@@ -284,3 +308,83 @@ function getAuthProfile() {
         }
     });
 }
+
+function getUserInterest(username, index) {
+
+    console.log("username: " + username + ", index: " + index);
+
+    $.ajax({
+        url: "/user/interest?username=" + username,
+        type: "GET",
+        beforeSend: function (xhr) {
+            xhr.setRequestHeader('X-CSRF-Token', $('meta[name="_csrf"]').attr('content'));
+        },
+        success: function (data, textStatus, jqXHR) {
+            createInterestChips(data, index);
+        },
+        error: function (data, textStatus, jqXHR) {
+            console.log("Cannot see current logged user");
+        }
+    });
+
+}
+
+function createInterestChips(interests, index) {
+
+    $(document.getElementById('tags-display-' + index).innerHTML = '');
+
+    let tags = [];
+    for (let i = 0; i < interests.length; i++) {
+        tags[i] = $('<a>', {
+            class: 'chip pull-left',
+            onclick: "searchByTag('" + interests[i].interest + "')",
+            text: interests[i].interest
+        });
+    }
+
+    $(document.getElementById('tags-display-' + index)).append(tags.reverse());
+}
+
+function searchByTag(interest) {
+    window.location.replace('/main?interest=' + interest);
+}
+
+let timeoutID = null;
+
+function findProfilesByNameOrLocation(str) {
+
+    if (!str) {
+        getProfiles();
+        return;
+    }
+
+    let location = document.getElementById("location-like").checked;
+    let searchBy = 'name-like';
+    if (location) {
+        searchBy = 'location-like';
+    }
+
+    $.ajax({
+        url: '/profile/search?' + searchBy + '=' + str,
+        type: "GET",
+        contentType: "application/json; charset=utf-8",
+        beforeSend: function (xhr) {
+            xhr.setRequestHeader('X-CSRF-Token', $('meta[name="_csrf"]').attr('content'));
+        },
+        success: function (data, textStatus, jqXHR) {
+            profiles = data;
+            document.getElementById('profiles-result-title').innerHTML = 'Results found by ' + searchBy;
+            displayProfilesCards();
+        },
+        error: function (data, textStatus, jqXHR) {
+            console.log("Cannot get the profiles");
+        }
+    });
+
+
+}
+
+$('#search').keyup(function (e) {
+    clearTimeout(timeoutID);
+    timeoutID = setTimeout(findProfilesByNameOrLocation.bind(undefined, e.target.value), 500);
+});

@@ -155,6 +155,37 @@ public class ProfileService {
         return profileDTOS;
     }
 
+    public List<ProfileDTO> findProfilesByLocation(String locationlike) {
+
+        List<Profile> profiles = profileRepository.findByAddressIgnoreCaseContaining(locationlike);
+        List<Account> accounts = accountService.findAllAccountOk();
+
+        List<Profile> profilesOk = new ArrayList<>();
+        for (Account account : accounts) {
+            profilesOk.add(account.getUser().getProfile());
+        }
+
+        profiles.retainAll(profilesOk);
+
+        List<ProfileDTO> profileDTOS = new ArrayList<>();
+        for (Profile profile : profiles) {
+            profileDTOS.add(new ProfileDTO(profile));
+        }
+        return profileDTOS;
+    }
+
+    public List<ProfileDTO> finByNameContaining(String namecontaining) {
+
+        List<User> users = userService.findByUserNameContaining(namecontaining);
+
+        List<ProfileDTO> profileDTOS = new ArrayList<>();
+
+        for (User user : users) {
+            profileDTOS.add(new ProfileDTO(user.getProfile()));
+        }
+        return profileDTOS;
+    }
+
     private List<Profile> setOnlineProfiles(List<Profile> profiles) {
 
         List<Object> principals = sessionRegistry.getAllPrincipals();

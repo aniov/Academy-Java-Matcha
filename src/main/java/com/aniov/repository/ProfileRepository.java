@@ -17,4 +17,7 @@ public interface ProfileRepository extends JpaRepository<Profile, Long> {
     Profile findByUserId(Long id);
 
     List<Profile> findAllByInterestsEquals(Interest interest);
+
+    List<Profile> findByAddressIgnoreCaseContaining(String string);
+
 }

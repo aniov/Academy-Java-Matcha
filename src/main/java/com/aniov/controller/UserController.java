@@ -217,20 +217,6 @@ public class UserController {
 
     }
 
-    @GetMapping(path = "/profiles")
-    public ResponseEntity<?> getMatchingProfiles(@RequestParam(name = "interest", required = false) String interest) {
-
-        List<ProfileDTO> profileDTOS;
-
-        if (interest != null) {
-            profileDTOS = profileService.findProfilesByInterest(interest);
-        } else {
-            profileDTOS = profileService.getMatchingProfiles();
-        }
-
-        return new ResponseEntity<>(profileDTOS, HttpStatus.OK);
-    }
-
     /**
      * Add a Like to a User or un-Like him
      *

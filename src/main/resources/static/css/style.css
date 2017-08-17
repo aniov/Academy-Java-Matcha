@@ -64,6 +64,10 @@ footer.page-footer {
 .error-upload #uploading-photo {
     display: inline
 }
+/*Date picker*/
+.picker__header select {
+    display: inline-block !important;
+}
 
 /*Navbar problems resolved*/
 @media screen and (min-width: 300px) {
@@ -90,5 +94,17 @@ footer.page-footer {
         padding-top: 0px;
         padding-bottom: 0px;
     }
+}
+/*Main paige - action button*/
+.card .activator {
+    padding: 0rem;
+}
+
+.card .btn-myaction {
+    margin: -20px 20px -20px auto;
+    background-color: #929FBA;
+    height: 35px;
+    width: 35px;
+    line-height: 0;
 }
 
