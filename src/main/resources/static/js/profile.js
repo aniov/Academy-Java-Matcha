@@ -46,6 +46,8 @@ function loadProfileData() {
     let firstName = profile.firstName === null ? "" : profile.firstName;
     let lastName = profile.lastName === null ? "" : profile.lastName;
     $("#profile-realName").html(firstName + " " + lastName);
+    let lastOnline = (profile.online === true ? 'online' : (profile.lastOnline === null ? 'never' : jQuery.format.prettyDate(profile.lastOnline)));
+    $("#last-online").html('last online: ' + lastOnline);
     if (profile.address !== null) {
         document.getElementById("pac-input").value = profile.address;
         document.getElementById("userLocation").innerHTML = profile.address;

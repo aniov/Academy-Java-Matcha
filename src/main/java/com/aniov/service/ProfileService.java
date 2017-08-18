@@ -37,7 +37,9 @@ public class ProfileService {
     public Profile findByUserName(String username) {
 
         User user = userService.findUserByUserName(username);
-        return profileRepository.findByUserId(user.getId());
+        Profile profile = profileRepository.findOne(user.getId());
+        setOnlineProfiles(Arrays.asList(profile));
+        return profile;
     }
 
     public Profile saveProfile(ProfileDTO profileDTO, String username) {
@@ -48,7 +50,7 @@ public class ProfileService {
     }
 
     public Profile saveProfileEntity(Profile profile) {
-        return profileRepository.saveAndFlush(profile);
+        return profileRepository.save(profile);
     }
 
     public List<ProfileDTO> getAllProfiles() {

@@ -32,5 +32,4 @@ public class MyAuthenticationSuccessHandler extends SimpleUrlAuthenticationSucce
 
         super.onAuthenticationSuccess(request, response, authentication);
     }
-
 }

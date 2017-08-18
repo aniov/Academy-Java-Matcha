@@ -82,9 +82,9 @@ public class UserController {
         if (username == null || userService.findUserByUserName(username) == null) {
             Authentication auth = SecurityContextHolder.getContext().getAuthentication();
             String authUsername = auth.getName();
-            profile = userService.findUserByUserName(authUsername).getProfile();
+            profile = profileService.findByUserName(authUsername);
         } else {
-            profile = userService.findUserByUserName(username).getProfile();
+            profile = profileService.findByUserName(username);
         }
         return new ResponseEntity<>(new ProfileDTO(profile), HttpStatus.OK);
     }

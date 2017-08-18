@@ -202,8 +202,10 @@
                 <div id="tags-display"></div>
                 <!--/Tags-->
                 <h1 class="h1-responsive" id="profile-username"></h1>
-                <span id="profile-realName"></span>
+                <div id="profile-realName"></div>
+                <div id="last-online" class="grey-text pull-left"></div>
             </div>
+
         </div>
         <!--/.Page heading-->
         <hr/>
@@ -418,6 +420,7 @@
 <script type="text/javascript" src="../static/js/web-sockets.js" th:src="@{/js/web-sockets.js}"></script>
 <script type="text/javascript" src="../static/js/sockjs.js" th:src="@{/js/sockjs.js}"></script>
 <script type="text/javascript" src="../static/js/stomp.js" th:src="@{/js/stomp.js}"></script>
+<script type="text/javascript" src="../static/js/jquery-dateFormat.js" th:src="@{/js/jquery-dateFormat.js}"></script>
 
 <script>
     new WOW().init();
