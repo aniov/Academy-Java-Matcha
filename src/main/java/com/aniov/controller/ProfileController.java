@@ -3,6 +3,7 @@ package com.aniov.controller;
 import com.aniov.model.dto.ProfileDTO;
 import com.aniov.service.ProfileService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -21,21 +22,14 @@ public class ProfileController {
     private ProfileService profileService;
 
     /**
-     * Finds profiles by our match algorithm or by interest || by location
+     * Finds profiles by our match algorithm
      *
-     * @param interest interest to be searched after
      * @return List<ProfileDTO>
      */
     @GetMapping(path = "/profiles")
-    public ResponseEntity<?> getMatchingProfiles(@RequestParam(name = "interest", required = false) String interest) {
+    public ResponseEntity<?> getMatchingProfiles(@RequestParam(name = "page") int page) {
 
-        List<ProfileDTO> profileDTOS;
-
-        if (interest != null) {
-            profileDTOS = profileService.findProfilesByInterest(interest);
-        } else {
-            profileDTOS = profileService.getMatchingProfiles();
-        }
+        Page<ProfileDTO> profileDTOS = profileService.getMatchingProfiles(page);
         return new ResponseEntity<>(profileDTOS, HttpStatus.OK);
     }
 
@@ -44,22 +38,26 @@ public class ProfileController {
      *
      * @param namelike     string letters to be searched after
      * @param locationlike string letters to be searched after
+     * @param interest     string to be searched after
      * @return List<ProfileDTO>
      */
     @GetMapping(path = "profile/search")
-    public ResponseEntity<?> getProfilesByUsername(@RequestParam(name = "name-like", required = false) String namelike,
-                                                   @RequestParam(name = "location-like", required = false) String locationlike) {
+    public ResponseEntity<?> getProfilesBy(@RequestParam(name = "name-like", required = false) String namelike,
+                                           @RequestParam(name = "location-like", required = false) String locationlike,
+                                           @RequestParam(name = "interest", required = false) String interest) {
 
-        List<ProfileDTO> profileDTOS;
+        Page<ProfileDTO> profileDTOS;
 
-        if (namelike != null) {
+       /* if (namelike != null) {
             profileDTOS = profileService.finByNameContaining(namelike);
         } else if (locationlike != null) {
             profileDTOS = profileService.findProfilesByLocation(locationlike);
+        } else if (interest != null) {
+            profileDTOS = profileService.findProfilesByInterest(interest);
         } else {
             profileDTOS = profileService.getMatchingProfiles();
-        }
-        return new ResponseEntity<>(profileDTOS, HttpStatus.OK);
+        }*/
+        return new ResponseEntity<>(HttpStatus.OK);
 
     }
 }

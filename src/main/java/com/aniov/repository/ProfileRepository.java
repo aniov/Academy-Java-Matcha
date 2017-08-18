@@ -2,10 +2,10 @@ package com.aniov.repository;
 
 import com.aniov.model.Interest;
 import com.aniov.model.Profile;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
-
-import java.util.List;
 
 /**
  * Profile Repository
@@ -14,10 +14,10 @@ import java.util.List;
 @Repository
 public interface ProfileRepository extends JpaRepository<Profile, Long> {
 
-    Profile findByUserId(Long id);
+    Page<Profile> findAll(Pageable pageable);
 
-    List<Profile> findAllByInterestsEquals(Interest interest);
+    Page<Profile> findAllByInterestsEquals(Interest interest, Pageable pageable);
 
-    List<Profile> findByAddressIgnoreCaseContaining(String string);
+    Page<Profile> findByAddressIgnoreCaseContaining(String string, Pageable pageable);
 
 }

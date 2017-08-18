@@ -6,6 +6,7 @@ import com.aniov.repository.InterestRepository;
 import com.aniov.repository.ProfileRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.data.domain.*;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.session.SessionRegistry;
@@ -18,6 +19,8 @@ import java.util.*;
  */
 @Service
 public class ProfileService {
+
+    private final int RESULTS_PER_PAGE = 6;
 
     @Autowired
     private ProfileRepository profileRepository;
@@ -63,29 +66,13 @@ public class ProfileService {
         return profileDTOS;
     }
 
-    public List<ProfileDTO> getMatchingProfiles() {
+    public Page<ProfileDTO> getMatchingProfiles(int pageNumber) {
 
-        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-        String authUsername = auth.getName();
-        Profile authUserProfile = userService.findUserByUserName(authUsername).getProfile();
+        Pageable request = new PageRequest(pageNumber, RESULTS_PER_PAGE, Sort.Direction.ASC, "id");
+        Page<Profile> profiles = profileRepository.findAll(request);
 
-        List<Account> accounts = accountService.findAllAccountOk();
-        List<Profile> profiles = new ArrayList<>();
-
-        for (Account account : accounts) {
-            profiles.add(account.getUser().getProfile());
-        }
-
-        profiles = setOnlineProfiles(profiles);
-
-        List<ProfileDTO> profileDTOS = new ArrayList<>();
-
-        for (Profile profile : profiles) {
-            if (!profile.getId().equals(authUserProfile.getId())) {
-                profileDTOS.add(new ProfileDTO(profile));
-            }
-        }
-        return profileDTOS;
+        profiles = filterByAccountsOk(profiles);
+        return profiles.map(ProfileDTO::new);
     }
 
     public void addInterest(String interest, String username) {
@@ -125,7 +112,7 @@ public class ProfileService {
      */
     public List<ProfileDTO> findProfilesByInterest(String interest) {
 
-        Interest foundInterest = interestRepository.findByInterest(interest);
+        /*Interest foundInterest = interestRepository.findByInterest(interest);
         if (foundInterest == null) {
             return Collections.emptyList();
         }
@@ -153,12 +140,12 @@ public class ProfileService {
                 profileDTOS.add(new ProfileDTO(profile));
             }
         }
-        return profileDTOS;
+        return profileDTOS;*/ return Collections.emptyList();
     }
 
     public List<ProfileDTO> findProfilesByLocation(String locationlike) {
 
-        List<Profile> profiles = profileRepository.findByAddressIgnoreCaseContaining(locationlike);
+        /*Page<Profile> profiles = profileRepository.findByAddressIgnoreCaseContaining(locationlike);
         List<Account> accounts = accountService.findAllAccountOk();
 
         List<Profile> profilesOk = new ArrayList<>();
@@ -166,13 +153,14 @@ public class ProfileService {
             profilesOk.add(account.getUser().getProfile());
         }
 
-        profiles.retainAll(profilesOk);
+        profiles.getContent().retainAll(profilesOk);
 
         List<ProfileDTO> profileDTOS = new ArrayList<>();
         for (Profile profile : profiles) {
             profileDTOS.add(new ProfileDTO(profile));
         }
-        return profileDTOS;
+        return profileDTOS;*/
+        return Collections.emptyList();
     }
 
     public List<ProfileDTO> finByNameContaining(String namecontaining) {
@@ -185,6 +173,23 @@ public class ProfileService {
             profileDTOS.add(new ProfileDTO(user.getProfile()));
         }
         return profileDTOS;
+    }
+
+    public Page<Profile> filterByAccountsOk(Page<Profile> profiles) {
+
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        String authUsername = auth.getName();
+        Profile authUserProfile = userService.findUserByUserName(authUsername).getProfile();
+
+        List<Account> accounts = accountService.findAllAccountOk();
+        List<Profile> profilesOk = new ArrayList<>();
+        profilesOk.remove(authUserProfile);
+
+        for (Account account : accounts) {
+            profilesOk.add(account.getUser().getProfile());
+        }
+        profilesOk.retainAll(profiles.getContent());
+        return profiles;
     }
 
     private List<Profile> setOnlineProfiles(List<Profile> profiles) {

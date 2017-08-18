@@ -2,6 +2,11 @@ let profiles = [];
 let likesGiven = [];
 let likesReceived = [];
 let authUsername;
+let totalPages = 0;
+let pageNr = 0;
+let start = 0;
+let end;
+let group = 7;
 
 window.onload = function () {
 
@@ -13,25 +18,23 @@ window.onload = function () {
     });
     navBar();
     getAuthUserName();
-    getProfiles(null);
+    getProfiles();
 
     /*Web Socket Connect*/
     connect();
 };
 
-function getProfiles(interest) {
+function getProfiles() {
 
-    let url = '/profiles';
     let param = getURLParameter('interest');
-    if (interest !== null) {
-        url += '?interest=' + interest;
-        document.getElementById('profiles-result-title').innerHTML = 'Results found by interest: ' + interest;
-    } else if (param !== null) {
-        url += '?interest=' + param;
-        document.getElementById('profiles-result-title').innerHTML = 'Results found by interest: ' + param;
-    } else {
-        document.getElementById('profiles-result-title').innerHTML = "Your best match's";
+    if (param !== null) {
+        history.pushState('', '', '/main');
+        document.getElementById("interest").checked = "checked";
+        findProfilesByNameOrLocationOrInterest(param);
+        return;
     }
+    document.getElementById('profiles-result-title').innerHTML = "Your best match's";
+    let url = '/profiles?page=' + pageNr;
 
     $.ajax({
         url: url,
@@ -42,8 +45,10 @@ function getProfiles(interest) {
         },
         success: function (data, textStatus, jqXHR) {
             console.log("Got the profiles here");
-            profiles = data;
+            profiles = data.content;
+            totalPages = data.totalPages;
             getAuthProfile();
+            createPagination();
         },
         error: function (data, textStatus, jqXHR) {
             console.log("Cannot get the profiles");
@@ -348,10 +353,10 @@ function searchByTag(interest) {
 
 let timeoutID = null;
 
-function findProfilesByNameOrLocation(str) {
+function findProfilesByNameOrLocationOrInterest(str) {
 
-    if (!str) {
-        getProfiles(null);
+    if (str === '') {
+        getProfiles();
         return;
     }
 
@@ -361,8 +366,7 @@ function findProfilesByNameOrLocation(str) {
     if (location) {
         searchBy = 'location-like';
     } else if (interest) {
-        getProfiles(str);
-        return;
+        searchBy = 'interest';
     }
 
     $.ajax({
@@ -374,18 +378,127 @@ function findProfilesByNameOrLocation(str) {
         },
         success: function (data, textStatus, jqXHR) {
             profiles = data;
-            document.getElementById('profiles-result-title').innerHTML = 'Results found by ' + searchBy;
+            document.getElementById('profiles-result-title').innerHTML = 'Results found by ' + searchBy + ": " + str;
             displayProfilesCards();
         },
         error: function (data, textStatus, jqXHR) {
             console.log("Cannot get the profiles");
         }
     });
-
-
 }
 
 $('#search').keyup(function (e) {
     clearTimeout(timeoutID);
-    timeoutID = setTimeout(findProfilesByNameOrLocation.bind(undefined, e.target.value), 500);
+    timeoutID = setTimeout(findProfilesByNameOrLocationOrInterest.bind(undefined, e.target.value), 500);
 });
+
+function createPagination() {
+
+    //clear before re-making them
+    $(document.getElementById('pages').innerHTML = '');
+
+    let pages = [];
+
+    let leftDisabled = '';
+    let rightDisabled = '';
+    if (totalPages < group) {
+        group = totalPages;
+    }
+    if (start + group < totalPages) {
+        end = start + group;
+    } else {
+        end = totalPages;
+    }
+
+    console.log("start: " + start + ", end: " + end);
+
+    if (pageNr == 0) {
+        leftDisabled = ' disabled';
+    }
+    if (+pageNr + 1 == totalPages) {
+        rightDisabled = ' disabled';
+    }
+    //Left Arrows
+    pages.push($('<li>', {
+        class: 'page-item'
+    }).append($('<a>', {
+            class: 'page-link' + leftDisabled,
+            'aria-label': 'next',
+            onclick: "goDownToPageNr('" + (+pageNr - 1) + "')",
+        }).append($('<span>', {
+            'aria-hidden': true,
+            class: 'fa fa-angle-double-left'
+        })).append($('<span>', {
+            class: 'sr-only',
+            text: 'next'
+        }))
+    ));
+
+    for (let i = start; i < end; i++) {
+
+        let selected = '';
+        if (i == pageNr) {
+            selected = ' active';
+        }
+        pages.push(
+            $('<li>', {
+                class: 'page-item' + selected
+            }).append($('<a>', {
+                class: 'page-link',
+                text: i + 1,
+                onclick: "gotoPageNr('" + i + "')",
+            })))
+    }
+
+    //Right Arrows
+    pages.push($('<li>', {
+        class: 'page-item'
+    }).append($('<a>', {
+            class: 'page-link ' + rightDisabled,
+            'aria-label': 'next',
+            onclick: "gotoUpToPgeNr('" + (+pageNr + 1) + "')",
+        }).append($('<span>', {
+            'aria-hidden': true,
+            class: 'fa fa-angle-double-right'
+        })).append($('<span>', {
+            class: 'sr-only',
+            text: 'next'
+        }))
+    ));
+
+    $(document.getElementById('pages')).append(pages);
+}
+
+function gotoPageNr(index) {
+
+    if (index > pageNr) {
+        gotoUpToPgeNr(index);
+    } else if (index < pageNr) {
+        goDownToPageNr(index);
+    }
+}
+
+function gotoUpToPgeNr(index) {
+
+    if (index < totalPages) {
+        pageNr = index;
+        if (Math.floor(group / 2) < pageNr - start && totalPages > end) {
+            start++;
+            end++;
+        }
+        getProfiles();
+    }
+}
+
+function goDownToPageNr(index) {
+
+    if (index >= 0) {
+        pageNr = index;
+        if (Math.floor(group / 2) >= pageNr - start && start  > 0) {
+            start--;
+            end--;
+        }
+        getProfiles();
+    }
+
+}
