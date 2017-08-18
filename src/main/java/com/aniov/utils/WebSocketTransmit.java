@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.security.core.session.SessionRegistry;
+import org.springframework.security.core.session.SessionRegistryImpl;
 import org.springframework.stereotype.Service;
 
 import java.util.LinkedHashSet;
@@ -25,9 +26,7 @@ public class WebSocketTransmit {
     @Autowired
     private ProfileService profileService;
 
-    @Autowired
-    @Qualifier("sessionRegistry")
-    private SessionRegistry sessionRegistry;
+    private SessionRegistry sessionRegistry = new SessionRegistryImpl();
 
     public void linkedUserHasLoggedOut(String username) {
 
@@ -74,7 +73,6 @@ public class WebSocketTransmit {
         for (User user : loggedUsers) {
             simpMessagingTemplate.convertAndSendToUser(user.getUsername(), "/queue/online-all", new IsOnlineSocketDTO(username, isLogged));
         }
-
     }
 
     /**

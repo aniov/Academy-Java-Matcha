@@ -32,7 +32,6 @@ public class ProfileService {
     private AccountService accountService;
 
     @Autowired
-    @Qualifier("sessionRegistry")
     private SessionRegistry sessionRegistry;
 
     public Profile findByUserName(String username) {

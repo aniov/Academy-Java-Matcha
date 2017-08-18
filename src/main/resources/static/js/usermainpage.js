@@ -13,17 +13,20 @@ window.onload = function () {
     });
     navBar();
     getAuthUserName();
-    getProfiles();
+    getProfiles(null);
 
     /*Web Socket Connect*/
     connect();
 };
 
-function getProfiles() {
+function getProfiles(interest) {
 
     let url = '/profiles';
     let param = getURLParameter('interest');
-    if (param !== null) {
+    if (interest !== null) {
+        url += '?interest=' + interest;
+        document.getElementById('profiles-result-title').innerHTML = 'Results found by interest: ' + interest;
+    } else if (param !== null) {
         url += '?interest=' + param;
         document.getElementById('profiles-result-title').innerHTML = 'Results found by interest: ' + param;
     } else {
@@ -47,7 +50,6 @@ function getProfiles() {
         }
     });
 }
-
 
 function displayProfilesCards() {
 
@@ -157,8 +159,7 @@ function displayProfilesCards() {
                 }).append($('<i>', {
                     class: 'fa fa-angle-double-up',
                     style: 'text-shadow: -1px 0 grey, 0 0px grey, 1px 0 grey, 0 -1px grey;'
-                }))
-                )
+                })))
                 ).append($('<div>', {
                     class: 'card-reveal aqua-gradient'
                 }).append($('<div>', {
@@ -170,12 +171,11 @@ function displayProfilesCards() {
                     class: 'fa fa-close'
                 })).append($('<hr>', {
                     class: 'extra-margin my-2'
-                }))).append($('<div>', {
+                }))
+                ).append($('<div>', {
                     id: 'tags-display-' + i,
                     class: 'pull-left'
-                }))
-                )
-                )
+                }))))
             );
 
         $(document.getElementsByClassName('row wow animated profile-cards')).append(cards[i]);
@@ -311,8 +311,6 @@ function getAuthProfile() {
 
 function getUserInterest(username, index) {
 
-    console.log("username: " + username + ", index: " + index);
-
     $.ajax({
         url: "/user/interest?username=" + username,
         type: "GET",
@@ -326,7 +324,6 @@ function getUserInterest(username, index) {
             console.log("Cannot see current logged user");
         }
     });
-
 }
 
 function createInterestChips(interests, index) {
@@ -354,14 +351,18 @@ let timeoutID = null;
 function findProfilesByNameOrLocation(str) {
 
     if (!str) {
-        getProfiles();
+        getProfiles(null);
         return;
     }
 
+    let interest = document.getElementById("interest").checked;
     let location = document.getElementById("location-like").checked;
     let searchBy = 'name-like';
     if (location) {
         searchBy = 'location-like';
+    } else if (interest) {
+        getProfiles(str);
+        return;
     }
 
     $.ajax({

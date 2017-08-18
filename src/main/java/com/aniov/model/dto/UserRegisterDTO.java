@@ -4,6 +4,7 @@ import com.aniov.model.dto.validators.EmailIsUnique;
 import com.aniov.model.dto.validators.EmailIsValid;
 import com.aniov.model.dto.validators.MatchFields;
 import com.aniov.model.dto.validators.UserNameIsUnique;
+import lombok.AllArgsConstructor;
 import lombok.Data;
 import org.hibernate.validator.constraints.NotBlank;
 
@@ -14,6 +15,7 @@ import java.io.Serializable;
  * User Registration form dto
  */
 @Data
+@AllArgsConstructor
 @MatchFields(first = "plainPassword", second = "repeatPlainPassword", message = "passwords don't match")
 public class UserRegisterDTO implements Serializable{
 

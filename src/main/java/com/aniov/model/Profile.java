@@ -78,6 +78,9 @@ public class Profile implements Serializable {
     @Enumerated(EnumType.STRING)
     private Status status;
 
+    @Temporal(TemporalType.TIMESTAMP)
+    private Date lastOnline;
+
     @OneToMany(mappedBy = "profile", cascade = CascadeType.ALL)
     @Size(max = 9)
     private List<Picture> pictures = new ArrayList<>();

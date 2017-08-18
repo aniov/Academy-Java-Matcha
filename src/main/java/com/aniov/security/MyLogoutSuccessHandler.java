@@ -1,5 +1,6 @@
 package com.aniov.security;
 
+import com.aniov.model.Profile;
 import com.aniov.model.SiteUserDetails;
 import com.aniov.utils.WebSocketTransmit;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,6 +12,7 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.util.Date;
 
 /**
  * Logout success handler
@@ -26,6 +28,8 @@ public class MyLogoutSuccessHandler extends SimpleUrlLogoutSuccessHandler {
 
         this.logger.warn("Logout success: " + response + "; logout: " + authentication);
         SiteUserDetails siteUserDetails = (SiteUserDetails) authentication.getPrincipal();
+        Profile profile = siteUserDetails.getUser().getProfile();
+        profile.setLastOnline(new Date());
 
         webSocketTransmit.linkedUserHasLoggedOut(siteUserDetails.getUsername());
         webSocketTransmit.userHasLogged(siteUserDetails.getUsername(), false);

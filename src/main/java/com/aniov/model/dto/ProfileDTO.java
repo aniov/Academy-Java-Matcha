@@ -64,6 +64,8 @@ public class ProfileDTO implements Serializable {
 
     private boolean online;
 
+    private Date lastOnline;
+
     public ProfileDTO(Profile profile) {
         this.username = profile.getUser().getUsername();
         this.aboutMe = profile.getAboutMe();
@@ -77,6 +79,7 @@ public class ProfileDTO implements Serializable {
         this.bornDate = profile.getBornDate();
         this.height = profile.getHeight();
         this.online = profile.isOnline();
+        this.lastOnline = profile.getLastOnline();
         if (profile.getGender() != null) {
             this.gender = profile.getGender().getGenderType();
         }
