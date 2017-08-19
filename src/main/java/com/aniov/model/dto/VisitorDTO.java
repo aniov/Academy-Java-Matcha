@@ -12,6 +12,8 @@ import java.util.List;
 @Data
 public class VisitorDTO implements Serializable {
 
+    private Long id;
+
     private String username;
 
     private String address;
@@ -21,6 +23,7 @@ public class VisitorDTO implements Serializable {
     private Date date;
 
     public VisitorDTO(Profile profile, Visitor visitor) {
+        this.id = visitor.getId();
         this.username = visitor.getWhoVisit();
         this.address = profile.getAddress();
         if (profile.getPictures() != null) {

@@ -24,6 +24,7 @@ import java.util.List;
  * Handle messages between users
  */
 @RestController
+@RequestMapping(path = "/user")
 public class MessageController {
 
     @Autowired
@@ -43,7 +44,7 @@ public class MessageController {
      * @param username Profile username to receive the message
      * @return HttpStatus.OK if message was successfully saved
      */
-    @PostMapping(path = "/user/send-message", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+    @PostMapping(path = "/send-message", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<?> addMessageToUser(@RequestBody @Valid ReceivedMessageDTO message, @RequestParam(name = "name") String username) {
 
         if (username == null || userService.findUserByUserName(username) == null) {
@@ -70,7 +71,7 @@ public class MessageController {
      *
      * @return received messages
      */
-    @GetMapping(path = "/user/messages")
+    @GetMapping(path = "/messages")
     public ResponseEntity<?> getReceivedMessages() {
 
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
@@ -86,7 +87,7 @@ public class MessageController {
      *
      * @return received and send messages by page
      */
-    @GetMapping(path = "/user/all-messages")
+    @GetMapping(path = "/all-messages")
     public ResponseEntity<?> getAllUserMessages(@RequestParam(name = "page") int pageNumber) {
 
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();

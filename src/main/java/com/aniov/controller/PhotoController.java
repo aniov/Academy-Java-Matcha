@@ -23,6 +23,7 @@ import java.text.DecimalFormat;
 import java.util.List;
 
 @RestController
+@RequestMapping(path = "/user")
 public class PhotoController {
 
     @Value("${photo.how-many}")
@@ -42,7 +43,7 @@ public class PhotoController {
     @Autowired
     private ProfileService profileService;
 
-    @GetMapping(path = "/user/photos")
+    @GetMapping(path = "/photos")
     public ResponseEntity<?> getPhotos(@RequestParam(name = "name", required = false) String username) {
 
         Profile profile;
@@ -66,7 +67,7 @@ public class PhotoController {
      * @param image Image data sent from front-end
      * @return saved Picture
      */
-    @PostMapping(path = "/user/upload-photo")
+    @PostMapping(path = "/upload-photo")
     public ResponseEntity<?> savePhoto(@RequestParam("image") MultipartFile image) throws IOException {
 
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
@@ -97,7 +98,7 @@ public class PhotoController {
      * @param id id of Picture
      * @return HttpStatus.OK if deleted successful, HttpStatus.FORBIDDEN if picture id doesn't belong to auth user
      */
-    @DeleteMapping(path = "/user/delete-photo")
+    @DeleteMapping(path = "/delete-photo")
     public ResponseEntity<?> deletePhoto(@RequestParam("id") Long id) {
 
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
@@ -107,7 +108,7 @@ public class PhotoController {
 
         List<Picture> authUserPictures = profile.getPictures();
         for (Picture picture : authUserPictures) {
-            if (picture.getId() == id) {
+            if (picture.getId().equals(id)) {
                 pictureService.deletePictureById(picture, profile);
                 return new ResponseEntity<>(new GenericResponseDTO("Photo deleted"), HttpStatus.OK);
             }
@@ -121,7 +122,7 @@ public class PhotoController {
      * @param id id of photo
      * @return HttpStatus.OK
      */
-    @PutMapping(path = "/user/set-main-photo")
+    @PutMapping(path = "/set-main-photo")
     public ResponseEntity<?> setPhotoAsMain(@RequestParam("id") Long id) {
 
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
@@ -138,7 +139,7 @@ public class PhotoController {
      * @param username username of the requested photo
      * @return Picture
      */
-    @GetMapping(path = "/user/photo-main")
+    @GetMapping(path = "/photo-main")
     public ResponseEntity<?> getMainPhoto(@RequestParam(name = "name", required = false) String username) {
 
         Profile profile;

@@ -26,20 +26,14 @@ public class WebSocketController {
     private UserService userService;
 
     @MessageMapping("/hello")
-    //@SendTo("/queue/greetings")
+    @SendTo("/queue/greetings")
     public void greeting(Principal principal) throws Exception {
-        Thread.sleep(1000); // simulated delay
-
-        String time = new SimpleDateFormat("HH:mm").format(new Date());
-
+        /*String time = new SimpleDateFormat("HH:mm").format(new Date());
         String text = "Hy From: " + principal.getName();
-
-/*        for (String username : usersToBeNotify) {
-
+        for (String username : usersToBeNotify) {
             simpMessagingTemplate.convertAndSendToUser(username, "/queue/like", principal.getName() + " has Clicked");
-        }*/
-
-      //  return new ResponseEntity<>(text + " at: " + time, HttpStatus.OK);
+        }
+        return new ResponseEntity<>(text + " at: " + time, HttpStatus.OK);*/
     }
 
 }

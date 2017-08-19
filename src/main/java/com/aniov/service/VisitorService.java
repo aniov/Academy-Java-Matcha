@@ -7,6 +7,7 @@ import com.aniov.repository.VisitorRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import javax.transaction.Transactional;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -48,5 +49,24 @@ public class VisitorService {
 
         Visitor visitor = new Visitor(whoIsVisited, myUserName);
         visitorRepository.save(visitor);
+    }
+
+    /**
+     * Delete a visitor entry from auth user visitor list
+     *
+     * @param authUsername authenticated user
+     * @param id           entry to be deleted
+     */
+    public boolean deleteVisitorFromMyList(String authUsername, Long id) {
+
+        Profile authProfile = profileService.findByUserName(authUsername);
+        Visitor visitor = visitorRepository.findOne(id);
+
+        if (authProfile.getVisitors().contains(visitor)) {
+            visitorRepository.delete(id);
+            visitorRepository.flush();
+            return true;
+        }
+        return false;
     }
 }

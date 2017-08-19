@@ -38,4 +38,22 @@ public class Visitor implements Serializable {
         if (visitDate == null)
             visitDate = new Date();
     }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        Visitor visitor = (Visitor) o;
+
+        if (id != null ? !id.equals(visitor.id) : visitor.id != null) return false;
+        return profile != null ? profile.equals(visitor.profile) : visitor.profile == null;
+    }
+
+    @Override
+    public int hashCode() {
+        int result = id != null ? id.hashCode() : 0;
+        result = 31 * result + (profile != null ? profile.hashCode() : 0);
+        return result;
+    }
 }

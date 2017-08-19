@@ -11,8 +11,6 @@ import com.aniov.service.VisitorService;
 import com.aniov.utils.WebSocketTransmit;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.boot.web.servlet.MultipartConfigFactory;
-import org.springframework.context.annotation.Bean;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -22,7 +20,6 @@ import org.springframework.security.core.session.SessionRegistry;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
-import javax.servlet.MultipartConfigElement;
 import javax.validation.Valid;
 import java.util.LinkedHashSet;
 import java.util.List;
@@ -31,8 +28,8 @@ import java.util.Set;
 /**
  * User controller
  */
-
 @RestController
+@RequestMapping(path = "/user")
 public class UserController {
 
     @Autowired
@@ -51,7 +48,7 @@ public class UserController {
     @Autowired
     private VisitorService visitorService;
 
-    @GetMapping(path = "/user")
+    @GetMapping
     public ResponseEntity<?> getCurrentUser() {
 
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
@@ -61,7 +58,7 @@ public class UserController {
         return new ResponseEntity<>(authUser, HttpStatus.OK);
     }
 
-    @GetMapping(path = "/user/profile", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+    @GetMapping(path = "/profile", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<?> getProfile(@RequestParam(name = "username", required = false) String username) {
 
         Profile profile;
@@ -80,7 +77,7 @@ public class UserController {
         return new ResponseEntity<>(new ProfileDTO(profile), HttpStatus.OK);
     }
 
-    @PostMapping(path = "/user/profile", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+    @PostMapping(path = "/profile", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<?> changeProfile(@RequestBody @Valid ProfileDTO profileDTO, BindingResult result) {
 
         if (result.hasErrors()) {
@@ -100,7 +97,7 @@ public class UserController {
      * @param username User to give Like
      * @return HttpStatus.OK
      */
-    @PostMapping(path = "/user/like")
+    @PostMapping(path = "/like")
     public ResponseEntity<?> addLikeToAnotherUser(@RequestParam(name = "name") String username) {
 
         if (username == null || userService.findUserByUserName(username) == null) {
@@ -134,7 +131,7 @@ public class UserController {
      *
      * @return online users
      */
-    @GetMapping(path = "/user/online")
+    @GetMapping(path = "/online")
     public ResponseEntity<?> getLoggedUsers() {
 
         List<Object> principals = sessionRegistry.getAllPrincipals();

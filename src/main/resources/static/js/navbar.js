@@ -95,7 +95,6 @@ function getVisitorsInfo() {
         success: function (data, textStatus, jqXHR) {
             visitorsData = data;
             createVisitorsContent();
-            $("#visitors-modal").modal('show');
         },
         error: function (data, textStatus, jqXHR) {
             console.log("Cannot load visitors");
@@ -105,6 +104,7 @@ function getVisitorsInfo() {
 
 function showVisitors() {
     getVisitorsInfo();
+    $("#visitors-modal").modal('show');
 }
 
 function createVisitorsContent() {
@@ -133,20 +133,45 @@ function createVisitorsContent() {
                 class: 'rating inline-ul'
             }).append($('<li>', {}
             ).append($('<i>', {
-                class: 'fa fa-star amber-text'
+                class: 'fa fa-calendar text-primary',
             })).append($('<li>', {
-                text: $.format.date(visitorsData[i].date, 'dd/MM/yyyy HH:mm:ss')
+                text: $.format.date(visitorsData[i].date, 'dd/MM/yyyy HH:mm:ss'),
+                class: 'ml-2'
             }))
-            )
+            ).append($('<a>', {
+                class: 'fa fa-remove fa-lg pull-right text-danger',
+                'aria-hidden': 'true',
+                onclick: "deleteVisitorEntry('" + visitorsData[i].id + "')",
+
+            }))
             )
         );
     }
 
-
     $(document.getElementById('visitors-body')).append(visitors);
+}
 
+function deleteVisitorEntry(id) {
+
+    $.ajax({
+        url: "/visitor?id=" + id,
+        type: "DELETE",
+        contentType: "application/json; charset=utf-8",
+        beforeSend: function (xhr) {
+            xhr.setRequestHeader('X-CSRF-Token', $('meta[name="_csrf"]').attr('content'));
+        },
+        success: function (data, textStatus, jqXHR) {
+            //visitorsData;
+            getVisitorsInfo();
+         //   $("#visitors-modal").modal('show');
+        },
+        error: function (data, textStatus, jqXHR) {
+            console.log("Cannot load visitors");
+        }
+    });
 }
 
 function goSeeProfile(username) {
     window.location.replace('/profile?name=' + username);
 }
+

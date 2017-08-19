@@ -16,6 +16,7 @@ import java.util.Set;
  * A Interest(Tag) Controller
  */
 @RestController
+@RequestMapping(path = "/user")
 public class InterestController {
 
     @Autowired
@@ -30,7 +31,7 @@ public class InterestController {
      * @param username username of User to be searched
      * @return Set<Interest>
      */
-    @GetMapping(path = "/user/interest")
+    @GetMapping(path = "/interest")
     public ResponseEntity<?> getAllInterest(@RequestParam(name = "username", required = false) String username) {
 
         if (username == null || userService.findUserByUserName(username) == null) {
@@ -48,7 +49,7 @@ public class InterestController {
      * @param interest interest to be saved
      * @return HttpStatus.OK
      */
-    @PostMapping(path = "/user/interest")
+    @PostMapping(path = "/interest")
     public ResponseEntity<?> saveInterest(@RequestParam(name = "i") String interest) {
 
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
@@ -64,7 +65,7 @@ public class InterestController {
      * @param interest interest to be deleted
      * @return HttpStatus.OK
      */
-    @DeleteMapping(path = "/user/interest")
+    @DeleteMapping(path = "/interest")
     public ResponseEntity<?> deleteInterest(@RequestParam(name = "i") String interest) {
 
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
