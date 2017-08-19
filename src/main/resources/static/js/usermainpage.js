@@ -424,8 +424,6 @@ function createPagination() {
         end = totalPages;
     }
 
-    console.log("start: " + start + ", end: " + end);
-
     if (pageNr == 0) {
         leftDisabled = ' disabled';
     }

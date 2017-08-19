@@ -5,7 +5,7 @@
 // Tooltips Initialization
 $(function () {
     $('[data-toggle="tooltip"]').tooltip()
-})
+});
 
 function login() {
 
@@ -15,7 +15,6 @@ function login() {
 
     $.ajax({
         data: "username=" + username + "&password=" + password,
-        timeout: 1000,
         type: 'POST',
         url: '/login',
         beforeSend: function (xhr) {
@@ -23,10 +22,9 @@ function login() {
         },
 
     }).done(function (data, textStatus, jqXHR) {
-        window.location.replace("/profile?name=" + username);
+        window.location.replace("/profile");
 
     }).fail(function (data, jqXHR, textStatus) {
-
         $("#login-message").html(data.responseJSON.message)
             .show().fadeTo(4000, 500).slideUp(500, function () {
             $("#login-message").slideUp(500);

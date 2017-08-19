@@ -15,28 +15,30 @@ window.onload = function () {
 
     navBar();
 
+    /*Web Socket Connect*/
+    connect();
+};
+/*Google Location it's triggering this function - see: googlemap.html*/
+function getProfile() {
     $.ajax({
         url: "/user/profile?username=" + getURLParameter('name'),
         type: "GET",
         contentType: "application/json; charset=utf-8",
         success: function (data, textStatus, jqXHR) {
             profile = data;
+            setPlaceId(profile.googleLocationID);
             getAuthUser();
             loadProfileData();
             loadCards();
             populateHeightDropDown();
             setInputDataInFields();
             $('.mdb-select').material_select();
-            setPlaceId(profile.googleLocationID);
         },
         error: function (data, textStatus, jqXHR) {
             console.log("Cannot read username");
         }
     });
-
-    /*Web Socket Connect*/
-    connect();
-};
+}
 
 function loadProfileData() {
     $("#self-summary").html(profile.aboutMe);
@@ -53,7 +55,6 @@ function loadProfileData() {
         document.getElementById("pac-input").value = profile.address;
         document.getElementById("userLocation").innerHTML = profile.address;
     }
-
     showMainProfilePhoto();
 }
 
@@ -357,7 +358,6 @@ function getAuthUser() {
             xhr.setRequestHeader('X-CSRF-Token', $('meta[name="_csrf"]').attr('content'));
         },
         success: function (data, textStatus, jqXHR) {
-            console.log("Auth user is here: " + data.username);
             authUser = data.username;
             getUserInterest();
             if (authUser === profile.username) {
@@ -442,7 +442,6 @@ function getUserInterest() {
             xhr.setRequestHeader('X-CSRF-Token', $('meta[name="_csrf"]').attr('content'));
         },
         success: function (data, textStatus, jqXHR) {
-            console.log("User interest: " + data);
             if (authUser === profile.username) {
                 createInterestTags(data);
                 document.getElementById("tags").style.display = "inline";

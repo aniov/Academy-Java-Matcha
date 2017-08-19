@@ -13,10 +13,6 @@
                 aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
         </button>
-        <!-- <a class="navbar-brand" href="#">
-             <img src="photos/logo-min-col.png"
-                  class="d-inline-block align-top" alt="MDBootstrap">
-         </a>-->
         <div class="collapse navbar-collapse" id="navbarNav1">
             <ul class="navbar-nav mr-auto">
                 <li class="nav-item">
@@ -33,8 +29,8 @@
                 </li>
             </ul>
             <ul class="navbar-nav nav-flex-icons">
-                <li class="nav-item" data-toggle="tooltip" data-placement="bottom" title="Who view your profile">
-                    <a href="#" class="nav-link waves-effect waves-light"><i class="fa fa-bolt fa-lg"></i> visitors</a>
+                <li class="nav-item" data-toggle="tooltip" data-placement="bottom" title="Who view your profile" onclick="showVisitors()">
+                    <a class="nav-link waves-effect waves-light"><i class="fa fa-bolt fa-lg"></i> visitors</a>
                 </li>
                 <li class="nav-item" data-toggle="tooltip" data-placement="bottom" title="Sent/Received messages">
                     <a href="/message" class="nav-link waves-effect waves-light"><i
@@ -44,7 +40,7 @@
                     <a href="#" class="nav-link waves-effect waves-light"><i class="fa fa-heart-o fa-lg"></i> likes</a>
                 </li>
                 <li class="nav-item" data-toggle="tooltip" data-placement="bottom" title="account settings">
-                    <a href="/settings" class="nav-link waves-effect waves-light"><i class="fa fa-gear fa-lg "></i>
+                    <a href="#" class="nav-link waves-effect waves-light"><i class="fa fa-gear fa-lg "></i>
                         settings</a>
                 </li>
 
@@ -73,3 +69,51 @@
     </div>
 </nav>
 <!--/.Navbar-->
+
+
+
+<!-- Modal -->
+<!-- Full Height Modal Right -->
+
+<div class="modal fade left" id="visitors-modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-full-height modal-left " role="document">
+        <!--Content-->
+        <div class="modal-content">
+            <!--Header-->
+            <div class="modal-header">
+                <h4 class="modal-title w-100" id="myModalLabel">Visitors</h4>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <!--Body-->
+            <div class="modal-body" id="visitors-body" style="overflow-y: scroll; height:400px;">
+
+                    <div class="media mb-1">
+                        <a class="media-left waves-light">
+                            <img class="rounded-circle" src="http://media.istockphoto.com/photos/its-the-weekend-time-to-log-in-and-chill-out-picture-id517224624?s=2048x2048"
+                                 alt="Generic placeholder image" style="height: 80px; width: 80px">
+                        </a>
+                        <div class="media-body">
+                            <h4 class="media-heading">John Doe</h4>
+                            <ul class="rating inline-ul">
+                                <li><i class="fa fa-star amber-text"></i></li>
+                                <li>23.05.2016</li><br/>
+                                <li>Manhatan</li><br/>
+                                <li>37 yeard old, Looking for woman</li><br/>
+                                <li></li>
+                            </ul>
+
+                        </div>
+                    </div>
+
+            </div>
+            <!--Footer-->
+            <div class="modal-footer">
+                <button type="button" class="btn btn-outline-secondary btn-rounded waves-effect" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+        <!--/.Content-->
+    </div>
+</div>
+<!-- Modal -->

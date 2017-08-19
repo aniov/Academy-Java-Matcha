@@ -3,6 +3,8 @@ package com.aniov.model.dto;
 import com.aniov.model.Picture;
 import com.aniov.model.Profile;
 import com.aniov.model.dto.validators.BornDate;
+import com.aniov.model.dto.validators.HeightValue;
+import com.aniov.model.dto.validators.NameTextField;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -29,8 +31,10 @@ public class ProfileDTO implements Serializable {
     private String goodAt;
     private String favorites;
 
+    @NameTextField
     private String firstName;
 
+    @NameTextField
     private String lastName;
 
     private String googleLocationID;
@@ -46,8 +50,7 @@ public class ProfileDTO implements Serializable {
 
     private String status;
 
-    //@Null
-    //@Range(min = 120, max = 230)
+    @HeightValue
     private Integer height;
 
     private String bodyType;

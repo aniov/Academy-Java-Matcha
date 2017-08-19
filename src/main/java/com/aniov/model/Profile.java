@@ -2,6 +2,8 @@ package com.aniov.model;
 
 import com.aniov.model.dto.ProfileDTO;
 import com.aniov.model.dto.validators.BornDate;
+import com.aniov.model.dto.validators.HeightValue;
+import com.aniov.model.dto.validators.NameTextField;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.AllArgsConstructor;
@@ -39,11 +41,11 @@ public class Profile implements Serializable {
     private String favorites;
 
 
-  //  @Size(min = 3, max = 50)
+    @NameTextField
     private String firstName;
 
 
-   // @Size(min = 3, max = 50)
+    @NameTextField
     private String lastName;
 
     private String googleLocationID;
@@ -65,8 +67,7 @@ public class Profile implements Serializable {
     @Enumerated(EnumType.STRING)
     private SexualOrientation sexualOrientation;
 
-    // @Null
-    // @Range(min = 120, max = 230)
+    @HeightValue
     private Integer height;
 
     @Enumerated(EnumType.STRING)

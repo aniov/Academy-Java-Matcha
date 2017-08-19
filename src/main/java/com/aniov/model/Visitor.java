@@ -1,9 +1,7 @@
 package com.aniov.model;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
-import lombok.Getter;
-import lombok.NonNull;
-import lombok.Setter;
+import lombok.*;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
@@ -13,6 +11,8 @@ import java.util.Date;
 @Entity
 @Getter
 @Setter
+@RequiredArgsConstructor
+@NoArgsConstructor
 public class Visitor implements Serializable {
 
     @Id
@@ -24,9 +24,18 @@ public class Visitor implements Serializable {
     @JsonBackReference
     private Profile profile;
 
+    @NonNull
+    private String whoVisit;
+
     @NotNull
     @Temporal(TemporalType.TIMESTAMP)
     private Date visitDate;
 
     private boolean seenThis;
+
+    @PrePersist
+    protected void onCreate() {
+        if (visitDate == null)
+            visitDate = new Date();
+    }
 }
