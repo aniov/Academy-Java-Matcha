@@ -2,6 +2,7 @@ let profile;
 let authUser;
 
 window.onload = function () {
+    new WOW().init();
     $.get("navbar.html", function (data) {
         $("#nav-placeholder").replaceWith(data);
     });

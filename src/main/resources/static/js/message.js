@@ -4,7 +4,7 @@ let pageNumber = 0;
 let processing;
 
 window.onload = function () {
-
+    new WOW().init();
     $.get("navbar.html", function (data) {
         $("#nav-placeholder").replaceWith(data);
     });
