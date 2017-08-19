@@ -22,9 +22,6 @@ public class PictureService {
     @Autowired
     private PictureRepository pictureRepository;
 
-    @Autowired
-    private ProfileService profileService;
-
     /**
      * Save the Picture to data base
      *
@@ -51,7 +48,6 @@ public class PictureService {
         }
 
         newPicture.setProfile(profile);
-
         return pictureRepository.save(newPicture);
     }
 
@@ -60,7 +56,6 @@ public class PictureService {
         if (picture.isProfilePicture() && !profile.getPictures().isEmpty()) {
             //If photo we delete the profile one we set next one as profile photo
             profile.getPictures().get(0).setProfilePicture(true);
-
         }
         pictureRepository.delete(picture);
     }

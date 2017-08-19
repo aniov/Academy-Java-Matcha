@@ -7,10 +7,8 @@ import com.aniov.model.dto.IsOnlineSocketDTO;
 import com.aniov.model.dto.ProfileLikeSocketDTO;
 import com.aniov.service.ProfileService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.security.core.session.SessionRegistry;
-import org.springframework.security.core.session.SessionRegistryImpl;
 import org.springframework.stereotype.Service;
 
 import java.util.LinkedHashSet;
@@ -26,7 +24,8 @@ public class WebSocketTransmit {
     @Autowired
     private ProfileService profileService;
 
-    private SessionRegistry sessionRegistry = new SessionRegistryImpl();
+    @Autowired
+    private SessionRegistry sessionRegistry;
 
     public void linkedUserHasLoggedOut(String username) {
 
@@ -38,6 +37,12 @@ public class WebSocketTransmit {
         linkedUserHasLogged(username, true);
     }
 
+    /**
+     * Sends over WebSocket to all linked users who logged in / out
+     *
+     * @param username who logged in / out
+     * @param isLogged true / false
+     */
     private void linkedUserHasLogged(String username, boolean isLogged) {
 
         Profile profile = profileService.findByUserName(username);

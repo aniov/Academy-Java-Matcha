@@ -2,6 +2,7 @@ var place_id;
 
 function setPlaceId(placeId) {
     this.place_id = placeId;
+    initMap();
 }
 
 function initMap() {
@@ -35,7 +36,7 @@ function initMap() {
 
     autocomplete.addListener('place_changed', function() {
         infowindow.close();
-        place = autocomplete.getPlace();
+        var place = autocomplete.getPlace();
 
         console.log(autocomplete.getPlace().place_id);
         if (!place.place_id) {

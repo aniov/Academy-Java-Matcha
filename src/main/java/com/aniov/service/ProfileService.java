@@ -5,7 +5,6 @@ import com.aniov.model.dto.ProfileDTO;
 import com.aniov.repository.InterestRepository;
 import com.aniov.repository.ProfileRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.data.domain.*;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -32,16 +31,13 @@ public class ProfileService {
     private UserService userService;
 
     @Autowired
-    private AccountService accountService;
-
-    @Autowired
     private SessionRegistry sessionRegistry;
 
     public Profile findByUserName(String username) {
 
         User user = userService.findUserByUserName(username);
         Profile profile = profileRepository.findOne(user.getId());
-        setOnlineProfiles(Arrays.asList(profile));
+        profile = setOnlineProfile(profile);
         return profile;
     }
 
@@ -53,7 +49,7 @@ public class ProfileService {
     }
 
     public Profile saveProfileEntity(Profile profile) {
-        return profileRepository.save(profile);
+        return profileRepository.saveAndFlush(profile);
     }
 
     public List<ProfileDTO> getAllProfiles() {
@@ -66,12 +62,17 @@ public class ProfileService {
         return profileDTOS;
     }
 
+    /**
+     * Find all matching profile by our criteria
+     *
+     * @param pageNumber page requested
+     * @return Page<ProfileDTO>
+     */
     public Page<ProfileDTO> getMatchingProfiles(int pageNumber) {
 
         Pageable request = new PageRequest(pageNumber, RESULTS_PER_PAGE, Sort.Direction.ASC, "id");
-        Page<Profile> profiles = profileRepository.findAll(request);
-
-        profiles = filterByAccountsOk(profiles);
+        Page<Profile> profiles = profileRepository.findDistinctProfilesByUserAccountEnabledIsTrueAndIdNot(getLoggedUserProfileId(), request);
+        profiles = setProfilesOnLine(profiles);
         return profiles.map(ProfileDTO::new);
     }
 
@@ -108,91 +109,51 @@ public class ProfileService {
      * Find profiles containing a common interest
      *
      * @param interest name of interest to be searched after
-     * @return list of Profiles DTO's
+     * @param page     requested page number
+     * @return Page<ProfileDTO>
      */
-    public List<ProfileDTO> findProfilesByInterest(String interest) {
+    public Page<ProfileDTO> findProfilesByInterest(String interest, int page) {
 
-        /*Interest foundInterest = interestRepository.findByInterest(interest);
-        if (foundInterest == null) {
-            return Collections.emptyList();
-        }
+        Pageable request = new PageRequest(page, RESULTS_PER_PAGE, Sort.Direction.ASC, "id");
+        Page<Profile> profiles = profileRepository.findDistinctProfilesByUserAccountEnabledIsTrueAndInterestsInterestIgnoreCaseContainingAndIdNot(interest, getLoggedUserProfileId(), request);
+        profiles = setProfilesOnLine(profiles);
 
-        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-        String authUsername = auth.getName();
-        Profile authUserProfile = userService.findUserByUserName(authUsername).getProfile();
-
-        List<Account> accounts = accountService.findAllAccountOk();
-        List<Profile> profiles = new ArrayList<>();
-
-        for (Account account : accounts) {
-            profiles.add(account.getUser().getProfile());
-        }
-
-        List<Profile> profilesContainingInterest = profileRepository.findAllByInterestsEquals(foundInterest);
-
-        profilesContainingInterest.retainAll(profiles);
-
-        profilesContainingInterest = setOnlineProfiles(profilesContainingInterest);
-        List<ProfileDTO> profileDTOS = new ArrayList<>();
-
-        for (Profile profile : profilesContainingInterest) {
-            if (!profile.getId().equals(authUserProfile.getId())) {
-                profileDTOS.add(new ProfileDTO(profile));
-            }
-        }
-        return profileDTOS;*/ return Collections.emptyList();
+        return profiles.map(ProfileDTO::new);
     }
 
-    public List<ProfileDTO> findProfilesByLocation(String locationlike) {
+    /**
+     * Find profiles containing location (address)
+     *
+     * @param locationlike address (city, country)
+     * @param page         requested page number
+     * @return Page<ProfileDTO>
+     */
+    public Page<ProfileDTO> findProfilesByLocation(String locationlike, int page) {
 
-        /*Page<Profile> profiles = profileRepository.findByAddressIgnoreCaseContaining(locationlike);
-        List<Account> accounts = accountService.findAllAccountOk();
+        Pageable request = new PageRequest(page, RESULTS_PER_PAGE, Sort.Direction.ASC, "id");
+        Page<Profile> profiles = profileRepository.findDistinctProfilesByUserAccountEnabledIsTrueAndAddressIgnoreCaseContainingAndIdNot(locationlike, getLoggedUserProfileId(), request);
+        profiles = setProfilesOnLine(profiles);
 
-        List<Profile> profilesOk = new ArrayList<>();
-        for (Account account : accounts) {
-            profilesOk.add(account.getUser().getProfile());
-        }
-
-        profiles.getContent().retainAll(profilesOk);
-
-        List<ProfileDTO> profileDTOS = new ArrayList<>();
-        for (Profile profile : profiles) {
-            profileDTOS.add(new ProfileDTO(profile));
-        }
-        return profileDTOS;*/
-        return Collections.emptyList();
+        return profiles.map(ProfileDTO::new);
     }
 
-    public List<ProfileDTO> finByNameContaining(String namecontaining) {
+    /**
+     * Find profiles by username
+     *
+     * @param namecontaining username
+     * @param page           requested page number
+     * @return Page<ProfileDTO>
+     */
+    public Page<ProfileDTO> finByNameContaining(String namecontaining, int page) {
 
-        List<User> users = userService.findByUserNameContaining(namecontaining);
+        Pageable request = new PageRequest(page, RESULTS_PER_PAGE, Sort.Direction.ASC, "id");
+        Page<Profile> profiles = profileRepository.findDistinctProfilesByUserAccountEnabledIsTrueAndUserUsernameIgnoreCaseContainingAndIdNot(namecontaining, getLoggedUserProfileId(), request);
+        profiles = setProfilesOnLine(profiles);
 
-        List<ProfileDTO> profileDTOS = new ArrayList<>();
-
-        for (User user : users) {
-            profileDTOS.add(new ProfileDTO(user.getProfile()));
-        }
-        return profileDTOS;
+        return profiles.map(ProfileDTO::new);
     }
 
-    public Page<Profile> filterByAccountsOk(Page<Profile> profiles) {
-
-        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-        String authUsername = auth.getName();
-        Profile authUserProfile = userService.findUserByUserName(authUsername).getProfile();
-
-        List<Account> accounts = accountService.findAllAccountOk();
-        List<Profile> profilesOk = new ArrayList<>();
-        profilesOk.remove(authUserProfile);
-
-        for (Account account : accounts) {
-            profilesOk.add(account.getUser().getProfile());
-        }
-        profilesOk.retainAll(profiles.getContent());
-        return profiles;
-    }
-
-    private List<Profile> setOnlineProfiles(List<Profile> profiles) {
+    private Profile setOnlineProfile(Profile profile) {
 
         List<Object> principals = sessionRegistry.getAllPrincipals();
         Set<Profile> loggedProfiles = new LinkedHashSet<>();
@@ -202,13 +163,34 @@ public class ProfileService {
                 loggedProfiles.add(((SiteUserDetails) principal).getUser().getProfile());
             }
         }
+        if (loggedProfiles.contains(profile)) {
+            profile.setOnline(true);
+        }
+        return profile;
+    }
 
+    private Page<Profile> setProfilesOnLine(Page<Profile> profiles) {
+
+        List<Object> principals = sessionRegistry.getAllPrincipals();
+        Set<Profile> loggedProfiles = new LinkedHashSet<>();
+
+        for (Object principal : principals) {
+            if (principal instanceof SiteUserDetails) {
+                loggedProfiles.add(((SiteUserDetails) principal).getUser().getProfile());
+            }
+        }
         for (Profile profile : profiles) {
             if (loggedProfiles.contains(profile)) {
                 profile.setOnline(true);
             }
         }
         return profiles;
+    }
+
+    private Long getLoggedUserProfileId() {
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        String authUsername = auth.getName();
+        return userService.findUserByUserName(authUsername).getId();
     }
 
 }

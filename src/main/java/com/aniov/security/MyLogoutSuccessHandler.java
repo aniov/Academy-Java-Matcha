@@ -33,12 +33,14 @@ public class MyLogoutSuccessHandler extends SimpleUrlLogoutSuccessHandler {
         this.logger.warn("Logout success: " + response + "; logout: " + authentication);
         SiteUserDetails siteUserDetails = (SiteUserDetails) authentication.getPrincipal();
         Profile profile = siteUserDetails.getUser().getProfile();
-        profile.setOnline(false);
         profile.setLastOnline(new Date());
         profileService.saveProfileEntity(profile);
 
         webSocketTransmit.linkedUserHasLoggedOut(siteUserDetails.getUsername());
         webSocketTransmit.userHasLogged(siteUserDetails.getUsername(), false);
+
+        request.getSession().invalidate();
+        request.logout();
 
         super.onLogoutSuccess(request, response, authentication);
     }

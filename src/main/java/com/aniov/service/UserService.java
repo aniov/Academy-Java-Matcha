@@ -148,7 +148,6 @@ public class UserService implements UserDetailsService {
         }
         users.retainAll(usersAccountsOk);
         return users;
-
     }
 
     private void deleteExpiredAccountsAndTokens(VerificationToken token) {

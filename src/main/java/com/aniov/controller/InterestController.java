@@ -40,7 +40,6 @@ public class InterestController {
 
         Set<Interest> interests = profileService.getAllInterest(username);
         return new ResponseEntity<>(interests, HttpStatus.OK);
-
     }
 
     /**

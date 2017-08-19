@@ -32,9 +32,6 @@ public class EmailService {
     @Autowired
     private VerificationTokenService verificationTokenService;
 
-    @Autowired
-    private UserService userService;
-
     @Value("${site.url}")
     private String url;
 

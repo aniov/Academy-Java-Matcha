@@ -44,20 +44,21 @@ public class ProfileController {
     @GetMapping(path = "profile/search")
     public ResponseEntity<?> getProfilesBy(@RequestParam(name = "name-like", required = false) String namelike,
                                            @RequestParam(name = "location-like", required = false) String locationlike,
-                                           @RequestParam(name = "interest", required = false) String interest) {
+                                           @RequestParam(name = "interest", required = false) String interest,
+                                           @RequestParam(name = "page") int page) {
 
         Page<ProfileDTO> profileDTOS;
 
-       /* if (namelike != null) {
-            profileDTOS = profileService.finByNameContaining(namelike);
+        if (namelike != null) {
+            profileDTOS = profileService.finByNameContaining(namelike, page);
         } else if (locationlike != null) {
-            profileDTOS = profileService.findProfilesByLocation(locationlike);
+            profileDTOS = profileService.findProfilesByLocation(locationlike, page);
         } else if (interest != null) {
-            profileDTOS = profileService.findProfilesByInterest(interest);
+            profileDTOS = profileService.findProfilesByInterest(interest, page);
         } else {
-            profileDTOS = profileService.getMatchingProfiles();
-        }*/
-        return new ResponseEntity<>(HttpStatus.OK);
+            profileDTOS = profileService.getMatchingProfiles(page);
+        }
+        return new ResponseEntity<>(profileDTOS, HttpStatus.OK);
 
     }
 }

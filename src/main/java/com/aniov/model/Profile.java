@@ -108,6 +108,10 @@ public class Profile implements Serializable {
     @JsonManagedReference
     private List<Message> sentMessages = new ArrayList<>();
 
+    @OneToMany(mappedBy = "profile")
+    @JsonManagedReference
+    private Set<Visitor> visitors = new HashSet<>();
+
     @NotNull
     @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     @PrimaryKeyJoinColumn

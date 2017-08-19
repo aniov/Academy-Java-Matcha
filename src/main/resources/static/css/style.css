@@ -64,6 +64,7 @@ footer.page-footer {
 .error-upload #uploading-photo {
     display: inline
 }
+
 /*Date picker*/
 .picker__header select {
     display: inline-block !important;
@@ -95,6 +96,7 @@ footer.page-footer {
         padding-bottom: 0px;
     }
 }
+
 /*Main paige - action button*/
 .card .activator {
     padding: 0rem;
@@ -108,3 +110,7 @@ footer.page-footer {
     line-height: 0;
 }
 
+/*.my-input-form {
+    background: url(https://mdbootstrap.com/wp-content/plugins/dw-question-answer-pro/templates/assets/img/icon-search.png) no-repeat right 10px center #fff !important;
+}*/
+/*icon-loading.gif*/

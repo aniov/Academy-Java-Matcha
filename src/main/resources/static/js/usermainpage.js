@@ -7,6 +7,7 @@ let pageNr = 0;
 let start = 0;
 let end;
 let group = 7;
+let searchAfter;
 
 window.onload = function () {
 
@@ -31,6 +32,9 @@ function getProfiles() {
         history.pushState('', '', '/main');
         document.getElementById("interest").checked = "checked";
         findProfilesByNameOrLocationOrInterest(param);
+        return;
+    } else if (searchAfter) {
+        findProfilesByNameOrLocationOrInterest(searchAfter);
         return;
     }
     document.getElementById('profiles-result-title').innerHTML = "Your best match's";
@@ -59,10 +63,11 @@ function getProfiles() {
 function displayProfilesCards() {
 
     //clear cards before re-making them
-    let elements = document.getElementsByClassName('col-lg-4 wow fadeIn');
+/*    let elements = document.getElementsByClassName('col-lg-4 wow fadeIn');
     while (elements.length > 0) {
         elements[0].parentNode.removeChild(elements[0]);
-    }
+    }*/
+    $(document.getElementById('cards-ids').innerHTML = '');
 
     let cards = [];
     for (let i = 0; i < profiles.length; i++) {
@@ -176,14 +181,14 @@ function displayProfilesCards() {
                     class: 'fa fa-close'
                 })).append($('<hr>', {
                     class: 'extra-margin my-2'
-                }))
-                ).append($('<div>', {
+                })).append($('<div>', {
                     id: 'tags-display-' + i,
                     class: 'pull-left'
-                }))))
+                }))
+                )))
             );
 
-        $(document.getElementsByClassName('row wow animated profile-cards')).append(cards[i]);
+        $(document.getElementById('cards-ids')).append(cards[i]);
         //Initialize the tooltip
         $('[data-toggle="tooltip"]').tooltip();
     }
@@ -276,7 +281,6 @@ document.getElementById("sendMessage").onclick = function () {
     });
 };
 
-
 function getAuthUserName() {
 
     $.ajax({
@@ -348,7 +352,9 @@ function createInterestChips(interests, index) {
 }
 
 function searchByTag(interest) {
-    window.location.replace('/main?interest=' + interest);
+    //window.location.replace('/main?interest=' + interest);
+    document.getElementById("interest").checked = "checked";
+    findProfilesByNameOrLocationOrInterest(interest);
 }
 
 let timeoutID = null;
@@ -356,8 +362,13 @@ let timeoutID = null;
 function findProfilesByNameOrLocationOrInterest(str) {
 
     if (str === '') {
+        searchAfter = '';
+        resetPagination();
         getProfiles();
         return;
+    } else if (str != searchAfter) {
+        searchAfter = str;
+        resetPagination();
     }
 
     let interest = document.getElementById("interest").checked;
@@ -370,16 +381,18 @@ function findProfilesByNameOrLocationOrInterest(str) {
     }
 
     $.ajax({
-        url: '/profile/search?' + searchBy + '=' + str,
+        url: '/profile/search?' + searchBy + '=' + str + '&page=' + pageNr,
         type: "GET",
         contentType: "application/json; charset=utf-8",
         beforeSend: function (xhr) {
             xhr.setRequestHeader('X-CSRF-Token', $('meta[name="_csrf"]').attr('content'));
         },
         success: function (data, textStatus, jqXHR) {
-            profiles = data;
+            profiles = data.content;
+            getAuthProfile();
+            totalPages = data.totalPages;
             document.getElementById('profiles-result-title').innerHTML = 'Results found by ' + searchBy + ": " + str;
-            displayProfilesCards();
+            createPagination();
         },
         error: function (data, textStatus, jqXHR) {
             console.log("Cannot get the profiles");
@@ -500,5 +513,11 @@ function goDownToPageNr(index) {
         }
         getProfiles();
     }
+}
 
+function resetPagination() {
+   totalPages = 0;
+   pageNr = 0;
+   start = 0;
+   group = 7;
 }

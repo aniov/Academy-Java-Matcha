@@ -23,10 +23,10 @@ window.onload = function () {
             getAuthUser();
             loadProfileData();
             loadCards();
-            setPlaceId(profile.googleLocationID);
             populateHeightDropDown();
             setInputDataInFields();
             $('.mdb-select').material_select();
+            setPlaceId(profile.googleLocationID);
         },
         error: function (data, textStatus, jqXHR) {
             console.log("Cannot read username");
@@ -454,7 +454,6 @@ function getUserInterest() {
             console.log("Cannot see current logged user");
         }
     });
-
 }
 
 class Tag {
@@ -483,6 +482,9 @@ function createInterestTags(interests) {
 
     chips_tag.on('chip.delete', function (e, chip) {
         deleteInterest(chip.tag);
+    });
+
+    chips_tag.on('chip.select', function (e, chip) {
     });
 }
 
