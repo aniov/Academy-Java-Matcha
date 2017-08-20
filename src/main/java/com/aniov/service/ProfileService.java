@@ -71,7 +71,32 @@ public class ProfileService {
     public Page<ProfileDTO> getMatchingProfiles(int pageNumber) {
 
         Pageable request = new PageRequest(pageNumber, RESULTS_PER_PAGE, Sort.Direction.ASC, "id");
-        Page<Profile> profiles = profileRepository.findDistinctProfilesByUserAccountEnabledIsTrueAndIdNot(getLoggedUserProfileId(), request);
+
+        Profile authProfile = profileRepository.findOne(getLoggedUserProfileId());
+
+        Set<Profile.Gender> usersLokingFor = new HashSet<>();
+        usersLokingFor.add(authProfile.getGender());
+
+        Profile.Gender lookingFor_one, lookingFor_two;
+
+        if (authProfile.getGender() == null || authProfile.getLookingFor() == null) {
+            return new PageImpl<ProfileDTO>(Collections.emptyList());
+        }
+
+        if (authProfile.getLookingFor().size() == 1) {
+            lookingFor_one = (Profile.Gender) authProfile.getLookingFor().toArray()[0];
+            lookingFor_two = Profile.Gender.UNKNOWN;
+        } else {
+            lookingFor_one = (Profile.Gender) authProfile.getLookingFor().toArray()[0];
+            lookingFor_two = (Profile.Gender) authProfile.getLookingFor().toArray()[1];
+
+            System.out.println("l-1: " + lookingFor_one + ", " + lookingFor_two);
+
+        }
+
+        Page<Profile> profiles =
+                profileRepository.findDistinctProfilesByUserAccountEnabledIsTrueAndIdNotAndLookingForAndGenderOrLookingForAndGenderAndIdNot(
+                        getLoggedUserProfileId(), usersLokingFor, lookingFor_one, usersLokingFor, lookingFor_two, getLoggedUserProfileId(), request);
         profiles = setProfilesOnLine(profiles);
         return profiles.map(ProfileDTO::new);
     }
@@ -190,6 +215,9 @@ public class ProfileService {
     private Long getLoggedUserProfileId() {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         String authUsername = auth.getName();
+
+        System.out.println("XXXXXX: ID: " + userService.findUserByUserName(authUsername).getId());
+
         return userService.findUserByUserName(authUsername).getId();
     }
 

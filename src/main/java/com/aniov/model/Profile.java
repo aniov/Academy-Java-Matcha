@@ -192,7 +192,7 @@ public class Profile implements Serializable {
     @Getter
     @AllArgsConstructor
     public enum Gender {
-        MAN("Man"), WOMAN("Woman");
+        MAN("Man"), WOMAN("Woman"), UNKNOWN("Unknown");
         private String genderType;
     }
 

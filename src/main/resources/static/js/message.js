@@ -27,7 +27,7 @@ $(document).ready(function () {
         if (processing) {
             return false;
         }
-        if (win.scrollTop() + win.height() >= $(document).height() - 400) {
+        if (win.scrollTop() + win.height() >= $(document).height() - 500) {
             processing = true;
             pageNumber++;
             if (pageNumber < totalPages) {
