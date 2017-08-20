@@ -43,16 +43,22 @@ public class VisitorController {
         return new ResponseEntity<>(visitors, HttpStatus.OK);
     }
 
+    /**
+     * Deletes a visitor entry from authenticated user
+     *
+     * @param id visitor id to be deleted after
+     * @return HttpStatus.OK
+     */
     @DeleteMapping(path = "/visitor")
     public ResponseEntity<?> deleteVisitor(@RequestParam(name = "id") Long id) {
 
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         String authUsername = auth.getName();
 
-        if (visitorService.deleteVisitorFromMyList(authUsername, id)){
-            return new ResponseEntity<Object>(new GenericResponseDTO("Visitor was deleted"),HttpStatus.OK);
+        if (visitorService.deleteVisitorFromMyList(authUsername, id)) {
+            return new ResponseEntity<Object>(new GenericResponseDTO("Visitor was deleted"), HttpStatus.OK);
         }
-        return new ResponseEntity<Object>(new GenericResponseDTO("Bad request"),HttpStatus.BAD_REQUEST);
+        return new ResponseEntity<Object>(new GenericResponseDTO("Bad request"), HttpStatus.BAD_REQUEST);
     }
 
 }

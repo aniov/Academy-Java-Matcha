@@ -32,7 +32,7 @@ public class MyLogoutSuccessHandler extends SimpleUrlLogoutSuccessHandler {
 
         this.logger.warn("Logout success: " + response + "; logout: " + authentication);
         SiteUserDetails siteUserDetails = (SiteUserDetails) authentication.getPrincipal();
-        Profile profile = siteUserDetails.getUser().getProfile();
+        Profile profile = profileService.findByUserName(siteUserDetails.getUsername());
         profile.setLastOnline(new Date());
         profileService.saveProfileEntity(profile);
 

@@ -11,21 +11,17 @@ import com.aniov.service.EmailService;
 import com.aniov.service.UserService;
 import com.aniov.service.VerificationTokenService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.context.MessageSource;
-import org.springframework.context.annotation.Bean;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.authentication.*;
-import org.springframework.security.web.authentication.session.SessionAuthenticationException;
 import org.springframework.validation.BindingResult;
-import org.springframework.validation.FieldError;
 import org.springframework.validation.ObjectError;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
 
 import javax.mail.MessagingException;
-import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -48,31 +44,45 @@ public class UserUtilsController {
     @Autowired
     private VerificationTokenService verificationTokenService;
 
+    /**
+     * Register a new user
+     *
+     * @param userRegisterDTO a dto for new user
+     * @param result          BindingResult
+     * @return HttpStatus.CREATED
+     * @throws MessagingException
+     */
     @PostMapping(path = "/register", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<?> registerNewUser(@RequestBody @Valid UserRegisterDTO userRegisterDTO, BindingResult result) throws MessagingException {
 
         List<String> errors = getErrorMessage(result);
 
-        if (! errors.isEmpty()) {
+        if (!errors.isEmpty()) {
             return new ResponseEntity<>(new GenericResponseDTO(errors), HttpStatus.NOT_ACCEPTABLE);
         }
-
         User savedUser = userService.registerNewUser(userRegisterDTO);
 
         if (savedUser != null) {
             emailService.sendRegistrationToken(savedUser);
             return new ResponseEntity<>(new GenericResponseDTO("Account created"), HttpStatus.CREATED);
         }
-
         return new ResponseEntity<>(new GenericResponseDTO("Account could NOT be created"), HttpStatus.INTERNAL_SERVER_ERROR);
     }
 
+    /**
+     * Checks email and creates a reset password token for that user, sends a email to that email address
+     *
+     * @param resetPasswordDTO a dto for user email
+     * @param result           BindingResult
+     * @return HttpStatus.ACCEPTED
+     * @throws IOException
+     */
     @PostMapping(path = "/resetpassword", consumes = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<?> resetPassword(@RequestBody @Valid ResetPasswordDTO resetPasswordDTO, BindingResult result) throws IOException {
 
         List<String> errors = getErrorMessage(result);
 
-        if (! errors.isEmpty()) {
+        if (!errors.isEmpty()) {
             return new ResponseEntity<>(new GenericResponseDTO(errors), HttpStatus.FORBIDDEN);
         }
         String email = resetPasswordDTO.getEmail();
@@ -93,6 +103,14 @@ public class UserUtilsController {
         return new ResponseEntity<>(new GenericResponseDTO("An email has been sent"), HttpStatus.ACCEPTED);
     }
 
+    /**
+     * Changes the password if the received token is valid
+     *
+     * @param tokenString       token from email linked to the user account
+     * @param changePasswordDTO a dto for password change
+     * @param result            BindingResult
+     * @return HttpStatus.OK
+     */
     @PostMapping(path = "/changepassword", consumes = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<?> changePassword(@RequestParam(name = "token") String tokenString,
                                             @RequestBody @Valid ChangePasswordDTO changePasswordDTO, BindingResult result) {
@@ -102,34 +120,31 @@ public class UserUtilsController {
         if (token == null) {
             return new ResponseEntity<>(new GenericResponseDTO("Token not found"), HttpStatus.FORBIDDEN);
         }
-
         Date expiryDate = token.getExpiryDate();
         if (expiryDate.before(new Date()) || !token.getTokenType().equals(TokenType.PASSWORD_RESET)) {
             verificationTokenService.deleteToken(token);
             return new ResponseEntity<>(new GenericResponseDTO("Token expired"), HttpStatus.FORBIDDEN);
         }
-
         User user = token.getUser();
         if (user == null) {
             verificationTokenService.deleteToken(token);
             return new ResponseEntity<>(new GenericResponseDTO("User not found"), HttpStatus.FORBIDDEN);
         }
-
         List<String> errors = getErrorMessage(result);
 
-        if (! errors.isEmpty()) {
+        if (!errors.isEmpty()) {
             return new ResponseEntity<>(new GenericResponseDTO(errors), HttpStatus.FORBIDDEN);
         }
-
         userService.changeUserPassword(user, changePasswordDTO.getPlainPassword());
-
         verificationTokenService.deleteToken(token);
 
         return new ResponseEntity<>(new GenericResponseDTO("Password changed"), HttpStatus.OK);
     }
 
-    /** Customize error message for register page*/
-    private List<String> getErrorMessage(BindingResult result){
+    /**
+     * Customize error message for register page
+     */
+    private List<String> getErrorMessage(BindingResult result) {
 
         List<String> messages = new ArrayList<>();
 

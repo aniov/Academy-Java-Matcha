@@ -22,6 +22,13 @@ public class MessageService {
     @Autowired
     private MessageRepository messageRepository;
 
+    /**
+     * Saves a new message from fromProfile to toProfile
+     *
+     * @param message     text message
+     * @param toProfile   Profile to whom message is sent
+     * @param fromProfile Profile from who message is sent
+     */
     public void saveMessage(String message, Profile toProfile, Profile fromProfile) {
 
         Message newMessage = new Message(message, toProfile, fromProfile);

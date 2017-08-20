@@ -51,6 +51,12 @@ public class PictureService {
         return pictureRepository.save(newPicture);
     }
 
+    /**
+     * Deletes a picture entry from profile
+     *
+     * @param picture picture to be deleted
+     * @param profile profile who own picture
+     */
     public void deletePictureById(Picture picture, Profile profile) {
         profile.getPictures().remove(picture);
         if (picture.isProfilePicture() && !profile.getPictures().isEmpty()) {
@@ -60,11 +66,17 @@ public class PictureService {
         pictureRepository.delete(picture);
     }
 
+    /**
+     * Set picture a main picture
+     *
+     * @param id      id of picture
+     * @param profile profile of user who has this picture
+     */
     public void setAsMainPhoto(Long id, Profile profile) {
 
         List<Picture> pictures = profile.getPictures();
         for (Picture picture : pictures) {
-            if (id == picture.getId()) {
+            if (id.equals(picture.getId())) {
                 picture.setProfilePicture(true);
             } else {
                 picture.setProfilePicture(false);
@@ -73,6 +85,12 @@ public class PictureService {
         }
     }
 
+    /**
+     * Finds picture set as main picture
+     *
+     * @param profile profile to search in
+     * @return main Picture
+     */
     public Picture getMainPhoto(Profile profile) {
 
         List<Picture> pictures = profile.getPictures();

@@ -10,7 +10,6 @@ import com.aniov.service.UserService;
 import com.aniov.service.VisitorService;
 import com.aniov.utils.WebSocketTransmit;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -33,7 +32,6 @@ import java.util.Set;
 public class UserController {
 
     @Autowired
-    @Qualifier("sessionRegistry")
     private SessionRegistry sessionRegistry;
 
     @Autowired
@@ -48,6 +46,11 @@ public class UserController {
     @Autowired
     private VisitorService visitorService;
 
+    /**
+     * Finds current logged user
+     *
+     * @return User
+     */
     @GetMapping
     public ResponseEntity<?> getCurrentUser() {
 
@@ -58,6 +61,12 @@ public class UserController {
         return new ResponseEntity<>(authUser, HttpStatus.OK);
     }
 
+    /**
+     * Finds profile by username or authenticated user, adds visitor to username list
+     *
+     * @param username username to find after
+     * @return ProfileDTO
+     */
     @GetMapping(path = "/profile", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<?> getProfile(@RequestParam(name = "username", required = false) String username) {
 
@@ -72,11 +81,17 @@ public class UserController {
             if (!username.equals(auth.getName())) {
                 visitorService.addNewVisit(auth.getName(), username);
             }
-
         }
         return new ResponseEntity<>(new ProfileDTO(profile), HttpStatus.OK);
     }
 
+    /**
+     * Saves a profile to authenticated user
+     *
+     * @param profileDTO a dto of profile
+     * @param result     BindingResult
+     * @return the saved profile
+     */
     @PostMapping(path = "/profile", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<?> changeProfile(@RequestBody @Valid ProfileDTO profileDTO, BindingResult result) {
 

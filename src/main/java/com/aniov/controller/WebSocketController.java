@@ -1,21 +1,17 @@
 package com.aniov.controller;
 
-import com.aniov.model.User;
 import com.aniov.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.messaging.handler.annotation.SendTo;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.stereotype.Controller;
 
 import java.security.Principal;
-import java.text.SimpleDateFormat;
-import java.util.Arrays;
-import java.util.Date;
-import java.util.List;
 
+/**
+ * Currently not used, Will be used when chat is implemented
+ */
 @Controller
 public class WebSocketController {
 
@@ -25,6 +21,12 @@ public class WebSocketController {
     @Autowired
     private UserService userService;
 
+    /**
+     * A Messaging mapping to send messages to all users
+     *
+     * @param principal
+     * @throws Exception
+     */
     @MessageMapping("/hello")
     @SendTo("/queue/greetings")
     public void greeting(Principal principal) throws Exception {

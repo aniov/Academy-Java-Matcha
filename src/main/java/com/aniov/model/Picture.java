@@ -32,7 +32,7 @@ public class Picture implements Serializable {
     @Temporal(TemporalType.TIMESTAMP)
     private Date date;
 
-    @ManyToOne(cascade = CascadeType.PERSIST)
+    @ManyToOne
     @PrimaryKeyJoinColumn
     @JsonIgnore
     private Profile profile;

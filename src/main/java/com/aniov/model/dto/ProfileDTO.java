@@ -8,9 +8,6 @@ import com.aniov.model.dto.validators.NameTextField;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import javax.validation.Valid;
-import javax.validation.constraints.Min;
-import javax.validation.constraints.Null;
 import javax.validation.constraints.Size;
 import java.io.Serializable;
 import java.util.Date;
@@ -26,9 +23,13 @@ import java.util.Set;
 public class ProfileDTO implements Serializable {
 
     private String username;
+    @Size(max = 200)
     private String aboutMe;
+    @Size(max = 200)
     private String whatImDoing;
+    @Size(max = 200)
     private String goodAt;
+    @Size(max = 200)
     private String favorites;
 
     @NameTextField

@@ -12,7 +12,6 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.annotations.Parameter;
-import org.springframework.data.repository.cdi.Eager;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
@@ -35,15 +34,20 @@ public class Profile implements Serializable {
     @JsonIgnore
     private Long id;
 
+    @Size(max = 200)
     private String aboutMe;
-    private String whatImDoing;
-    private String goodAt;
-    private String favorites;
 
+    @Size(max = 200)
+    private String whatImDoing;
+
+    @Size(max = 200)
+    private String goodAt;
+
+    @Size(max = 200)
+    private String favorites;
 
     @NameTextField
     private String firstName;
-
 
     @NameTextField
     private String lastName;

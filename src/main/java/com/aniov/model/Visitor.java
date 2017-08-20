@@ -8,6 +8,9 @@ import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 import java.util.Date;
 
+/**
+ * Visitor entity
+ */
 @Entity
 @Getter
 @Setter

@@ -43,6 +43,12 @@ public class PhotoController {
     @Autowired
     private ProfileService profileService;
 
+    /**
+     * Finds all photos of a user
+     *
+     * @param username name of user
+     * @return List<Picture>
+     */
     @GetMapping(path = "/photos")
     public ResponseEntity<?> getPhotos(@RequestParam(name = "name", required = false) String username) {
 
@@ -75,8 +81,6 @@ public class PhotoController {
 
         Profile profile = profileService.findByUserName(authUsername);
 
-        System.out.println(" size: " + (image.getSize() / MEGABYTE) + " " + " " + image.getSize());
-
         double imageSizeMB = image.getSize() / MEGABYTE;
 
         //We set a max number of pictures a user can have
@@ -88,7 +92,6 @@ public class PhotoController {
                     new DecimalFormat("##.##").format(imageSizeMB) + "MB"), HttpStatus.INSUFFICIENT_STORAGE);
         }
         Picture savedPicture = pictureService.savePicture(image, profile);
-
         return new ResponseEntity<>(savedPicture, HttpStatus.OK);
     }
 
