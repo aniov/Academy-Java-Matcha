@@ -5,6 +5,7 @@ import com.aniov.model.SiteUserDetails;
 import com.aniov.model.User;
 import com.aniov.model.dto.IsOnlineSocketDTO;
 import com.aniov.model.dto.ProfileLikeSocketDTO;
+import com.aniov.model.dto.ReceivedMessageDTO;
 import com.aniov.service.ProfileService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
@@ -90,5 +91,16 @@ public class WebSocketTransmit {
      */
     public void sendLikeOverSocket(String from, String to, boolean like) {
         simpMessagingTemplate.convertAndSendToUser(to, "/queue/like", new ProfileLikeSocketDTO(from, like));
+    }
+
+    /**
+     * Sends message over WebSocket to user receiving new message
+     *
+     * @param from    auth username
+     * @param to      username of notify user
+     * @param message body of the message
+     */
+    public void sendMessageInfoOverSocket(String from, String to, String message) {
+        simpMessagingTemplate.convertAndSendToUser(to, "/queue/message", new ReceivedMessageDTO(from, message));
     }
 }

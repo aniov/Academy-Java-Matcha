@@ -7,6 +7,7 @@ import com.aniov.model.dto.MessageDTO;
 import com.aniov.model.dto.ReceivedMessageDTO;
 import com.aniov.service.MessageService;
 import com.aniov.service.UserService;
+import com.aniov.utils.WebSocketTransmit;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
@@ -34,7 +35,7 @@ public class MessageController {
     private MessageService messageService;
 
     @Autowired
-    private SimpMessagingTemplate simpMessagingTemplate;
+    private WebSocketTransmit webSocketTransmit;
 
     /**
      * Records a message send by authProfile to another Profile
@@ -61,7 +62,7 @@ public class MessageController {
         }
 
         messageService.saveMessage(message.getMessage(), toProfile, fromProfile);
-        sendMessageInfoOverSocket(authUsername, username, message.getMessage());
+        webSocketTransmit.sendMessageInfoOverSocket(authUsername, username, message.getMessage());
 
         return new ResponseEntity<>(new GenericResponseDTO("Message added"), HttpStatus.OK);
     }
@@ -99,14 +100,4 @@ public class MessageController {
         return new ResponseEntity<Object>(messageDTOS, HttpStatus.OK);
     }
 
-    /**
-     * Sends message over WebSocket to user receiving new message
-     *
-     * @param from    auth username
-     * @param to      username of notify user
-     * @param message body of the message
-     */
-    private void sendMessageInfoOverSocket(String from, String to, String message) {
-        simpMessagingTemplate.convertAndSendToUser(to, "/queue/message", new ReceivedMessageDTO(from, message));
-    }
 }

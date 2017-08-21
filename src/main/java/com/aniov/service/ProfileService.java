@@ -80,7 +80,7 @@ public class ProfileService {
         Profile.Gender lookingFor_one, lookingFor_two;
 
         if (authProfile.getGender() == null || authProfile.getLookingFor() == null) {
-            return new PageImpl<ProfileDTO>(Collections.emptyList());
+            return new PageImpl<>(Collections.emptyList());
         }
 
         if (authProfile.getLookingFor().size() == 1) {
@@ -89,9 +89,6 @@ public class ProfileService {
         } else {
             lookingFor_one = (Profile.Gender) authProfile.getLookingFor().toArray()[0];
             lookingFor_two = (Profile.Gender) authProfile.getLookingFor().toArray()[1];
-
-            System.out.println("l-1: " + lookingFor_one + ", " + lookingFor_two);
-
         }
 
         Page<Profile> profiles =
