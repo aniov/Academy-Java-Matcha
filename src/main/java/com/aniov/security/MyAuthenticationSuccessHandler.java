@@ -18,6 +18,8 @@ import java.io.IOException;
 @Component
 public class MyAuthenticationSuccessHandler extends SimpleUrlAuthenticationSuccessHandler {
 
+    public static final String SESSION_USERNAME_ATR = "username";
+
     @Autowired
     private WebSocketTransmit webSocketTransmit;
 
@@ -29,6 +31,9 @@ public class MyAuthenticationSuccessHandler extends SimpleUrlAuthenticationSucce
         SiteUserDetails siteUserDetails = (SiteUserDetails) authentication.getPrincipal();
         webSocketTransmit.linkedUserHasLoggedIn(siteUserDetails.getUsername());
         webSocketTransmit.userHasLogged(siteUserDetails.getUsername(), true);
+
+        //We set username in session - we need it to retrieve it whn session expire
+        request.getSession().setAttribute(SESSION_USERNAME_ATR, siteUserDetails.getUsername());
 
         super.onAuthenticationSuccess(request, response, authentication);
     }

@@ -10,7 +10,6 @@ import com.aniov.service.ProfileService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.security.core.session.SessionRegistry;
-import org.springframework.security.core.session.SessionRegistryImpl;
 import org.springframework.stereotype.Service;
 
 import java.util.LinkedHashSet;
@@ -27,7 +26,7 @@ public class WebSocketTransmit {
     private ProfileService profileService;
 
     @Autowired
-    private SessionRegistry sessionRegistry = new SessionRegistryImpl();
+    private SessionRegistry sessionRegistry;
 
     public void linkedUserHasLoggedOut(String username) {
 

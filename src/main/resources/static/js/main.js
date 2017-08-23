@@ -6,6 +6,12 @@
 $(function () {
     $('[data-toggle="tooltip"]').tooltip()
 });
+$("#password").keyup(function(event){
+    if(event.keyCode == 13){
+        $("#click").click();
+    }
+});
+
 
 function login() {
 

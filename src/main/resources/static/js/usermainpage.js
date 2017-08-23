@@ -64,10 +64,6 @@ function getProfiles() {
 function displayProfilesCards() {
 
     //clear cards before re-making them
-/*    let elements = document.getElementsByClassName('col-lg-4 wow fadeIn');
-    while (elements.length > 0) {
-        elements[0].parentNode.removeChild(elements[0]);
-    }*/
     $(document.getElementById('cards-ids').innerHTML = '');
 
     let cards = [];
@@ -506,7 +502,7 @@ function goDownToPageNr(index) {
 
     if (index >= 0) {
         pageNr = index;
-        if (Math.floor(group / 2) >= pageNr - start && start  > 0) {
+        if (Math.floor(group / 2) >= pageNr - start && start > 0) {
             start--;
             end--;
         }
@@ -515,8 +511,8 @@ function goDownToPageNr(index) {
 }
 
 function resetPagination() {
-   totalPages = 0;
-   pageNr = 0;
-   start = 0;
-   group = 7;
+    totalPages = 0;
+    pageNr = 0;
+    start = 0;
+    group = 7;
 }

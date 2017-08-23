@@ -1,6 +1,9 @@
 package com.aniov.service;
 
-import com.aniov.model.*;
+import com.aniov.model.Interest;
+import com.aniov.model.Profile;
+import com.aniov.model.SiteUserDetails;
+import com.aniov.model.User;
 import com.aniov.model.dto.ProfileDTO;
 import com.aniov.repository.InterestRepository;
 import com.aniov.repository.ProfileRepository;
@@ -212,8 +215,6 @@ public class ProfileService {
     private Long getLoggedUserProfileId() {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         String authUsername = auth.getName();
-
-        System.out.println("XXXXXX: ID: " + userService.findUserByUserName(authUsername).getId());
 
         return userService.findUserByUserName(authUsername).getId();
     }
