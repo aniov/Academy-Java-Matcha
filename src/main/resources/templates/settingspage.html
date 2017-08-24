@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8"/>
+    <meta name="_csrf" th:content="${_csrf.token}"/>
+    <meta name="_csrf_header" th:content="${_csrf.headerName}"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no"/>
+    <meta http-equiv="x-ua-compatible" content="ie=edge"/>
+
+    <title>Matcha</title>
+    <!-- Font Awesome -->
+    <link href="../static/css/font-awesome.css" th:href="@{/css/font-awesome.css}" rel="stylesheet"/>
+    <!-- Material Design Bootstrap -->
+    <link href="../static/css/mdb.min.css" th:href="@{/css/mdb.min.css}" rel="stylesheet"/>
+    <link rel="stylesheet" id="compiled.css-css" href="../static/css/mdb.themes.min.css"
+          th:href="@{/css/mdb.themes.min.css}" type="text/css"
+          media="all"/>
+    <link rel="stylesheet" href="../static/css/mdb.themes.440.css"
+          th:href="@{/css/mdb.themes.440.css}" type="text/css"
+          media="all"/>
+    <!-- Your custom styles (optional) -->
+    <link href="../static/css/style.css" th:href="@{/css/style.css}" rel="stylesheet"/>
+
+</head>
+<body>
+<header>
+    <!--Navigation bar-->
+    <div id="nav-placeholder"></div>
+    <!--end of Navigation bar-->
+    <br/>
+    <hr class="extra-margin my-5"/>
+</header>
+
+<main>
+    <!--Main layout-->
+    <div class="container">
+
+        <!--Page heading-->
+        <div class="row">
+            <div class="col-md-12">
+                <h1 class="h1-responsive">Settings</h1>
+            </div>
+        </div>
+        <!--/.Page heading-->
+        <hr class="extra-margin my-0"/>
+
+        <form>
+            <!--First row-->
+            <div class="row">
+                <!--First column-->
+                <div class="col-md-6">
+                    <div class="md-form">
+                        <i class="fa fa-envelope prefix"></i>
+                        <input type="email" id="form81" class="form-control validate"/>
+                        <label for="form81" data-error="wrong" data-success="right">Type your email</label>
+                    </div>
+                </div>
+
+                <!--Second column-->
+                <div class="col-md-6">
+                    <div class="md-form">
+                        <i class="fa fa-lock prefix"></i>
+                        <input type="password" id="form82" class="form-control validate"/>
+                        <label for="form82" data-error="wrong" data-success="right">Type your password</label>
+                    </div>
+                </div>
+            </div>
+            <!--/.First row-->
+
+            <!--Second row-->
+            <div class="row">
+                <!--First column-->
+                <div class="col-md-12">
+
+                    <div class="md-form">
+                        <textarea type="text" id="form76" class="md-textarea"></textarea>
+                        <label for="form76">Basic textarea</label>
+                    </div>
+
+                </div>
+            </div>
+            <!--/.Second row-->
+
+            <!--Third row-->
+            <div class="row">
+
+                <!--First column-->
+                <div class="col-md-4">
+                    <div class="md-form">
+                        <input type="text" id="form41" class="form-control"/>
+                        <label for="form41" class="">Example label</label>
+                    </div>
+                </div>
+
+                <!--Second column-->
+                <div class="col-md-4">
+                    <div class="md-form">
+                        <input type="text" id="form51" class="form-control"/>
+                        <label for="form51" class="">Example label</label>
+                    </div>
+                </div>
+
+                <!--Third column-->
+                <div class="col-md-4">
+                    <div class="md-form">
+                        <input type="text" id="form61" class="form-control"/>
+                        <label for="form61" class="">Example label</label>
+                    </div>
+                </div>
+
+            </div>
+            <!--/.Third row-->
+        </form>
+
+
+
+        <br/>
+    </div>
+    <!--/.Main layout-->
+</main>
+
+<!--Footer-->
+<div id="footer-placeholder"></div>
+<!--end of Footer-->
+
+<!-- SCRIPTS -->
+
+<!-- JQuery -->
+<script type="text/javascript" src="../static/js/jquery-3.1.1.min.js" th:src="@{/js/jquery-3.1.1.min.js}"></script>
+<!-- Bootstrap tooltips -->
+<script type="text/javascript" src="../static/js/tether.min.js" th:src="@{/js/tether.min.js}"></script>
+
+<script type="text/javascript"
+        src="../static/js/mdb.themes.min.js" th:src="@{/js/mdb.themes.min.js}"></script>
+<!-- MDB core JavaScript -->
+<script type="text/javascript" src="../static/js/mdb.min.js" th:src="@{/js/mdb.min.js}"></script>
+<!-- Main JavaScript -->
+<script type="text/javascript" src="../static/js/navbar.js" th:src="@{/js/navbar.js}"></script>
+<script type="text/javascript" src="../static/js/settings.js" th:src="@{/js/settings.js}"></script>
+<script type="text/javascript" src="../static/js/web-sockets.js" th:src="@{/js/web-sockets.js}"></script>
+<script type="text/javascript" src="../static/js/sockjs.js" th:src="@{/js/sockjs.js}"></script>
+<script type="text/javascript" src="../static/js/stomp.js" th:src="@{/js/stomp.js}"></script>
+
+</body>
+
+</html>

@@ -1,0 +1,15 @@
+window.onload = function () {
+    new WOW().init();
+    $.get("navbar.html", function (data) {
+        $("#nav-placeholder").replaceWith(data);
+    });
+    $.get("footer.html", function (data) {
+        $("#footer-placeholder").replaceWith(data);
+    });
+    navBar();
+
+
+    /*Web Socket Connect*/
+    connect();
+
+};
