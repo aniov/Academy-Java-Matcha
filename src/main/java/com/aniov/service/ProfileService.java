@@ -73,7 +73,7 @@ public class ProfileService {
      */
     public Page<ProfileDTO> getMatchingProfiles(int pageNumber) {
 
-        Pageable request = new PageRequest(pageNumber, RESULTS_PER_PAGE, Sort.Direction.ASC, "id");
+        Pageable request = new PageRequest(pageNumber, RESULTS_PER_PAGE, Sort.Direction.ASC, "user.username");
 
         Profile authProfile = profileRepository.findOne(getLoggedUserProfileId());
 
