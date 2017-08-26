@@ -102,4 +102,13 @@ public class WebSocketTransmit {
     public void sendMessageInfoOverSocket(String from, String to, String message) {
         simpMessagingTemplate.convertAndSendToUser(to, "/queue/message", new ReceivedMessageDTO(from, message));
     }
+
+    /**
+     * Logout username
+     *
+     * @param logOutUsername username to be logged out
+     */
+    public void forceLogoutUser(String logOutUsername) {
+        simpMessagingTemplate.convertAndSendToUser(logOutUsername, "/queue/logout", true);
+    }
 }

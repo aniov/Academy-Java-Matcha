@@ -36,12 +36,7 @@ public class MyLogoutSuccessHandler extends SimpleUrlLogoutSuccessHandler {
         profile.setLastOnline(new Date());
         profileService.saveProfileEntity(profile);
 
-        webSocketTransmit.linkedUserHasLoggedOut(siteUserDetails.getUsername());
-        webSocketTransmit.userHasLogged(siteUserDetails.getUsername(), false);
-
-        request.getSession().invalidate();
         request.logout();
-
         super.onLogoutSuccess(request, response, authentication);
     }
 }

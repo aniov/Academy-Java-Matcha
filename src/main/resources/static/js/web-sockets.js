@@ -2,6 +2,7 @@ let stompClient_Likes = null;
 let stompClient_Messages = null;
 let stompClient_logged = null;
 let stompClient_inform_all_logged = null;
+let stompClient_logout = null;
 
 function connect() {
 
@@ -9,11 +10,13 @@ function connect() {
     stompClient_Messages = Stomp.over(new SockJS('/websocket'));
     stompClient_logged = Stomp.over(new SockJS('/websocket'));
     stompClient_inform_all_logged = Stomp.over(new SockJS('/websocket'));
+    stompClient_logout = Stomp.over(new SockJS('/websocket'));
 
     informUserLikes();
     informUserReceivedMessages();
     informWhoIsOnline();
     allUsersLogStatus();
+    logoutUser();
 }
 
 function sendName() {
@@ -37,8 +40,6 @@ function informUserLikes() {
             if (window.location.toString().match('/main')) {
                 getAuthProfile();
             }
-
-
         });
     });
 }
@@ -102,6 +103,16 @@ function allUsersLogStatus() {
                 }
                 toggle.tooltip('show');
             }
+        });
+    });
+}
+
+function logoutUser() {
+
+    stompClient_logout.connect({}, function (frame) {
+        stompClient_logout.subscribe('/user/queue/logout', function () {
+            //logout from navbar
+            logout();
         });
     });
 }

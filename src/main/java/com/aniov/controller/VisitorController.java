@@ -2,7 +2,6 @@ package com.aniov.controller;
 
 import com.aniov.model.dto.GenericResponseDTO;
 import com.aniov.model.dto.VisitorDTO;
-import com.aniov.service.UserService;
 import com.aniov.service.VisitorService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -24,9 +23,6 @@ public class VisitorController {
 
     @Autowired
     private VisitorService visitorService;
-
-    @Autowired
-    private UserService userService;
 
     /**
      * Find profiles who visited auth user page
