@@ -32,7 +32,7 @@ public class MyAuthenticationSuccessHandler extends SimpleUrlAuthenticationSucce
         webSocketTransmit.linkedUserHasLoggedIn(siteUserDetails.getUsername());
         webSocketTransmit.userHasLogged(siteUserDetails.getUsername(), true);
 
-        //We set username in session - we need it to retrieve it whn session expire
+        //We set username in session - we need it to retrieve it when session expire
         request.getSession().setAttribute(SESSION_USERNAME_ATR, siteUserDetails.getUsername());
 
         super.onAuthenticationSuccess(request, response, authentication);

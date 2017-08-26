@@ -41,7 +41,7 @@ public class MyHttpSessionEventPublisher extends HttpSessionEventPublisher {
         webSocketTransmit.linkedUserHasLoggedOut(username);
         webSocketTransmit.userHasLogged(username, false);
 
-        event.getSession().invalidate();
         super.sessionDestroyed(event);
+
     }
 }
